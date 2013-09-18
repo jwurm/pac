@@ -26,9 +26,9 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	public Room createRoom(Room room) {
-		Room ret = em.merge(room);
-		log.info("Created room: " + ret);
-		return ret;
+		em.persist(room);
+		log.info("Created room: " + room);
+		return room;
 	}
 
 	public Room updateRoom(Room room) {

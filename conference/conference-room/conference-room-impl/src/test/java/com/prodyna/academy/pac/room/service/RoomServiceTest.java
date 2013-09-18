@@ -18,9 +18,18 @@ import org.junit.runner.RunWith;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.room.service.RoomService;
 
+
+/**
+ * The Class RoomServiceTest.
+ */
 @RunWith(Arquillian.class)
 public class RoomServiceTest {
 
+	/**
+	 * Creates the test archive.
+	 *
+	 * @return the archive
+	 */
 	@Deployment
 	public static Archive<?> createTestArchive() {
 		return ShrinkWrap
@@ -38,9 +47,15 @@ public class RoomServiceTest {
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
 	}
 
+	/** The service. */
 	@Inject
 	private RoomService service;
 
+	/**
+	 * Test crud.
+	 *
+	 * @throws ParseException the parse exception
+	 */
 	@Test
 	public void testCRUD() throws ParseException {
 		Room room1 = new Room("ME701", 50);

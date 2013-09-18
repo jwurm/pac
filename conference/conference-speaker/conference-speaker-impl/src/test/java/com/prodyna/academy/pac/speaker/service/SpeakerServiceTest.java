@@ -26,11 +26,6 @@ public class SpeakerServiceTest {
 		return ShrinkWrap
 				.create(WebArchive.class, "conferencespeakertest.war")
 				.addPackages(true, "com.prodyna.academy.pac")
-				// .addClasses(ApartmentManagementServiceBean.class,
-				// ApartmentServiceBean.class, BookingServiceBean.class,
-				// ApartmentService.class, Apartment.class, Booking.class,
-				// Resources.class, BusinessLoggingInterceptor.class,
-				// BusinessLogged.class, BookingObserver.class)
 				.addAsResource("META-INF/test-persistence.xml",
 						"META-INF/persistence.xml")
 				.addAsWebInfResource("META-INF/beans.xml")

@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.speaker.util;
+package com.prodyna.academy.pac.base;
 
 import java.util.logging.Logger;
 

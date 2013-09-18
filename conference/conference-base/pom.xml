@@ -4,37 +4,25 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.prodyna.academy.pac</groupId>
-    <artifactId>conference-conference</artifactId>
+    <artifactId>conference</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>com.prodyna.academy.pac</groupId>
-  <artifactId>conference-conference-api</artifactId>
+  <artifactId>conference-base</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>conference-conference-api</name>
+  <name>conference-base</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
     <dependency>
-    	<groupId>org.jboss.spec.javax.ejb</groupId>
-    	<artifactId>jboss-ejb-api_3.1_spec</artifactId>
-    	<scope>provided</scope>
+    	<groupId>javax.enterprise</groupId>
+    	<artifactId>cdi-api</artifactId>
     </dependency>
     <dependency>
     	<groupId>org.hibernate.javax.persistence</groupId>
     	<artifactId>hibernate-jpa-2.0-api</artifactId>
-    	<scope>provided</scope>
-    </dependency>
-    <dependency>
-    	<groupId>com.prodyna.academy.pac</groupId>
-    	<artifactId>conference-speaker-api</artifactId>
-    	<version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-    	<groupId>com.prodyna.academy.pac</groupId>
-    	<artifactId>conference-room-api</artifactId>
-    	<version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
