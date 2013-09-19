@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -14,9 +15,12 @@ import com.prodyna.academy.pac.room.model.Room;
 
 @Entity
 @Table(name = "talk")
-@NamedQuery(name = Talk.SELECT_ALL, query = "select t from Talk t")
+@NamedQueries({
+@NamedQuery(name = Talk.SELECT_ALL, query = "select t from Talk t"),
+
+})
 public class Talk {
-	public static final String SELECT_ALL = "talk.selectAll";
+	public static final String SELECT_ALL = "Talk.SELECT_ALL";
 
 	@Id
 	@GeneratedValue

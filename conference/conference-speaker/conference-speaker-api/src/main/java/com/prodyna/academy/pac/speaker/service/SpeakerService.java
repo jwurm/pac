@@ -6,11 +6,11 @@ import com.prodyna.academy.pac.speaker.model.Speaker;
 
 public interface SpeakerService {
 	
-	public Speaker createSpeaker(Speaker room);
+	public Speaker createSpeaker(Speaker speaker);
 	
-	public Speaker updateSpeaker(Speaker room);
+	public Speaker updateSpeaker(Speaker speaker);
 	
-	public void deleteSpeaker(Speaker room);
+	public void deleteSpeaker(Speaker speaker);
 	
 	public Speaker findSpeaker(int id);
 
