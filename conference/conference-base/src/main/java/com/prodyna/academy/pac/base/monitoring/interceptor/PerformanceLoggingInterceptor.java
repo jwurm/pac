@@ -10,6 +10,7 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerInvocationHandler;
 import javax.management.ObjectName;
 
+
 @PerformanceLogged
 @Interceptor
 public class PerformanceLoggingInterceptor implements Serializable {
