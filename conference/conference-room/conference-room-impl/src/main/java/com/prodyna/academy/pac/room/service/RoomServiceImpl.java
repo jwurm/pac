@@ -8,9 +8,11 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.room.model.Room;
 
 @Stateless
+@PerformanceLogged
 public class RoomServiceImpl implements RoomService {
 
 	@Inject

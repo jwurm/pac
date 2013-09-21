@@ -11,12 +11,14 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.model.TalkSpeakerAssignment;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
 @Stateless
+@PerformanceLogged
 public class TalkServiceImpl implements TalkService {
 	@Inject
 	private EntityManager em;
