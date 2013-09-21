@@ -1,26 +1,23 @@
 package com.prodyna.academy.pac.base.monitoring.interceptor;
 
-
-
 import java.lang.management.ManagementFactory;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
+
 
 @Singleton
 @Startup
 public class MBeanStarter {
-	
 
 	@Inject
 	private Logger log;
-
 
 	@PostConstruct
 	public void registerMBeans() {
@@ -33,7 +30,7 @@ public class MBeanStarter {
 			log.severe("Failed to register MBeans: " + e.getMessage());
 
 		}
-//		throw new RuntimeException("success!");
+		// throw new RuntimeException("success!");
 
 	}
 

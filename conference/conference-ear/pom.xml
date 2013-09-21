@@ -94,13 +94,13 @@
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
-			<artifactId>conference-base</artifactId>
+			<artifactId>conference-speaker-impl</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
-			<artifactId>conference-speaker-impl</artifactId>
+			<artifactId>conference-base</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<type>ejb</type>
 		</dependency>
