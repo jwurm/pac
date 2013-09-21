@@ -87,6 +87,16 @@ public class TalkServiceTest {
 
 		Talk foundTalk = service.findTalk(3);
 		Assert.assertNotNull(foundTalk.getRoom());
+		
+		foundTalk.getRoom().setName("E504");
+		foundTalk.setDuration(60);
+		service.updateTalk(talk);
+		
+		foundTalk = service.findTalk(3);
+		Assert.assertNotNull(foundTalk.getRoom());
+		Assert.assertEquals(Integer.valueOf(60), talk.getDuration());
+		//raum soll nicht aktualisiert worden sein
+		Assert.assertEquals("E785", talk.getRoom().getName());
 
 	}
 

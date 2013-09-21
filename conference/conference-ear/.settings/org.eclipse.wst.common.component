@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="conference-ear">
-        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/ear-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/application" tag="defaultRootSource"/>
+        <dependent-module archiveName="conference-conference-impl.jar" deploy-path="/" handle="module:/resource/conference-conference-impl/conference-conference-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="conference-conference-api.jar" deploy-path="/lib" handle="module:/resource/conference-conference-api/conference-conference-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="conference-room-impl.jar" deploy-path="/" handle="module:/resource/conference-room-impl/conference-room-impl">
-            <dependent-object/>
-            <dependency-type>uses</dependency-type>
-        </dependent-module>
-        <dependent-module archiveName="conference-speaker-api.jar" deploy-path="/lib" handle="module:/resource/conference-speaker-api/conference-speaker-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="conference-room-api.jar" deploy-path="/lib" handle="module:/resource/conference-room-api/conference-room-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="conference-conference-impl.jar" deploy-path="/" handle="module:/resource/conference-conference-impl/conference-conference-impl">
-            <dependent-object/>
+        <dependent-module archiveName="conference-base.jar" deploy-path="/" handle="module:/resource/conference-base/conference-base">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="conference-speaker-impl.jar" deploy-path="/lib" handle="module:/resource/conference-speaker-impl/conference-speaker-impl">
+        <dependent-module archiveName="conference-speaker-impl.jar" deploy-path="/" handle="module:/resource/conference-speaker-impl/conference-speaker-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="conference-speaker-api.jar" deploy-path="/lib" handle="module:/resource/conference-speaker-api/conference-speaker-api">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

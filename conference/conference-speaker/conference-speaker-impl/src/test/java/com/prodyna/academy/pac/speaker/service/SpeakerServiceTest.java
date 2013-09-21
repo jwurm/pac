@@ -16,7 +16,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.prodyna.academy.pac.speaker.model.Speaker;
-import com.prodyna.academy.pac.speaker.service.SpeakerService;
 
 @RunWith(Arquillian.class)
 public class SpeakerServiceTest {
@@ -35,6 +34,9 @@ public class SpeakerServiceTest {
 
 	@Inject
 	private SpeakerService service;
+	
+	@Inject
+//	private MBeanStarter s;
 
 	@Test
 	public void testCRUD() throws ParseException {

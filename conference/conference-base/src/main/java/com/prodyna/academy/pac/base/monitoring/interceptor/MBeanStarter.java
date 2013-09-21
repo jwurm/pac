@@ -1,48 +1,48 @@
-package com.prodyna.academy.pac.room.jmx;
+package com.prodyna.academy.pac.base.monitoring.interceptor;
+
+
 
 import java.lang.management.ManagementFactory;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
-
-import com.prodyna.academy.pac.room.service.RoomService;
 
 @Singleton
 @Startup
 public class MBeanStarter {
+	
 
 	@Inject
 	private Logger log;
-	
-	
+
 
 	@PostConstruct
 	public void registerMBeans() {
-		log.info("Registering MBeans");
+		log.warning("Registering MBeans");
 		MBeanServer ms = ManagementFactory.getPlatformMBeanServer();
-
 		try {
-			ms.registerMBean(new TestMXBeanImpl(), new ObjectName(
-					TestMXBeanImpl.OBJECT_NAME));
+			ms.registerMBean(new Performance(), new ObjectName(
+					Performance.OBJECT_NAME));
 		} catch (Exception e) {
 			log.severe("Failed to register MBeans: " + e.getMessage());
 
 		}
+//		throw new RuntimeException("success!");
 
 	}
 
 	@PreDestroy
 	public void unRegisterMBeans() {
-		log.info("Un-Registering MBeans");
+		log.warning("Un-Registering MBeans");
 		MBeanServer ms = ManagementFactory.getPlatformMBeanServer();
 		try {
-			ms.unregisterMBean(new ObjectName(TestMXBeanImpl.OBJECT_NAME));
+			ms.unregisterMBean(new ObjectName(Performance.OBJECT_NAME));
 		} catch (Exception e) {
 			log.severe("Failed to unregister MBeans: " + e.getMessage());
 

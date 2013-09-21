@@ -4,14 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -69,6 +67,7 @@ public class ConferenceServiceTest {
 			SystemException, SecurityException, IllegalStateException,
 			RollbackException, HeuristicMixedException,
 			HeuristicRollbackException {
+		
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Conference conference1 = new Conference("JAX", "Java conference",
