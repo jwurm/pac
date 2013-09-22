@@ -21,7 +21,7 @@ public class MBeanStarter {
 
 	@PostConstruct
 	public void registerMBeans() {
-		log.warning("Registering MBeans");
+		log.info("Registering MBeans");
 		MBeanServer ms = ManagementFactory.getPlatformMBeanServer();
 		try {
 			ms.registerMBean(new Performance(), new ObjectName(
@@ -36,7 +36,7 @@ public class MBeanStarter {
 
 	@PreDestroy
 	public void unRegisterMBeans() {
-		log.warning("Un-Registering MBeans");
+		log.info("Un-Registering MBeans");
 		MBeanServer ms = ManagementFactory.getPlatformMBeanServer();
 		try {
 			ms.unregisterMBean(new ObjectName(Performance.OBJECT_NAME));

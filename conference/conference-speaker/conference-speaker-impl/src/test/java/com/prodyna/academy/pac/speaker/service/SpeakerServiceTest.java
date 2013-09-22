@@ -15,7 +15,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.prodyna.academy.pac.base.monitoring.interceptor.MBeanStarter;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
 @RunWith(Arquillian.class)
