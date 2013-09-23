@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.joda.time.Instant;
+import org.joda.time.Interval;
+
 @Entity
 @Table(name = "conference")
 @NamedQuery(name=Conference.SELECT_ALL, query="select c from Conference c")
@@ -148,6 +151,15 @@ public class Conference {
 	public String toString() {
 		return "Conference [id=" + id + ", name=" + name + ", description="
 				+ description + ", start=" + start + ", end=" + end + "]";
+	}
+	
+	/**
+	 * Returns the interval of the conference
+	 * @return
+	 */
+	public Interval getInterval(){
+		return new Interval(new Instant(this.getStart()),
+				new Instant(this.getEnd()));
 	}
 
 }

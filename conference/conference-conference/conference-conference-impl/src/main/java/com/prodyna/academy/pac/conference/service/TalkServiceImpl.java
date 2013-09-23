@@ -11,7 +11,11 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.joda.time.Instant;
+import org.joda.time.Interval;
+
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.model.TalkSpeakerAssignment;
 import com.prodyna.academy.pac.room.model.Room;
@@ -24,10 +28,13 @@ public class TalkServiceImpl implements TalkService {
 	private EntityManager em;
 
 	@Inject
+	private ConferenceService conference;
+
+	@Inject
 	private Logger log;
 
 	@Override
-	public List<Talk> getBySpeaker(Speaker speaker) {
+	public List<Talk> getTalksBySpeaker(Speaker speaker) {
 		Query query = em
 				.createNamedQuery(TalkSpeakerAssignment.FIND_BY_SPEAKER);
 		query.setParameter("speakerId", speaker.getId());
@@ -88,6 +95,7 @@ public class TalkServiceImpl implements TalkService {
 
 	@Override
 	public Talk createTalk(Talk talk) {
+		validateTalk(talk);
 		Talk ret = em.merge(talk);
 		log.info("Created talk " + talk);
 		return ret;
@@ -95,6 +103,7 @@ public class TalkServiceImpl implements TalkService {
 
 	@Override
 	public Talk updateTalk(Talk talk) {
+		validateTalk(talk);
 		Talk ret = em.merge(talk);
 		log.info("Updated talk " + talk);
 		return ret;
@@ -113,6 +122,98 @@ public class TalkServiceImpl implements TalkService {
 		log.info("Search for id " + id + " returned " + ret);
 		return ret;
 
+	}
+
+	/**
+	 * Validates the data of the talk
+	 * 
+	 * @param talk
+	 */
+	private void validateTalk(Talk talk) {
+		validateConferenceInterval(talk);
+
+		validateRoomAvailability(talk);
+
+		validateSpeakerAvailability(talk);
+
+	}
+
+	private void validateConferenceInterval(Talk talk) {
+		// read conference and room to have up to date data
+		Conference conf = conference.getCompleteConference(talk.getConference()
+				.getId());
+
+		// validate conference date
+
+		Interval conferenceInterval = conf.getInterval();
+		boolean conferenceIntervalOk = conferenceInterval.contains(talk
+				.getInterval());
+		if (!conferenceIntervalOk) {
+			throw new RuntimeException(
+					"Talk is set outside of the duration of the conference! "
+							+ talk.toString() + " " + conference.toString());
+		}
+	}
+
+	private void validateRoomAvailability(Talk talk) {
+		Interval talkInterval = talk.getInterval();
+		List<Speaker> speakers = findSpeakers(talk.getId());
+		// validate room availability
+		List<Talk> roomTalks = getByRoom(talk.getRoom());
+		for (Talk currTalk : roomTalks) {
+			if (currTalk.equals(talk)) {
+				// if the talk already exists, don't validate against itself
+				continue;
+			}
+
+			Interval otherRoomTalkInterval = currTalk.getInterval();
+			if (otherRoomTalkInterval.overlaps(talkInterval)) {
+				throw new RuntimeException(
+						"The designated room is already occupied by "
+								+ currTalk + " at that time.");
+			}
+		}
+	}
+
+	private void validateSpeakerAvailability(Talk talk) {
+		Interval talkInterval = talk.getInterval();
+		List<Speaker> speakers = findSpeakers(talk.getId());
+		for (Speaker speaker : speakers) {
+			// no one of the speakers is allowed to have a talk at the same time
+			// as this one, except for this talk.
+
+			List<Talk> speakerTalks = getTalksBySpeaker(speaker);
+			for (Talk currTalk : speakerTalks) {
+				if (currTalk.equals(talk)) {
+					// if the talk already exists, don't validate against itself
+					continue;
+				}
+
+				Interval otherSpeakerTalkInterval = new Interval(new Instant(
+						currTalk.getDatetime()), new Instant(
+						currTalk.getEndDateTime()));
+				if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
+					throw new RuntimeException(
+							"The designated speaker is already occupied by "
+									+ currTalk + " at that time.");
+				}
+			}
+		}
+	}
+
+	@Override
+	public List<Speaker> findSpeakers(int talkId) {
+		// TODO ungetestet
+		Query query = em.createNamedQuery(TalkSpeakerAssignment.FIND_BY_TALK);
+		query.setParameter("talkId", talkId);
+		List<TalkSpeakerAssignment> resultList = query.getResultList();
+		Set<Speaker> ret = new HashSet<Speaker>();
+		for (TalkSpeakerAssignment talkSpeakerAssignment : resultList) {
+			ret.add(talkSpeakerAssignment.getSpeaker());
+		}
+		log.info("Searching the speakers for talk " + talkId + " returns "
+				+ ret.size() + " results.");
+		return new ArrayList<Speaker>(ret);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.prodyna.academy.pac.conference.service;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.jboss.arquillian.junit.InSequence;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
+import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,13 +39,23 @@ public class TalkServiceTest {
 	 */
 	@Deployment
 	public static Archive<?> createTestArchive() {
+		// File[] libs =
+		// org.jboss.shrinkwrap.resolver.api.maven.Maven.resolver()
+		// .loadPomFromFile("pom.xml").resolve("org.apache.commons:commons-lang3")
+		// .withTransitivity().asFile();
+
+		MavenDependencyResolver resolver = DependencyResolvers.use(
+				MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
+		File[] resolveAsFiles = resolver.artifact("joda-time:joda-time")
+				.resolveAsFiles();
 		return ShrinkWrap
 				.create(WebArchive.class, "conferencetest.war")
 				.addPackages(true, "com.prodyna.academy.pac")
 				.addAsResource("META-INF/test-persistence.xml",
 						"META-INF/persistence.xml")
 				.addAsWebInfResource("META-INF/beans.xml")
-				// Deploy our test datasource
+				.addAsLibraries(
+						resolveAsFiles)
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
 	}
 
@@ -72,6 +85,7 @@ public class TalkServiceTest {
 	@InSequence(1)
 	public void testCRUD() throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Conference conference1 = new Conference("JAX", "Java conference",
 				sdf.parse("2013-02-01"), sdf.parse("2013-02-05"));
 		conference1 = cservice.createConference(conference1);
@@ -81,21 +95,22 @@ public class TalkServiceTest {
 		room = roomservice.createRoom(room);
 		Assert.assertEquals(Integer.valueOf(2), room.getId());
 
-		Talk talk = new Talk("JAXB", "JAXB fuer Dummies", 60, conference1, room);
+		Talk talk = new Talk("JAXB", "JAXB fuer Dummies",
+				sdf2.parse("2013-09-01 15:00"), 60, conference1, room);
 		talk = service.createTalk(talk);
 		Assert.assertEquals(Integer.valueOf(3), talk.getId());
 
 		Talk foundTalk = service.findTalk(3);
 		Assert.assertNotNull(foundTalk.getRoom());
-		
+
 		foundTalk.getRoom().setName("E504");
 		foundTalk.setDuration(60);
 		service.updateTalk(talk);
-		
+
 		foundTalk = service.findTalk(3);
 		Assert.assertNotNull(foundTalk.getRoom());
 		Assert.assertEquals(Integer.valueOf(60), talk.getDuration());
-		//raum soll nicht aktualisiert worden sein
+		// raum soll nicht aktualisiert worden sein
 		Assert.assertEquals("E785", talk.getRoom().getName());
 
 	}
@@ -112,6 +127,8 @@ public class TalkServiceTest {
 		Conference conference = cservice.getCompleteConference(1);
 		Room room = roomservice.findRoom(2);
 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
 		Speaker speaker = speakerservice.createSpeaker(new Speaker("Darko",
 				"Hat Plan"));
 		Speaker speaker2 = speakerservice.createSpeaker(new Speaker("Frank",
@@ -119,8 +136,8 @@ public class TalkServiceTest {
 
 		Talk talk = service.findTalk(3);
 
-		Talk talk2 = service.createTalk(new Talk("OpenJPA", "Sucks", 10,
-				conference, room));
+		Talk talk2 = service.createTalk(new Talk("OpenJPA", "Sucks", sdf
+				.parse("2013-09-01 15:00"), 10, conference, room));
 
 		service.assignSpeaker(talk, speaker);
 		// should not do anything
@@ -130,18 +147,18 @@ public class TalkServiceTest {
 
 		service.assignSpeaker(talk2, speaker);
 
-		List<Talk> talksBySpeaker = service.getBySpeaker(speaker);
+		List<Talk> talksBySpeaker = service.getTalksBySpeaker(speaker);
 		Assert.assertEquals(2, talksBySpeaker.size());
 
-		List<Talk> talksBySpeaker2 = service.getBySpeaker(speaker2);
+		List<Talk> talksBySpeaker2 = service.getTalksBySpeaker(speaker2);
 		Assert.assertEquals(1, talksBySpeaker2.size());
 		service.unassignSpeaker(talk, speaker2);
 
-		talksBySpeaker = service.getBySpeaker(speaker2);
+		talksBySpeaker = service.getTalksBySpeaker(speaker2);
 		Assert.assertEquals(0, talksBySpeaker.size());
 
 		service.unassignSpeaker(talk, speaker);
-		talksBySpeaker = service.getBySpeaker(speaker);
+		talksBySpeaker = service.getTalksBySpeaker(speaker);
 		Assert.assertEquals(1, talksBySpeaker.size());
 
 	}

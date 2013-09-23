@@ -7,7 +7,7 @@ import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
 public interface TalkService {
-	List<Talk> getBySpeaker(Speaker speaker);
+	List<Talk> getTalksBySpeaker(Speaker speaker);
 
 	List<Talk> getByRoom(Room room);
 
@@ -22,6 +22,9 @@ public interface TalkService {
 	public void deleteTalk(Talk talk);
 	
 	public Talk findTalk(int id);
+	
+	public List<Speaker> findSpeakers(int talkId);
+	
 	
 
 }

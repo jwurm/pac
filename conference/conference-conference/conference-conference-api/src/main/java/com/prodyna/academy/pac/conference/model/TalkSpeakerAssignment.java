@@ -15,11 +15,13 @@ import com.prodyna.academy.pac.speaker.model.Speaker;
 @Table(name = "talk_speaker_assignment")
 @NamedQueries({
 @NamedQuery(name = TalkSpeakerAssignment.FIND_BY_SPEAKER_AND_TALK, query = "select t from TalkSpeakerAssignment t where speaker_id=:speakerId and talk_id=:talkId"),
-@NamedQuery(name = TalkSpeakerAssignment.FIND_BY_SPEAKER, query = "select t from TalkSpeakerAssignment t where speaker_id=:speakerId")
+@NamedQuery(name = TalkSpeakerAssignment.FIND_BY_SPEAKER, query = "select t from TalkSpeakerAssignment t where speaker_id=:speakerId"),
+@NamedQuery(name = TalkSpeakerAssignment.FIND_BY_TALK, query = "select t from TalkSpeakerAssignment t where talk_id=:talkId")
 })
 public class TalkSpeakerAssignment {
 	public static final String FIND_BY_SPEAKER_AND_TALK = "TalkSpeakerAssignment.FIND_BY_SPEAKER_AND_TALK";
 	public static final String FIND_BY_SPEAKER = "TalkSpeakerAssignment.FIND_BY_SPEAKER";
+	public static final String FIND_BY_TALK = "TalkSpeakerAssignment.FIND_BY_TALK";
 	@Id
 	@GeneratedValue
 	private int id;

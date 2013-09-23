@@ -15,6 +15,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.shrinkwrap.resolvers>2.0.0</version.shrinkwrap.resolvers>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -32,6 +33,14 @@
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		
+		<!-- 		Shrinkwrap resolver for maven dependencies, must be BEFORE other arquillian stuff -->  
+<dependency>
+    <groupId>org.jboss.shrinkwrap.resolver</groupId>
+    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+    <scope>test</scope>
+</dependency>
 
 		<!-- Test scope dependencies -->
 		<dependency>
@@ -54,6 +63,9 @@
 			<artifactId>arquillian-protocol-servlet</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		
+
 
 
 		<dependency>

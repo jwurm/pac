@@ -1,5 +1,9 @@
 package com.prodyna.academy.pac.conference.model;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import org.joda.time.Instant;
+import org.joda.time.Interval;
 
 import com.prodyna.academy.pac.room.model.Room;
 
@@ -31,6 +37,10 @@ public class Talk {
 
 	@Basic
 	private String description;
+	
+	@Basic
+	private Date datetime;
+
 
 	@ManyToOne()
 	@JoinColumn(name = "room_id", referencedColumnName = "id")
@@ -40,14 +50,23 @@ public class Talk {
 	@JoinColumn(name = "conference_id", referencedColumnName = "id")
 	private Conference conference;
 
-	public Talk(String name, String description, int duration,
+	public Talk(String name, String description,  Date datetime,int duration,
 			Conference conference, Room room) {
 		super();
 		this.name = name;
+		this.datetime = datetime;
 		this.description = description;
 		this.duration = duration;
 		this.conference = conference;
 		this.room = room;
+	}
+
+	public Date getDatetime() {
+		return datetime;
+	}
+
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
 	}
 
 	public Talk() {
@@ -73,7 +92,7 @@ public class Talk {
 	@Override
 	public String toString() {
 		return "Talk [id=" + id + ", name=" + name + ", description="
-				+ description + ", duration=" + duration + "]";
+				+ description + ", datetime=" + datetime + ", duration=" + duration + "]";
 	}
 
 	@Basic
@@ -84,9 +103,12 @@ public class Talk {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
+				+ ((datetime == null) ? 0 : datetime.hashCode());
+		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + duration;
-		result = prime * result + id;
+		result = prime * result
+				+ ((duration == null) ? 0 : duration.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -100,14 +122,25 @@ public class Talk {
 		if (getClass() != obj.getClass())
 			return false;
 		Talk other = (Talk) obj;
+		if (datetime == null) {
+			if (other.datetime != null)
+				return false;
+		} else if (!datetime.equals(other.datetime))
+			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (duration != other.duration)
+		if (duration == null) {
+			if (other.duration != null)
+				return false;
+		} else if (!duration.equals(other.duration))
 			return false;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -147,6 +180,27 @@ public class Talk {
 
 	public void setDuration(Integer duration) {
 		this.duration = duration;
+	}
+
+
+	/**
+	 * Returns the end datetime of the talk as a derived attribute from datetime and duration
+	 * @return
+	 */
+	public Date getEndDateTime() {
+		Calendar instance = GregorianCalendar.getInstance();
+		instance.setTime(this.getDatetime());
+		instance.add(Calendar.MINUTE, this.getDuration());
+		return instance.getTime();
+	}
+	
+	/**
+	 * Returns the interval of the talk
+	 * @return
+	 */
+	public Interval getInterval(){
+		return new Interval(new Instant(this.getDatetime()),
+				new Instant(this.getEndDateTime()));
 	}
 
 }
