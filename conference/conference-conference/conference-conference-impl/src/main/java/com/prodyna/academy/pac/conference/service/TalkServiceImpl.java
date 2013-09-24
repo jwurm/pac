@@ -38,6 +38,7 @@ public class TalkServiceImpl implements TalkService {
 		Query query = em
 				.createNamedQuery(TalkSpeakerAssignment.FIND_BY_SPEAKER);
 		query.setParameter("speakerId", speaker.getId());
+		@SuppressWarnings("unchecked")
 		List<TalkSpeakerAssignment> ret = query.getResultList();
 		Set<Talk> talks = new HashSet<Talk>();
 		for (TalkSpeakerAssignment talkSpeakerAssignment : ret) {
@@ -52,6 +53,7 @@ public class TalkServiceImpl implements TalkService {
 		Query query = em
 				.createNamedQuery(Talk.FIND_BY_ROOM);
 		query.setParameter("roomId", room.getId());
+		@SuppressWarnings("unchecked")
 		List<Talk> ret = query.getResultList();
 
 		return new ArrayList<Talk>(ret);
@@ -93,6 +95,7 @@ public class TalkServiceImpl implements TalkService {
 				.createNamedQuery(TalkSpeakerAssignment.FIND_BY_SPEAKER_AND_TALK);
 		query.setParameter("speakerId", speaker.getId());
 		query.setParameter("talkId", talk.getId());
+		@SuppressWarnings("unchecked")
 		List<TalkSpeakerAssignment> resultList = query.getResultList();
 		return resultList;
 	}
@@ -213,6 +216,7 @@ public class TalkServiceImpl implements TalkService {
 		// TODO ungetestet
 		Query query = em.createNamedQuery(TalkSpeakerAssignment.FIND_BY_TALK);
 		query.setParameter("talkId", talkId);
+		@SuppressWarnings("unchecked")
 		List<TalkSpeakerAssignment> resultList = query.getResultList();
 		Set<Speaker> ret = new HashSet<Speaker>();
 		for (TalkSpeakerAssignment talkSpeakerAssignment : resultList) {

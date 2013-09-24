@@ -1,7 +1,6 @@
 package com.prodyna.academy.pac.conference.service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import junit.framework.Assert;
 

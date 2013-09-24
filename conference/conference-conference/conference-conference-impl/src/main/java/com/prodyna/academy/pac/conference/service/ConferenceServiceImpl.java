@@ -24,6 +24,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 	@Override
 	public List<Conference> findAllConferences() {
 		Query query = em.createNamedQuery(Conference.SELECT_ALL);
+		@SuppressWarnings("unchecked")
 		List<Conference> resultList = query.getResultList();
 		log.info("Search for all conferences returned " + resultList.size()
 				+ " results.");

@@ -2,7 +2,6 @@ package com.prodyna.academy.pac.base.monitoring.interceptor;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Entry {
 	private String service;

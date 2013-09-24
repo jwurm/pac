@@ -7,9 +7,7 @@
     <artifactId>conference-room</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>com.prodyna.academy.pac</groupId>
   <artifactId>conference-room-api</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <name>conference-room-api</name>
   <url>http://maven.apache.org</url>
   <properties>

@@ -7,9 +7,7 @@
     <artifactId>conference-conference</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>com.prodyna.academy.pac</groupId>
   <artifactId>conference-conference-api</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <name>conference-conference-api</name>
   <url>http://maven.apache.org</url>
   <properties>

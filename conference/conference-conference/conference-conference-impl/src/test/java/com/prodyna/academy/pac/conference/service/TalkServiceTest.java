@@ -2,7 +2,6 @@ package com.prodyna.academy.pac.conference.service;
 
 import java.io.File;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -126,7 +125,6 @@ public class TalkServiceTest {
 		Conference conference = cservice.getCompleteConference(1);
 		Room room = roomservice.findRoom(2);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 		Speaker speaker = speakerservice.createSpeaker(new Speaker("Darko",
 				"Hat Plan"));

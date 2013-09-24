@@ -5,7 +5,6 @@ package com.prodyna.academy.pac.base.monitoring.interceptor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;

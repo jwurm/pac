@@ -7,21 +7,13 @@
     <artifactId>conference</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>com.prodyna.academy.pac</groupId>
   <artifactId>conference-web</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <name>conference-web</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
     	<groupId>javax.ws.rs</groupId>
     	<artifactId>javax.ws.rs-api</artifactId>
@@ -32,12 +24,7 @@
     	<groupId>com.prodyna.academy.pac</groupId>
     	<artifactId>conference-room-api</artifactId>
     	<version>1.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-    	<groupId>com.prodyna.academy.pac</groupId>
-    	<artifactId>conference-base</artifactId>
-    	<version>1.0-SNAPSHOT</version>
-    	<type>ejb</type>
+    	<scope>provided</scope>
     </dependency>
     <dependency>
     	<groupId>javax.enterprise</groupId>
@@ -46,4 +33,22 @@
     </dependency>
   </dependencies>
   <packaging>war</packaging>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <webResources>
+            <resource>
+              <!-- this is relative to the pom.xml directory -->
+<!--               <directory>resource2</directory> -->
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
