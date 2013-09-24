@@ -49,8 +49,12 @@ public class TalkServiceImpl implements TalkService {
 
 	@Override
 	public List<Talk> getByRoom(Room room) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em
+				.createNamedQuery(Talk.FIND_BY_ROOM);
+		query.setParameter("roomId", room.getId());
+		List<Talk> ret = query.getResultList();
+
+		return new ArrayList<Talk>(ret);
 	}
 
 	@Override
@@ -151,17 +155,16 @@ public class TalkServiceImpl implements TalkService {
 		if (!conferenceIntervalOk) {
 			throw new RuntimeException(
 					"Talk is set outside of the duration of the conference! "
-							+ talk.toString() + " " + conference.toString());
+							+ talk.toString() + " " + conf.toString());
 		}
 	}
 
 	private void validateRoomAvailability(Talk talk) {
 		Interval talkInterval = talk.getInterval();
-		List<Speaker> speakers = findSpeakers(talk.getId());
 		// validate room availability
 		List<Talk> roomTalks = getByRoom(talk.getRoom());
 		for (Talk currTalk : roomTalks) {
-			if (currTalk.equals(talk)) {
+			if (currTalk.getId().equals(talk.getId())) {
 				// if the talk already exists, don't validate against itself
 				continue;
 			}
@@ -176,6 +179,10 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	private void validateSpeakerAvailability(Talk talk) {
+		if(talk.getId()==null){
+			//if the talk hasn't been persisted yet, then it cannot have any speakers yet anyway
+			return;
+		}
 		Interval talkInterval = talk.getInterval();
 		List<Speaker> speakers = findSpeakers(talk.getId());
 		for (Speaker speaker : speakers) {
@@ -184,7 +191,7 @@ public class TalkServiceImpl implements TalkService {
 
 			List<Talk> speakerTalks = getTalksBySpeaker(speaker);
 			for (Talk currTalk : speakerTalks) {
-				if (currTalk.equals(talk)) {
+				if (currTalk.getId().equals(talk.getId())) {
 					// if the talk already exists, don't validate against itself
 					continue;
 				}

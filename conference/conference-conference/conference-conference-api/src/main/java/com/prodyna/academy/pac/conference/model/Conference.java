@@ -1,7 +1,10 @@
 package com.prodyna.academy.pac.conference.model;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -11,8 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.joda.time.Days;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 
@@ -32,15 +38,14 @@ public class Conference {
 	@Basic
 	private String description;
 	
-	@Transient
-//	@Basic
+	@Basic
+	@Temporal(TemporalType.DATE)
 	private Date start;
 	
-	@Transient
-//	@Basic
+	@Basic
+	@Temporal(TemporalType.DATE)
 	private Date end;
 	
-//@Transient
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="conference")
 	private List<Talk> talks;
 
@@ -154,12 +159,20 @@ public class Conference {
 	}
 	
 	/**
-	 * Returns the interval of the conference
+	 * Returns the interval of the conference. The end instant is 00:00 of the day after the last day of the conference
 	 * @return
 	 */
 	public Interval getInterval(){
+		
+		Calendar calendar = GregorianCalendar.getInstance();
+		calendar.setTime(end);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		Instant endInstant=new Instant(calendar.getTime());
+		
 		return new Interval(new Instant(this.getStart()),
-				new Instant(this.getEnd()));
+				endInstant);
 	}
+	
+
 
 }

@@ -1,5 +1,6 @@
 package com.prodyna.academy.pac.conference.service;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -16,6 +17,8 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
+import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,12 +38,18 @@ public class ConferenceServiceTest {
 	 */
 	@Deployment
 	public static Archive<?> createTestArchive() {
+		
+		MavenDependencyResolver resolver = DependencyResolvers.use(
+				MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
+		File[] resolveAsFiles = resolver.artifact("joda-time:joda-time")
+				.resolveAsFiles();
 		return ShrinkWrap
 				.create(WebArchive.class, "conferencetest.war")
 				.addPackages(true, "com.prodyna.academy.pac")
 				.addAsResource("META-INF/test-persistence.xml",
 						"META-INF/persistence.xml")
 				.addAsWebInfResource("META-INF/beans.xml")
+				.addAsLibraries(resolveAsFiles)
 				// Deploy our test datasource
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
 	}

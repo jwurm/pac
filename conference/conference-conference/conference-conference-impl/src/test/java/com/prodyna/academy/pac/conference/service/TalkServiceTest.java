@@ -15,6 +15,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
+import org.joda.time.Instant;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -84,10 +85,8 @@ public class TalkServiceTest {
 	@Test
 	@InSequence(1)
 	public void testCRUD() throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Conference conference1 = new Conference("JAX", "Java conference",
-				sdf.parse("2013-02-01"), sdf.parse("2013-02-05"));
+				new Instant("2013-02-01").toDate(), new Instant("2013-02-05").toDate());
 		conference1 = cservice.createConference(conference1);
 		Assert.assertEquals(1, conference1.getId());
 
@@ -96,7 +95,7 @@ public class TalkServiceTest {
 		Assert.assertEquals(Integer.valueOf(2), room.getId());
 
 		Talk talk = new Talk("JAXB", "JAXB fuer Dummies",
-				sdf2.parse("2013-09-01 15:00"), 60, conference1, room);
+				new Instant("2013-02-05T15:00").toDate(), 60, conference1, room);
 		talk = service.createTalk(talk);
 		Assert.assertEquals(Integer.valueOf(3), talk.getId());
 
@@ -136,8 +135,7 @@ public class TalkServiceTest {
 
 		Talk talk = service.findTalk(3);
 
-		Talk talk2 = service.createTalk(new Talk("OpenJPA", "Sucks", sdf
-				.parse("2013-09-01 15:00"), 10, conference, room));
+		Talk talk2 = service.createTalk(new Talk("OpenJPA", "Sucks", new Instant("2013-02-01T15:00").toDate(), 10, conference, room));
 
 		service.assignSpeaker(talk, speaker);
 		// should not do anything

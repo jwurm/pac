@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.joda.time.Instant;
 import org.joda.time.Interval;
@@ -23,10 +25,12 @@ import com.prodyna.academy.pac.room.model.Room;
 @Table(name = "talk")
 @NamedQueries({
 @NamedQuery(name = Talk.SELECT_ALL, query = "select t from Talk t"),
+@NamedQuery(name = Talk.FIND_BY_ROOM, query = "select distinct t from Talk t where room_id=:roomId")
 
 })
 public class Talk {
 	public static final String SELECT_ALL = "Talk.SELECT_ALL";
+	public static final String FIND_BY_ROOM = "Talk.FIND_BY_ROOM";
 
 	@Id
 	@GeneratedValue
@@ -39,6 +43,7 @@ public class Talk {
 	private String description;
 	
 	@Basic
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date datetime;
 
 
