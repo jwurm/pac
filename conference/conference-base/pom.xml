@@ -34,14 +34,6 @@
 			<scope>provided</scope>
 		</dependency>
 		
-		
-		<!-- 		Shrinkwrap resolver for maven dependencies, must be BEFORE other arquillian stuff -->  
-<dependency>
-    <groupId>org.jboss.shrinkwrap.resolver</groupId>
-    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-    <scope>test</scope>
-</dependency>
-
 		<!-- Test scope dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
