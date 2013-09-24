@@ -27,5 +27,8 @@
         <dependent-module archiveName="conference-base.jar" deploy-path="/" handle="module:/resource/conference-base/conference-base">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="conference-web.war" deploy-path="/" handle="module:/resource/conference-web/conference-web">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

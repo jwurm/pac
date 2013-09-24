@@ -61,6 +61,7 @@
 		<module>conference-conference</module>
 		<module>conference-ear</module>
     <module>conference-base</module>
+    <module>conference-web</module>
   </modules>
 	<dependencyManagement>
 		<dependencies>
