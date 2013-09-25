@@ -58,14 +58,25 @@ public class RoomResourceRESTService {
     }
 
     @GET
-    @Path("/{id:[0-9][0-9]*}")
+    @Path("/find/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Room lookupMemberById(@PathParam("id") int id) {
+    public Room find(@PathParam("id") int id) {
         Room member = repository.findRoom(id);
         if (member == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
         return member;
+    }
+    
+    @GET
+    @Path("/create/{name}/{capacity:[0-9][0-9]*}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Room create(@PathParam("name") String name, @PathParam("capacity") int capacity) {
+        Room room = repository.createRoom(new Room(name, capacity));
+        if (room == null) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+        return room;
     }
 //
 //    /**

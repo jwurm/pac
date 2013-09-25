@@ -28,13 +28,13 @@ public class PerformanceLoggingInterceptor implements Serializable {
 		long nanoTime = System.nanoTime();
 		try {
 			Object response = invocationContext.proceed();
-			long duration = System.nanoTime() - nanoTime;
+			long duration = (System.nanoTime() - nanoTime) / 1000000;
 			performance.report(invocationContext.getMethod()
 					.getDeclaringClass().getCanonicalName(), invocationContext
 					.getMethod().getName(), duration, true);
 			return response;
 		} catch (Exception e) {
-			long duration = System.nanoTime() - nanoTime;
+			long duration = (System.nanoTime() - nanoTime) / 1000000;
 			performance.report(invocationContext.getMethod()
 					.getDeclaringClass().getCanonicalName(), invocationContext
 					.getMethod().getName(), duration, false);
