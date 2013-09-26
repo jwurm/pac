@@ -2,10 +2,14 @@ package com.prodyna.academy.pac.conference.service;
 
 import java.util.List;
 
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+
 import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
+@Local
 public interface TalkService {
 	List<Talk> getTalksBySpeaker(Speaker speaker);
 

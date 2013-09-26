@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
+import javax.jms.QueueConnectionFactory;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
@@ -36,13 +37,13 @@ public class Resources
 		}
 	}
 
-//	@Produces
-//	public QueueConnectionFactory produceQCF() {
-//		try {
-//			return (QueueConnectionFactory) produceIC().lookup("ConnectionFactory");
-//		} catch (NamingException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
+	@Produces
+	public QueueConnectionFactory produceQCF() {
+		try {
+			return (QueueConnectionFactory) produceIC().lookup("ConnectionFactory");
+		} catch (NamingException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 }

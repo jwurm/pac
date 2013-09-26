@@ -54,9 +54,10 @@ public class TalkServiceTest {
 				.addAsResource("META-INF/test-persistence.xml",
 						"META-INF/persistence.xml")
 				.addAsWebInfResource("META-INF/beans.xml")
-				.addAsLibraries(
-						resolveAsFiles)
-				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
+				.addAsLibraries(resolveAsFiles)
+				.addAsWebInfResource("test-ds.xml", "test-ds.xml")
+				.addAsWebInfResource("hornetq-jms.xml", "hornetq-jms.xml")
+		;
 	}
 
 	/** The service. */
