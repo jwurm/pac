@@ -72,7 +72,7 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 
 	@Override
 	public void unassignSpeaker(Talk talk, Speaker speaker) {
-		service.assignSpeaker(talk, speaker);
+		service.unassignSpeaker(talk, speaker);
 		sendQueueMessage("Speaker " + speaker.getName()
 				+ " was removed from talk " + talk.getName());
 
