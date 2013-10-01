@@ -83,7 +83,7 @@ public class RoomServiceTest {
 		List<Room> rooms=service.findAllRooms();
 		Assert.assertEquals(3, rooms.size());
 		
-		service.deleteRoom(room2_1);
+		service.deleteRoom(room2_1.getId());
 		
 		rooms=service.findAllRooms();
 		Assert.assertEquals(2, rooms.size());

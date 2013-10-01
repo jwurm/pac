@@ -10,7 +10,7 @@ public interface RoomService {
 	
 	public Room updateRoom(Room room);
 	
-	public void deleteRoom(Room room);
+	public Room deleteRoom(int id);
 	
 	public Room findRoom(int id);
 

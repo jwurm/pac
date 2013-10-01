@@ -38,10 +38,11 @@ public class RoomServiceImpl implements RoomService {
 
 	}
 
-	public void deleteRoom(Room room) {
-		Room toRemove = findRoom(room.getId());
+	public Room deleteRoom(int roomId) {
+		Room toRemove = findRoom(roomId);
 		em.remove(toRemove);
-		log.info("Deleted room: " + room);
+		log.info("Deleted room: " + toRemove);
+		return toRemove;
 	}
 
 	public Room findRoom(int id) {
