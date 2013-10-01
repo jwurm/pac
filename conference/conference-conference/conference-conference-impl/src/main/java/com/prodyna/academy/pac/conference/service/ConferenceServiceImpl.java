@@ -46,10 +46,11 @@ public class ConferenceServiceImpl implements ConferenceService {
 	}
 
 	@Override
-	public void deleteConference(Conference conference) {
-		Conference ret = em.find(Conference.class, conference.getId());
+	public Conference deleteConference(int id) {
+		Conference ret = em.find(Conference.class,id);
 		em.remove(ret);
-		log.info("Deleted conference " + conference);
+		log.info("Deleted conference " + ret);
+		return ret;
 	}
 
 	@Override

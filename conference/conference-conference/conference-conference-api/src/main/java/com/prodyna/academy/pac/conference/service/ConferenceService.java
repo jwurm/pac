@@ -12,7 +12,7 @@ public interface ConferenceService {
 
 	public Conference updateConference(Conference conference);
 
-	public void deleteConference(Conference conference);
+	public Conference deleteConference(int id);
 
 	public List<Conference> findAllConferences();
 

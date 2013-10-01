@@ -86,9 +86,10 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 	}
 
 	@Override
-	public void deleteTalk(Talk talk) {
-		service.deleteTalk(talk);
+	public Talk deleteTalk(int id) {
+		Talk talk = service.deleteTalk(id);
 		sendQueueMessage("Talk was deleted: " + talk.toString());
+		return talk;
 
 	}
 

@@ -22,7 +22,7 @@ public interface TalkService {
 
 	public Talk updateTalk(Talk talk);
 
-	public void deleteTalk(Talk talk);
+	public Talk deleteTalk(int id);
 	
 	public Talk findTalk(int id);
 	

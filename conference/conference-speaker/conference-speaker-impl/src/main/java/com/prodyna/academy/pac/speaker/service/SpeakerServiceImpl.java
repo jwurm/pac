@@ -38,10 +38,11 @@ public class SpeakerServiceImpl implements SpeakerService {
 
 	}
 
-	public void deleteSpeaker(Speaker speaker) {
-		Speaker toRemove = findSpeaker(speaker.getId());
+	public Speaker deleteSpeaker(int id) {
+		Speaker toRemove = findSpeaker(id);
 		em.remove(toRemove);
-		log.info("Deleted speaker: " + speaker);
+		log.info("Deleted speaker: " + toRemove);
+		return toRemove;
 	}
 
 	public Speaker findSpeaker(int id) {

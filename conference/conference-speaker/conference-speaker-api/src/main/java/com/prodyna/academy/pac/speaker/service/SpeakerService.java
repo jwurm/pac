@@ -10,7 +10,7 @@ public interface SpeakerService {
 	
 	public Speaker updateSpeaker(Speaker speaker);
 	
-	public void deleteSpeaker(Speaker speaker);
+	public Speaker deleteSpeaker(int id);
 	
 	public Speaker findSpeaker(int id);
 

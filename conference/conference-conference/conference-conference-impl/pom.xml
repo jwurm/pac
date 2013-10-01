@@ -158,7 +158,7 @@
 			tests that execute in the specified container -->
 		<id>notests</id>
 		<activation>
-			<activeByDefault>true</activeByDefault>
+			<activeByDefault>false</activeByDefault>
 		</activation>
 		<build>
 			<plugins>

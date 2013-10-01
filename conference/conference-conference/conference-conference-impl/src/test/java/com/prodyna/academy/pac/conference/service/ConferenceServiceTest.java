@@ -104,7 +104,7 @@ public class ConferenceServiceTest {
 		List<Conference> conferences = service.findAllConferences();
 		Assert.assertEquals(3, conferences.size());
 		
-		service.deleteConference(conference2_1);
+		service.deleteConference(conference2_1.getId());
 		conferences = service.findAllConferences();
 		Assert.assertEquals(2, conferences.size());
 	}

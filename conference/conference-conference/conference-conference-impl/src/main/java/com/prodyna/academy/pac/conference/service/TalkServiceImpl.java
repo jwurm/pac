@@ -117,9 +117,11 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	@Override
-	public void deleteTalk(Talk talk) {
+	public Talk deleteTalk(int id) {
+		Talk talk = findTalk(id);
 		em.remove(talk);
 		log.info("Deleted talk " + talk);
+		return talk;
 
 	}
 

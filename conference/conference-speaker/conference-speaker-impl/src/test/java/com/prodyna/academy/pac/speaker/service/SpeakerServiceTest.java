@@ -64,7 +64,7 @@ public class SpeakerServiceTest {
 		List<Speaker> speakers=service.findAllSpeakers();
 		Assert.assertEquals(3, speakers.size());
 		
-		service.deleteSpeaker(speaker2_1);
+		service.deleteSpeaker(speaker2_1.getId());
 		
 		speakers=service.findAllSpeakers();
 		Assert.assertEquals(2, speakers.size());
