@@ -39,10 +39,6 @@ public class TalkServiceTest {
 	 */
 	@Deployment
 	public static Archive<?> createTestArchive() {
-		// File[] libs =
-		// org.jboss.shrinkwrap.resolver.api.maven.Maven.resolver()
-		// .loadPomFromFile("pom.xml").resolve("org.apache.commons:commons-lang3")
-		// .withTransitivity().asFile();
 
 		MavenDependencyResolver resolver = DependencyResolvers.use(
 				MavenDependencyResolver.class).loadMetadataFromPom("pom.xml");
@@ -133,8 +129,14 @@ public class TalkServiceTest {
 				"Hat auch Plan"));
 
 		Talk talk = service.findTalk(3);
+		
+		
+		Assert.assertEquals(1, service.getTalks().size());
+		
 
 		Talk talk2 = service.createTalk(new Talk("OpenJPA", "Sucks", new Instant("2013-02-01T15:00").toDate(), 10, conference, room));
+		
+		Assert.assertEquals(2, service.getTalks().size());
 
 		service.assignSpeaker(talk, speaker);
 		// should not do anything

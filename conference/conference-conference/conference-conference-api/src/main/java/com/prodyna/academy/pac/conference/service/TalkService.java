@@ -10,9 +10,12 @@ import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
 public interface TalkService {
-	List<Talk> getTalksBySpeaker(Speaker speaker);
+	
+	public List<Talk> getTalks();
+	
+	public List<Talk> getTalksBySpeaker(Speaker speaker);
 
-	List<Talk> getByRoom(Room room);
+	public List<Talk> getByRoom(Room room);
 
 	void assignSpeaker(Talk talk, Speaker speaker);
 

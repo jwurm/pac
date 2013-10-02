@@ -31,6 +31,25 @@
     	<artifactId>cdi-api</artifactId>
     	<scope>provided</scope>
     </dependency>
+    <dependency>
+    	<groupId>com.prodyna.academy.pac</groupId>
+    	<artifactId>conference-speaker-api</artifactId>
+    	<version>1.0-SNAPSHOT</version>
+    	<scope>provided</scope>
+    </dependency>
+    <dependency>
+    	<groupId>com.prodyna.academy.pac</groupId>
+    	<artifactId>conference-conference-api</artifactId>
+    	<version>1.0-SNAPSHOT</version>
+    	<scope>provided</scope>
+    </dependency>
+    
+    <!-- Wird benötigt...seltsamerweise. -->
+    <dependency>
+    	<groupId>org.hibernate.javax.persistence</groupId>
+    	<artifactId>hibernate-jpa-2.0-api</artifactId>
+    	<scope>provided</scope>
+    </dependency>
   </dependencies>
   <packaging>war</packaging>
   

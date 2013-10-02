@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -28,9 +30,13 @@ public class Speaker {
 	private Integer id;
 
 	@Basic
+	@NotNull
+	@Size(min=3, max=45)
 	private String name;
 
 	@Basic
+	@NotNull
+	@Size(min=3, max=45)
 	private String description;
 	
 	public Speaker(){

@@ -50,8 +50,7 @@ public class TalkServiceImpl implements TalkService {
 
 	@Override
 	public List<Talk> getByRoom(Room room) {
-		Query query = em
-				.createNamedQuery(Talk.FIND_BY_ROOM);
+		Query query = em.createNamedQuery(Talk.FIND_BY_ROOM);
 		query.setParameter("roomId", room.getId());
 		@SuppressWarnings("unchecked")
 		List<Talk> ret = query.getResultList();
@@ -184,8 +183,9 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	private void validateSpeakerAvailability(Talk talk) {
-		if(talk.getId()==null){
-			//if the talk hasn't been persisted yet, then it cannot have any speakers yet anyway
+		if (talk.getId() == null) {
+			// if the talk hasn't been persisted yet, then it cannot have any
+			// speakers yet anyway
 			return;
 		}
 		Interval talkInterval = talk.getInterval();
@@ -227,6 +227,19 @@ public class TalkServiceImpl implements TalkService {
 		log.info("Searching the speakers for talk " + talkId + " returns "
 				+ ret.size() + " results.");
 		return new ArrayList<Speaker>(ret);
+	}
+
+	@Override
+	public List<Talk> getTalks() {
+		Query query = em.createNamedQuery(Talk.SELECT_ALL);
+		@SuppressWarnings("unchecked")
+		List<Talk> ret = query.getResultList();
+		Set<Talk> talks = new HashSet<Talk>();
+		for (Talk curr : ret) {
+			talks.add(curr);
+		}
+
+		return new ArrayList<Talk>(talks);
 	}
 
 }

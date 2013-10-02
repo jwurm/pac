@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.room.rest;
+package com.prodyna.academy.pac.rest;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,11 +40,11 @@ import com.prodyna.academy.pac.room.service.RoomService;
  * JAX-RS Example
  * <p/>
  * This class produces a RESTful service to read/write the contents of the
- * members table.
+ * room table.
  */
 @Path("/rooms")
 @RequestScoped
-public class RoomResourceRESTService {
+public class RoomRESTService {
 	@Inject
 	private Logger log;
 
@@ -56,13 +56,12 @@ public class RoomResourceRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/list")
 	public List<Room> listAllMembers() {
 		return repository.findAllRooms();
 	}
 
 	@GET
-	@Path("/find/{id:[0-9][0-9]*}")
+	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Room find(@PathParam("id") int id) {
 		Room member = repository.findRoom(id);
