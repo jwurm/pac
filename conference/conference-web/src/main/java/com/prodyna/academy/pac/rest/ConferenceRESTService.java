@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -45,6 +46,10 @@ import com.prodyna.academy.pac.conference.service.ConferenceService;
 @Path("/conferences")
 @RequestScoped
 public class ConferenceRESTService {
+	
+//	@Inject
+//	private Validator validator;
+//	
 	@Inject
 	private Logger log;
 
@@ -76,6 +81,7 @@ public class ConferenceRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Conference create(Conference room) {
+//		validator.validate(room);
 		Conference rs = repository.createConference(room);
 		if (rs == null) {
 			throw new WebApplicationException(Response.Status.BAD_REQUEST);

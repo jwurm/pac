@@ -178,11 +178,11 @@ public class TalkServiceTest {
 				"schwätzt dumm"));
 
 		// create two talks with overlapping datetime
-		Talk talk1 = new Talk("Test1", "",
+		Talk talk1 = new Talk("Test1", "desc",
 				new Instant("2013-02-01T15:00").toDate(), 60, conference, room1);
 		talk1 = service.createTalk(talk1);
 
-		Talk talk2 = new Talk("Test2", "",
+		Talk talk2 = new Talk("Test2", "desc",
 				new Instant("2013-02-01T15:30").toDate(), 60, conference, room2);
 		talk2 = service.createTalk(talk2);
 
@@ -228,11 +228,11 @@ public class TalkServiceTest {
 
 
 		// create two talks with overlapping datetime
-		Talk talk1 = new Talk("Test1", "",
+		Talk talk1 = new Talk("Test1", "desc",
 				new Instant("2013-02-01T15:00").toDate(), 60, conference, room1);
 		talk1 = service.createTalk(talk1);
 
-		Talk talk2 = new Talk("Test2", "",
+		Talk talk2 = new Talk("Test2", "desc",
 				new Instant("2013-02-01T15:30").toDate(), 60, conference, room1);
 
 		try {

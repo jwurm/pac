@@ -56,7 +56,10 @@ public class Room {
 		Room other = (Room) obj;
 		if (capacity != other.capacity)
 			return false;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -83,7 +86,7 @@ public class Room {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + capacity;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}

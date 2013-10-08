@@ -9,6 +9,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Validator;
 
 /**
  * Producer
@@ -45,5 +46,6 @@ public class Resources
 			throw new RuntimeException(e);
 		}
 	}
+	
 
 }
