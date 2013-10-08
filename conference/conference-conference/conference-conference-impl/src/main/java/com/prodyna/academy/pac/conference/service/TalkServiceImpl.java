@@ -68,6 +68,7 @@ public class TalkServiceImpl implements TalkService {
 			log.info("Speaker " + speaker.getId()
 					+ " already is assigned to talk " + talk.getId());
 		} else {
+			validateSpeakerAvailability(talk, speaker);
 			TalkSpeakerAssignment tsa = new TalkSpeakerAssignment(talk, speaker);
 			em.persist(tsa);
 			log.info("Assigning Speaker +" + speaker.getId() + " to talk "
@@ -104,9 +105,9 @@ public class TalkServiceImpl implements TalkService {
 	@Override
 	public Talk createTalk(Talk talk) {
 		validateTalk(talk);
-		Talk ret = em.merge(talk);
+		em.persist(talk);
 		log.info("Created talk " + talk);
-		return ret;
+		return talk;
 	}
 
 	@Override
@@ -154,10 +155,9 @@ public class TalkServiceImpl implements TalkService {
 				.getId());
 
 		// validate conference date
-
-		Interval conferenceInterval = conf.getInterval();
+		Interval conferenceInterval = conf.buildInterval();
 		boolean conferenceIntervalOk = conferenceInterval.contains(talk
-				.getInterval());
+				.buildInterval());
 		if (!conferenceIntervalOk) {
 			throw new RuntimeException(
 					"Talk is set outside of the duration of the conference! "
@@ -166,7 +166,7 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	private void validateRoomAvailability(Talk talk) {
-		Interval talkInterval = talk.getInterval();
+		Interval talkInterval = talk.buildInterval();
 		// validate room availability
 		List<Talk> roomTalks = getByRoom(talk.getRoom());
 		for (Talk currTalk : roomTalks) {
@@ -175,7 +175,7 @@ public class TalkServiceImpl implements TalkService {
 				continue;
 			}
 
-			Interval otherRoomTalkInterval = currTalk.getInterval();
+			Interval otherRoomTalkInterval = currTalk.buildInterval();
 			if (otherRoomTalkInterval.overlaps(talkInterval)) {
 				throw new RuntimeException(
 						"The designated room is already occupied by "
@@ -190,7 +190,7 @@ public class TalkServiceImpl implements TalkService {
 			// speakers yet anyway
 			return;
 		}
-		Interval talkInterval = talk.getInterval();
+		Interval talkInterval = talk.buildInterval();
 		List<Speaker> speakers = findSpeakers(talk.getId());
 		for (Speaker speaker : speakers) {
 			// no one of the speakers is allowed to have a talk at the same time
@@ -205,7 +205,7 @@ public class TalkServiceImpl implements TalkService {
 
 				Interval otherSpeakerTalkInterval = new Interval(new Instant(
 						currTalk.getDatetime()), new Instant(
-						currTalk.getEndDateTime()));
+						currTalk.buildEndDateTime()));
 				if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
 					throw new RuntimeException(
 							"The designated speaker is already occupied by "
@@ -215,9 +215,36 @@ public class TalkServiceImpl implements TalkService {
 		}
 	}
 
+	private void validateSpeakerAvailability(Talk talk, Speaker speaker) {
+		if (talk.getId() == null) {
+			// if the talk hasn't been persisted yet, then it cannot have any
+			// speakers yet anyway
+			return;
+		}
+		Interval talkInterval = talk.buildInterval();
+		// no one of the speakers is allowed to have a talk at the same time
+		// as this one, except for this talk.
+
+		List<Talk> speakerTalks = getTalksBySpeaker(speaker);
+		for (Talk currTalk : speakerTalks) {
+			if (currTalk.getId().equals(talk.getId())) {
+				// if the talk already exists, don't validate against itself
+				continue;
+			}
+
+			Interval otherSpeakerTalkInterval = new Interval(new Instant(
+					currTalk.getDatetime()), new Instant(
+					currTalk.buildEndDateTime()));
+			if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
+				throw new RuntimeException(
+						"The designated speaker is already occupied by "
+								+ currTalk + " at that time.");
+			}
+		}
+	}
+
 	@Override
 	public List<Speaker> findSpeakers(int talkId) {
-		// TODO ungetestet
 		Query query = em.createNamedQuery(TalkSpeakerAssignment.FIND_BY_TALK);
 		query.setParameter("talkId", talkId);
 		@SuppressWarnings("unchecked")

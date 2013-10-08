@@ -15,6 +15,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.joda.time.Instant;
 import org.joda.time.Interval;
@@ -37,23 +41,34 @@ public class Talk {
 	private Integer id;
 
 	@Basic
+	@Size(min=3, max=45)
 	private String name;
 
 	@Basic
+	@Size(min=3, max=45)
 	private String description;
 	
 	@Basic
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	private Date datetime;
 
+	@Basic
+	@NotNull
+	@Min(1)
+	@Max(8*60)
+	private Integer duration;
 
 	@ManyToOne()
 	@JoinColumn(name = "room_id", referencedColumnName = "id")
+	@NotNull
 	private Room room;
 
 	@ManyToOne
 	@JoinColumn(name = "conference_id", referencedColumnName = "id")
 	private Conference conference;
+	
+	
 
 	public Talk(String name, String description,  Date datetime,int duration,
 			Conference conference, Room room) {
@@ -100,8 +115,6 @@ public class Talk {
 				+ description + ", datetime=" + datetime + ", duration=" + duration + "]";
 	}
 
-	@Basic
-	private Integer duration;
 
 	@Override
 	public int hashCode() {
@@ -192,7 +205,7 @@ public class Talk {
 	 * Returns the end datetime of the talk as a derived attribute from datetime and duration
 	 * @return
 	 */
-	public Date getEndDateTime() {
+	public Date buildEndDateTime() {
 		Calendar instance = GregorianCalendar.getInstance();
 		instance.setTime(this.getDatetime());
 		instance.add(Calendar.MINUTE, this.getDuration());
@@ -203,9 +216,9 @@ public class Talk {
 	 * Returns the interval of the talk
 	 * @return
 	 */
-	public Interval getInterval(){
+	public Interval buildInterval(){
 		return new Interval(new Instant(this.getDatetime()),
-				new Instant(this.getEndDateTime()));
+				new Instant(this.buildEndDateTime()));
 	}
 
 }

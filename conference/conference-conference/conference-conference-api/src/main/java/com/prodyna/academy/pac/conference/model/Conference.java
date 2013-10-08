@@ -15,35 +15,43 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 
 @Entity
 @Table(name = "conference")
-@NamedQuery(name=Conference.SELECT_ALL, query="select c from Conference c")
+@NamedQuery(name = Conference.SELECT_ALL, query = "select c from Conference c")
 public class Conference {
-	public static final String SELECT_ALL="conference.selectAll";
-	
+	public static final String SELECT_ALL = "conference.selectAll";
+
 	@Id
 	@GeneratedValue
 	private int id;
 
 	@Basic
+	@NotNull
+	@Size(min = 3, max = 45)
 	private String name;
 
 	@Basic
+	@NotNull
+	@Size(min = 3, max = 45)
 	private String description;
-	
+
 	@Basic
 	@Temporal(TemporalType.DATE)
+	@NotNull
 	private Date start;
-	
+
 	@Basic
 	@Temporal(TemporalType.DATE)
+	@NotNull
 	private Date end;
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="conference")
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "conference")
 	private List<Talk> talks;
 
 	public Conference(String name, String description, Date start, Date end) {
@@ -53,7 +61,7 @@ public class Conference {
 		this.start = start;
 		this.end = end;
 	}
-	
+
 	public Conference() {
 		super();
 	}
@@ -154,22 +162,24 @@ public class Conference {
 		return "Conference [id=" + id + ", name=" + name + ", description="
 				+ description + ", start=" + start + ", end=" + end + "]";
 	}
-	
+
 	/**
-	 * Returns the interval of the conference. The end instant is 00:00 of the day after the last day of the conference
-	 * @return
+	 * Returns the interval of the conference. The end instant is 00:00 of the
+	 * day after the last day of the conference
+	 * 
+	 * @return null if prerequisites are not met
 	 */
-	public Interval getInterval(){
-		
+	public Interval buildInterval() {
+		if (start == null || end == null) {
+			return null;
+		}
+
 		Calendar calendar = GregorianCalendar.getInstance();
 		calendar.setTime(end);
 		calendar.add(Calendar.DAY_OF_MONTH, 1);
-		Instant endInstant=new Instant(calendar.getTime());
-		
-		return new Interval(new Instant(this.getStart()),
-				endInstant);
-	}
-	
+		Instant endInstant = new Instant(calendar.getTime());
 
+		return new Interval(new Instant(this.getStart()), endInstant);
+	}
 
 }
