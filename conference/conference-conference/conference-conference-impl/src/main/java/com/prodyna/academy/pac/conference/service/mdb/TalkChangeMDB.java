@@ -37,12 +37,14 @@ public class TalkChangeMDB implements MessageListener {
 	public void onMessage(Message message) {
 		if (message instanceof TextMessage) {
 			try {
+				//read the message and write it into the log
 				log.info("Talk change queue message arrived: "+((TextMessage) message).getText());
 			} catch (JMSException e) {
 				log.severe(e.toString());
 			}
 		} else {
-			throw new RuntimeException("Unexpected message type: "
+			//any unexpected message type should result in an noticeable exception
+			throw new IllegalArgumentException("Unexpected message type: "
 					+ message.toString());
 		}
 
