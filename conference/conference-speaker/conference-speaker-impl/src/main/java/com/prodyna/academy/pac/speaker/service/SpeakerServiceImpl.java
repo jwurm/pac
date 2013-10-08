@@ -9,10 +9,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
 @Stateless
 @PerformanceLogged
+@ServiceLogged
 public class SpeakerServiceImpl implements SpeakerService {
 
 	@Inject

@@ -20,5 +20,6 @@
  
  <interceptors>
  <class>com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLoggingInterceptor</class>
+ <class>com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLoggingInterceptor</class>
  </interceptors>
 </beans>

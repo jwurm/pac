@@ -15,6 +15,7 @@ import org.joda.time.Instant;
 import org.joda.time.Interval;
 
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.model.TalkSpeakerAssignment;
@@ -23,6 +24,7 @@ import com.prodyna.academy.pac.speaker.model.Speaker;
 
 @Stateless
 @PerformanceLogged
+@ServiceLogged
 public class TalkServiceImpl implements TalkService {
 	@Inject
 	private EntityManager em;

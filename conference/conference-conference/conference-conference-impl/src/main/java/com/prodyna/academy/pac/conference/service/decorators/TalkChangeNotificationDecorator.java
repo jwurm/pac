@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.service;
+package com.prodyna.academy.pac.conference.service.decorators;
 
 import java.util.logging.Logger;
 
@@ -15,10 +15,16 @@ import javax.jms.TextMessage;
 import javax.naming.InitialContext;
 
 import com.prodyna.academy.pac.conference.model.Talk;
+import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
 @Decorator
 public abstract class TalkChangeNotificationDecorator implements TalkService {
+
+	/**
+	 * Name of the queue to write to
+	 */
+	public static final String QUEUE_NAME = "queue/test";
 
 	@Inject
 	@Delegate
@@ -28,24 +34,19 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 	private InitialContext ctx;
 	
 	@Inject
-	Logger log;
+	private Logger log;
 
 	@Inject
 	private QueueConnectionFactory qcf;
 
 	private void sendQueueMessage(String message) {
 		try {
-			Queue queue = (Queue) ctx.lookup("queue/test");
+			Queue queue = (Queue) ctx.lookup(QUEUE_NAME);
 			Connection conn = qcf.createConnection();
 			Session session = conn.createSession(false,
 					Session.AUTO_ACKNOWLEDGE);
 			MessageProducer producer = session.createProducer(queue);
 			
-			
-//			// And we create a MessageConsumer which will consume orders from
-//			MessageConsumer consumer = session.createConsumer(queue);
-			// We make sure we start the connection, or delivery won't occur on
-			// it:
 
 			conn.start();
 			// We create a simple TextMessage and send it:
