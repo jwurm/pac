@@ -16,11 +16,16 @@
  */
 package com.prodyna.academy.pac.rest;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,25 +41,23 @@ import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
+import com.prodyna.academy.pac.room.model.Room;
 
 /**
  * JAX-RS Example
  * <p/>
  * This class produces a RESTful service to read/write the contents of the
- * speakers table.
+ * conferences table.
  */
 @Path("/conferences")
 @RequestScoped
 public class ConferenceRESTService {
+
+	@Inject
+	private Validator validator;
 	
-//	@Inject
-//	private Validator validator;
-//	
 	@Inject
 	private Logger log;
-
-	// @Inject
-	// private Validator validator;
 
 	@Inject
 	private ConferenceService repository;
@@ -62,55 +65,130 @@ public class ConferenceRESTService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/list")
-	public List<Conference> listAllMembers() {
-		return repository.findAllConferences();
+	public Response listAllMembers() {
+
+		try {
+			List<Conference> findAllConferences = repository
+					.findAllConferences();
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(findAllConferences);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
+		}
 	}
 
 	@GET
 	@Path("/find/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Conference find(@PathParam("id") int id) {
-		Conference member = repository.getCompleteConference(id);
-		if (member == null) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
+	public Response find(@PathParam("id") int id) {
+		try {
+			Conference conference = repository.getCompleteConference(id);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(conference);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return member;
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Conference create(Conference room) {
-//		validator.validate(room);
-		Conference rs = repository.createConference(room);
-		if (rs == null) {
-			throw new WebApplicationException(Response.Status.BAD_REQUEST);
+	public Response create(Conference conference) {
+
+		try {
+			validateConference(conference);
+			Conference rs = repository.createConference(conference);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(rs);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return rs;
 	}
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Conference update(Conference room) {
-		Conference rs = repository.updateConference(room);
-		if (rs == null) {
-			throw new WebApplicationException(Response.Status.BAD_REQUEST);
+	public Response update(Conference conference) {
+		try {
+			validateConference(conference);
+			Conference rs = repository.updateConference(conference);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(rs);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return rs;
 	}
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Conference delete(@PathParam("id") Integer id) {
+	public Response delete(@PathParam("id") Integer id) {
 		try {
-			Conference room = repository.deleteConference(id);
-			return room;
+			Conference conference = repository.deleteConference(id);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(conference);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
 		} catch (Exception e) {
 			log.severe(e.getMessage());
-			return null;
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
 	}
-	
+
+	/**
+	 * Validates a conference instance.
+	 * @param conference
+	 * @throws ConstraintViolationException
+	 * @throws ValidationException
+	 */
+	private void validateConference(Conference conference)
+			throws ConstraintViolationException, ValidationException {
+		// Create a bean validator and check for issues.
+		Set<ConstraintViolation<Conference>> violations = validator
+				.validate(conference);
+
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(
+					new HashSet<ConstraintViolation<?>>(violations));
+		}
+
+	}
+
 }

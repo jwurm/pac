@@ -16,11 +16,17 @@
  */
 package com.prodyna.academy.pac.rest;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -33,6 +39,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 import com.prodyna.academy.pac.speaker.service.SpeakerService;
 
@@ -48,73 +55,158 @@ public class SpeakerRESTService {
 	@Inject
 	private Logger log;
 
-	// @Inject
-	// private Validator validator;
+	@Inject
+	private Validator validator;
 
 	@Inject
 	private SpeakerService repository;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Speaker> listAllMembers() {
-		return repository.findAllSpeakers();
+	public Response listAllMembers() {
+
+		try {
+			List<Speaker> findAllSpeakers = repository.findAllSpeakers();
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(findAllSpeakers);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
+		}
 	}
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Speaker find(@PathParam("id") int id) {
-		Speaker member = repository.findSpeaker(id);
-		if (member == null) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
+	public Response find(@PathParam("id") int id) {
+		try {
+			Speaker speaker = repository.findSpeaker(id);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(speaker);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return member;
 	}
 
 	@GET
 	@Path("/create/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Speaker create(@PathParam("name") String name) {
-		Speaker room = repository.createSpeaker(new Speaker(name, ""));
-		if (room == null) {
-			throw new WebApplicationException(Response.Status.BAD_REQUEST);
+	public Response create(@PathParam("name") String name) {
+		try {
+			Speaker speaker = repository.createSpeaker(new Speaker(name, ""));
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(speaker);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return room;
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Speaker create(Speaker room) {
-		Speaker rs = repository.createSpeaker(room);
-		if (rs == null) {
-			throw new WebApplicationException(Response.Status.BAD_REQUEST);
+	public Response create(Speaker speaker) {
+		try {
+			validateSpeaker(speaker);
+			Speaker rs = repository.createSpeaker(speaker);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(rs);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return rs;
 	}
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Speaker update(Speaker room) {
-		Speaker rs = repository.updateSpeaker(room);
-		if (rs == null) {
-			throw new WebApplicationException(Response.Status.BAD_REQUEST);
+	public Response update(Speaker speaker) {
+		try {
+			validateSpeaker(speaker);
+			Speaker rs = repository.updateSpeaker(speaker);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(rs);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return rs;
 	}
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Speaker delete(@PathParam("id") Integer id) {
+	public Response delete(@PathParam("id") Integer id) {
 		try {
 			Speaker room = repository.deleteSpeaker(id);
-			return room;
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(room);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
 		} catch (Exception e) {
 			log.severe(e.getMessage());
-			return null;
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
 	}
 	
+	/**
+	 * Validates a speaker instance
+	 * @param speaker
+	 * @throws ConstraintViolationException
+	 * @throws ValidationException
+	 */
+	private void validateSpeaker(Speaker speaker)
+			throws ConstraintViolationException, ValidationException {
+		// Create a bean validator and check for issues.
+		Set<ConstraintViolation<Speaker>> violations = validator
+				.validate(speaker);
+
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(
+					new HashSet<ConstraintViolation<?>>(violations));
+		}
+
+	}
+
+
 }

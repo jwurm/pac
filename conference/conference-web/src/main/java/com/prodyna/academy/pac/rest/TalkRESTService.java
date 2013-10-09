@@ -16,11 +16,17 @@
  */
 package com.prodyna.academy.pac.rest;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
+import javax.validation.Validator;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -35,6 +41,7 @@ import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.TalkService;
+import com.prodyna.academy.pac.speaker.model.Speaker;
 
 /**
  * JAX-RS Example
@@ -48,62 +55,120 @@ public class TalkRESTService {
 	@Inject
 	private Logger log;
 
-	// @Inject
-	// private Validator validator;
+	@Inject
+	private Validator validator;
 
 	@Inject
 	private TalkService repository;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Talk> listAllMembers() {
-		return repository.getTalks();
+	public Response listAllMembers() {
+		try {
+			List<Talk> talks = repository.getTalks();
+			return RestResponseBuilder.buildOkResponse(talks);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
+		}
 	}
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Talk find(@PathParam("id") int id) {
-		Talk member = repository.findTalk(id);
-		if (member == null) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
+	public Response find(@PathParam("id") int id) {
+		try {
+			Talk talk = repository.findTalk(id);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(talk);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return member;
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Talk create(Talk room) {
-		Talk rs = repository.createTalk(room);
-		if (rs == null) {
-			throw new WebApplicationException(Response.Status.BAD_REQUEST);
+	public Response create(Talk talk) {
+		try {
+			validateTalk(talk);
+			Talk rs = repository.createTalk(talk);
+
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(rs);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return rs;
 	}
 
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Talk update(Talk room) {
-		Talk rs = repository.updateTalk(room);
-		if (rs == null) {
-			throw new WebApplicationException(Response.Status.BAD_REQUEST);
+	public Response update(Talk talk) {
+		try {
+			validateTalk(talk);
+			Talk rs = repository.updateTalk(talk);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(rs);
+		} catch (ConstraintViolationException ce) {
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
-		return rs;
 	}
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Talk delete(@PathParam("id") Integer id) {
+	public Response delete(@PathParam("id") Integer id) {
 		try {
-			Talk room = repository.deleteTalk(id);
-			return room;
+			Talk talk = repository.deleteTalk(id);
+			// // Create an "ok" response
+			return RestResponseBuilder.buildOkResponse(talk);
 		} catch (Exception e) {
 			log.severe(e.getMessage());
-			return null;
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
 		}
 	}
-	
+
+	/**
+	 * Validates a talk instance
+	 * 
+	 * @param talk
+	 * @throws ConstraintViolationException
+	 * @throws ValidationException
+	 */
+	private void validateTalk(Talk talk) throws ConstraintViolationException,
+			ValidationException {
+		// Create a bean validator and check for issues.
+		Set<ConstraintViolation<Talk>> violations = validator.validate(talk);
+
+		if (!violations.isEmpty()) {
+			throw new ConstraintViolationException(
+					new HashSet<ConstraintViolation<?>>(violations));
+		}
+
+	}
+
 }
