@@ -18,11 +18,16 @@ package com.prodyna.academy.pac.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UICommand;
+import javax.faces.component.UIForm;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,8 +39,13 @@ import com.prodyna.academy.pac.room.service.RoomService;
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-@Model
+//@Model
+@ManagedBean(name="roomController")
+@ViewScoped
 public class RoomController {
+	
+	@Inject 
+	private Logger log;
 
     @Inject
     private FacesContext facesContext;
@@ -45,10 +55,42 @@ public class RoomController {
 
     private Room newRoom;
     
-//    private List<Room> rooms=new ArrayList<Room>();
     
-    public List<Room> getRooms() {
-		return roomService.findAllRooms();
+    
+    private UICommand updateCommand;
+
+    
+    private HtmlDataTable dataTable;
+    
+    public void setDataTable(HtmlDataTable dataTable) {
+		this.dataTable = dataTable;
+	}
+    
+    public HtmlDataTable getDataTable() {
+		return dataTable;
+	}
+    
+    private List<Room> rooms=new ArrayList<Room>();
+    
+    public UICommand getUpdateCommand() {
+		return updateCommand;
+	}
+
+	public void setUpdateCommand(UICommand updateCommand) {
+		this.updateCommand = updateCommand;
+	}
+
+	public List<Room> getRooms() {
+		return rooms;
+	}
+	
+//	@PostConstruct
+	public void postConstruct(){
+		loadRooms();
+	}
+
+	private void loadRooms() {
+		rooms=roomService.findAllRooms();
 	}
 
     @Produces
@@ -56,10 +98,16 @@ public class RoomController {
     public Room getNewRoom() {
         return newRoom;
     }
+    
+    public String test() throws Exception {
+    	log.info("test called");
+    	return "";
+    }
 
     public String createNewRoom() throws Exception {
         try {
         	roomService.createRoom(newRoom);
+        	loadRooms();
             facesContext.addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "New room created!", "Room creation successful"));
 //            rooms.add(newRoom);
@@ -94,5 +142,16 @@ public class RoomController {
         }
         // This is the root cause message
         return errorMessage;
+    }
+    
+    public String updateRoom() throws Exception{
+    	Room room = (Room) ((HtmlDataTable)dataTable).getRowData();
+    	roomService.updateRoom(room);
+    	return "";
+    }
+    
+    public String updateRoomName() throws Exception{
+    	log.info("update called");
+    	return "";
     }
 }

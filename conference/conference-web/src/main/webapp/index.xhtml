@@ -16,66 +16,73 @@
     limitations under the License.
 -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:ui="http://java.sun.com/jsf/facelets"
-   xmlns:f="http://java.sun.com/jsf/core"
-   xmlns:h="http://java.sun.com/jsf/html"
-   template="/WEB-INF/templates/default.xhtml">
-   <ui:define name="content">
-      <h1>Welcome to JBoss!</h1>
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Welcome to ConferenceManangement Backoffice!</h1>
 
-      <div>
-         <p>You have successfully deployed a Java EE 6 Enterprise Application.</p>
-         <h3>Your application can run on:</h3>
-         <img src="resources/gfx/dualbrand_as7eap.png"/>
-      </div>
 
-      <h:form id="reg">
-         <h2>Room Creation</h2>
-         <p>Enforces annotation-based constraints defined on the model class.</p>
-         <h:panelGrid columns="2" columnClasses="titleCell">
-            <h:outputLabel for="name" value="Name:"/>
-            <h:inputText id="name" value="#{newRoom.name}" />
-            <h:message for="name" errorClass="invalid"/>
 
-            <h:outputLabel for="capacity" value="Capacity:"/>
-            <h:inputText id="capacitiy" value="#{newRoom.capacity}"/>
-            <h:message for="capacitiy" errorClass="invalid"/>
+		<h:form id="reg">
+			<h2>Room Creation</h2>
+			<p>Enforces annotation-based constraints defined on the model
+				class.</p>
+			<h:panelGrid columns="2" columnClasses="titleCell">
+				<h:outputLabel for="name" value="Name:" />
+				<h:inputText id="name" value="#{newRoom.name}" />
+				<h:message for="name" errorClass="invalid" />
 
-         </h:panelGrid>
+				<h:outputLabel for="capacity" value="Capacity:" />
+				<h:inputText id="capacity" value="#{newRoom.capacity}" />
+				<h:message for="capacity" errorClass="invalid" />
 
-         <p>
-            <h:panelGrid columns="2">
-               <h:commandButton id="register" action="#{roomController.createNewRoom}" value="CreateNewRoom" styleClass="register"/>
-               <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
-                           globalOnly="true"/>
-            </h:panelGrid>
-         </p>
-      </h:form>
-      <h2>Rooms</h2>
-      <h:panelGroup rendered="#{empty roomController.rooms}">
-         <em>No rooms.</em>
-      </h:panelGroup>
-      <h:dataTable var="_room" value="#{roomController.rooms}" rendered="#{not empty roomController.rooms}" styleClass="simpletablestyle">
-         <h:column>
-            <f:facet name="header">Id</f:facet>
-                #{_room.id}
-            </h:column>
-         <h:column>
-            <f:facet name="header">Name</f:facet>
-                #{_room.name}
-            </h:column>
-         <h:column>
-            <f:facet name="header">Email</f:facet>
-                #{_room.capacity}
-            </h:column>
-       
-         <h:column>
-            <f:facet name="header">REST URL</f:facet>
-            <a href="#{request.contextPath}/rest/rooms/#{_room.id}">/rest/rooms/#{_room.id}</a>
-         </h:column>
-         <f:facet name="footer">
-            REST URL for all members: <a href="#{request.contextPath}/rest/rooms">/rest/rooms</a>
-         </f:facet>
-      </h:dataTable>
-   </ui:define>
+			</h:panelGrid>
+
+			<p>
+				<h:panelGrid columns="2">
+					<h:commandButton id="register"
+						action="#{roomController.createNewRoom}" value="CreateNewRoom"
+						styleClass="register" />
+					<h:commandButton id="test" action="#{roomController.test}"
+						value="test" styleClass="register" />
+					<h:messages styleClass="messages" errorClass="invalid"
+						infoClass="valid" warnClass="warning" globalOnly="true" />
+				</h:panelGrid>
+			</p>
+		</h:form>
+		<h:form id="list">
+			<h2>Rooms</h2>
+			<h:panelGroup rendered="#{empty roomController.rooms}">
+				<em>No rooms.</em>
+			</h:panelGroup>
+			<h:dataTable id="dataTable" binding="#{roomController.dataTable}"
+				var="_room" value="#{roomController.rooms}"
+				rendered="#{not empty roomController.rooms}"
+				styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputText value=" #{_room.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:inputText value="#{_room.name}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">REST URL</f:facet>
+					<a href="#{request.contextPath}/rest/rooms/#{_room.id}">/rest/rooms/#{_room.id}</a>
+				</h:column>
+				<f:facet name="footer">
+            REST URL for all members: <a
+						href="#{request.contextPath}/rest/rooms">/rest/rooms</a>
+				</f:facet>
+				<h:column>
+					<!-- 					<f:facet name="header">Actions</f:facet> -->
+					<h:commandButton id="update" action="#{roomController.updateRoom}"
+						value="UpdateRoom" styleClass="register" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+	</ui:define>
 </ui:composition>
