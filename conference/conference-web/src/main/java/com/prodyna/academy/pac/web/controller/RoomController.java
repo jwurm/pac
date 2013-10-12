@@ -118,6 +118,8 @@ public class RoomController {
 		}
 		return "";
 	}
+	
+	
 
 	public void setNewRoom(Room newRoom) {
 		this.newRoom = newRoom;

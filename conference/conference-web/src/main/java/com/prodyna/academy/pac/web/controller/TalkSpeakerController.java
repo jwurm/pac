@@ -40,15 +40,17 @@ import com.prodyna.academy.pac.conference.service.ConferenceService;
 import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.room.service.RoomService;
+import com.prodyna.academy.pac.speaker.model.Speaker;
+import com.prodyna.academy.pac.speaker.service.SpeakerService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 //@Model
-@ManagedBean(name = "talkController")
+@ManagedBean(name = "talkSpeakerController")
 @ViewScoped
-public class TalkController {
+public class TalkSpeakerController {
 
 	@Inject
 	private Logger log;
@@ -58,38 +60,42 @@ public class TalkController {
 
 	@Inject
 	private TalkService talkService;
-	
-	@Inject
-	private ConferenceService conferenceService;
-	
-	@Inject
-	private RoomService roomService;
 
-	private Talk newTalk;
+	@Inject
+	private SpeakerService speakerService;
+
+	private Integer speakerId;
+	private Integer talkId;
+
+	public Integer getSpeakerId() {
+		return speakerId;
+	}
+
+	public void setSpeakerId(Integer speakerId) {
+		this.speakerId = speakerId;
+	}
+
+	public Integer getTalkId() {
+		return talkId;
+	}
+
+	public void setTalkId(Integer talkId) {
+		this.talkId = talkId;
+	}
+
+	public Talk getTalk() {
+		return talk;
+	}
+
+	public void setTalk(Talk talk) {
+		this.talk = talk;
+	}
+
+	private Talk talk;
 
 	private HtmlDataTable dataTable;
 
-	@NotNull
-	private Integer conferenceId;
-
-	@NotNull
-	private Integer roomId;
-
-	public Integer getConferenceId() {
-		return conferenceId;
-	}
-
-	public void setConferenceId(Integer conferenceId) {
-		this.conferenceId = conferenceId;
-	}
-
-	public Integer getRoomId() {
-		return roomId;
-	}
-
-	public void setRoomId(Integer roomId) {
-		this.roomId = roomId;
-	}
+	private List<Speaker> speakers;
 
 	public void setDataTable(HtmlDataTable dataTable) {
 		this.dataTable = dataTable;
@@ -99,59 +105,8 @@ public class TalkController {
 		return dataTable;
 	}
 
-	private List<Talk> talks = new ArrayList<Talk>();
-
-	public List<Talk> getTalks() {
-		return talks;
-	}
-
-	// @PostConstruct
-
-	private void loadTalks() {
-		talks = talkService.getTalks();
-	}
-
-	// @Named
-	@Named("newTalk")
-	@Produces
-	public Talk getNewTalk() {
-		return newTalk;
-	}
-
-	public String createNewTalk() throws Exception {
-		try {
-			Room room = roomService.findRoom(roomId);
-			Conference conference = conferenceService
-					.getCompleteConference(conferenceId);
-			newTalk.setConference(conference);
-			newTalk.setRoom(room);
-			talkService.createTalk(newTalk);
-			facesContext.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_INFO, "New talk created!",
-					"Talk creation successful"));
-			
-			
-			// talks.add(newTalk);
-			initData();
-
-		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
-			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Registration Unsuccessful");
-			facesContext.addMessage(null, m);
-		}
-		return "";
-	}
-
-	public void setNewTalk(Talk newTalk) {
-		this.newTalk = newTalk;
-	}
-
 	@PostConstruct
 	public void initData() {
-		newTalk = new Talk("name", "description", new Instant(
-				"2014-01-01T15:00").toDate(), 60, null, null);
-		loadTalks();
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -173,37 +128,28 @@ public class TalkController {
 		return errorMessage;
 	}
 
-	public String saveTalk() throws Exception {
-		try {
-
-			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
-			if (talk.getId() == null) {
-				talkService.createTalk(talk);
-			} else {
-				talkService.updateTalk(talk);
-			}
-			loadTalks();
-
-		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
-			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Update failed.");
-			facesContext.addMessage(null, m);
-		}
-		return "";
+	public void selectTalk() {
+		talk = talkService.findTalk(talkId);
+		speakers = talkService.findSpeakers(talk.getId());
 	}
 
-	public String deleteTalk() throws Exception {
-		try {
-			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
-			talkService.deleteTalk(talk.getId());
-			loadTalks();
-		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
-			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Update failed.");
-			facesContext.addMessage(null, m);
-		}
-		return "";
+	public void removeSpeaker() {
+		Speaker speaker = (Speaker) dataTable.getRowData();
+		talkService.unassignSpeaker(talk, speaker);
+		speakers = talkService.findSpeakers(talk.getId());
+	}
+
+	public void assignSpeaker() {
+		Speaker speaker = speakerService.findSpeaker(speakerId);
+		talkService.assignSpeaker(talk, speaker);
+		speakers = talkService.findSpeakers(talk.getId());
+	}
+
+	public List<Speaker> getSpeakers() {
+		return speakers;
+	}
+
+	public void setSpeakers(List<Speaker> speakers) {
+		this.speakers = speakers;
 	}
 }
