@@ -21,7 +21,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-		<h1>Welcome to ConferenceManangement Backoffice!</h1>
+		<h1>Welcome to ConferenceManagement Backoffice!</h1>
 
 
 
@@ -45,8 +45,6 @@
 					<h:commandButton id="register"
 						action="#{roomController.createNewRoom}" value="CreateNewRoom"
 						styleClass="register" />
-					<h:commandButton id="test" action="#{roomController.test}"
-						value="test" styleClass="register" />
 					<h:messages styleClass="messages" errorClass="invalid"
 						infoClass="valid" warnClass="warning" globalOnly="true" />
 				</h:panelGrid>
@@ -70,6 +68,10 @@
 					<h:inputText value="#{_room.name}" />
 				</h:column>
 				<h:column>
+					<f:facet name="header">Capacity</f:facet>
+					<h:inputText value="#{_room.capacity}" />
+				</h:column>
+				<h:column>
 					<f:facet name="header">REST URL</f:facet>
 					<a href="#{request.contextPath}/rest/rooms/#{_room.id}">/rest/rooms/#{_room.id}</a>
 				</h:column>
@@ -79,8 +81,13 @@
 				</f:facet>
 				<h:column>
 					<!-- 					<f:facet name="header">Actions</f:facet> -->
-					<h:commandButton id="update" action="#{roomController.updateRoom}"
-						value="UpdateRoom" styleClass="register" />
+					<h:commandButton id="update" action="#{roomController.saveRoom}"
+						value="Save" styleClass="register"  />
+				</h:column>
+				<h:column>
+					<!-- 					<f:facet name="header">Actions</f:facet> -->
+					<h:commandButton id="delete" action="#{roomController.deleteRoom}"
+						value="Delete" styleClass="register" immediate="true" />
 				</h:column>
 			</h:dataTable>
 		</h:form>

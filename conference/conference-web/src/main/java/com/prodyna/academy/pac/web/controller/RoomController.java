@@ -17,6 +17,7 @@
 package com.prodyna.academy.pac.web.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -40,39 +41,37 @@ import com.prodyna.academy.pac.room.service.RoomService;
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 //@Model
-@ManagedBean(name="roomController")
+@ManagedBean(name = "roomController")
 @ViewScoped
 public class RoomController {
-	
-	@Inject 
+
+	@Inject
 	private Logger log;
 
-    @Inject
-    private FacesContext facesContext;
+	@Inject
+	private FacesContext facesContext;
 
-    @Inject
-    private RoomService roomService;
+	@Inject
+	private RoomService roomService;
 
-    private Room newRoom;
-    
-    
-    
-    private UICommand updateCommand;
+	
+	private Room newRoom;
 
-    
-    private HtmlDataTable dataTable;
-    
-    public void setDataTable(HtmlDataTable dataTable) {
+	private UICommand updateCommand;
+
+	private HtmlDataTable dataTable;
+
+	public void setDataTable(HtmlDataTable dataTable) {
 		this.dataTable = dataTable;
 	}
-    
-    public HtmlDataTable getDataTable() {
+
+	public HtmlDataTable getDataTable() {
 		return dataTable;
 	}
-    
-    private List<Room> rooms=new ArrayList<Room>();
-    
-    public UICommand getUpdateCommand() {
+
+	private List<Room> rooms = new ArrayList<Room>();
+
+	public UICommand getUpdateCommand() {
 		return updateCommand;
 	}
 
@@ -83,75 +82,108 @@ public class RoomController {
 	public List<Room> getRooms() {
 		return rooms;
 	}
-	
-//	@PostConstruct
-	public void postConstruct(){
+
+	// @PostConstruct
+
+	private void loadRooms() {
+		rooms = roomService.findAllRooms();
+	}
+
+//	@Named
+	@Named("newRoom")
+	@Produces
+	public Room getNewRoom() {
+		return newRoom;
+	}
+
+	public String test() throws Exception {
+		log.info("test called");
+		return "";
+	}
+
+	public String createNewRoom() throws Exception {
+		try {
+			 roomService.createRoom(newRoom);
+			 facesContext.addMessage(null,
+			 new FacesMessage(FacesMessage.SEVERITY_INFO, "New room created!",
+			 "Room creation successful"));
+			 // rooms.add(newRoom);
+			initData();
+
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Registration Unsuccessful");
+			facesContext.addMessage(null, m);
+		}
+		return "";
+	}
+
+	public void setNewRoom(Room newRoom) {
+		this.newRoom = newRoom;
+	}
+
+	@PostConstruct
+	public void initData() {
+		newRoom = new Room("E785", 12);
 		loadRooms();
 	}
 
-	private void loadRooms() {
-		rooms=roomService.findAllRooms();
+	private String getRootErrorMessage(Exception e) {
+		// Default to general error message that registration failed.
+		String errorMessage = "Registration failed. See server log for more information";
+		if (e == null) {
+			// This shouldn't happen, but return the default messages
+			return errorMessage;
+		}
+
+		// Start with the exception and recurse to find the root cause
+		Throwable t = e;
+		while (t != null) {
+			// Get the message from the Throwable class instance
+			errorMessage = t.getLocalizedMessage();
+			t = t.getCause();
+		}
+		// This is the root cause message
+		return errorMessage;
 	}
 
-    @Produces
-    @Named
-    public Room getNewRoom() {
-        return newRoom;
-    }
-    
-    public String test() throws Exception {
-    	log.info("test called");
-    	return "";
-    }
+	public String saveRoom() throws Exception {
+		try {
 
-    public String createNewRoom() throws Exception {
-        try {
-        	roomService.createRoom(newRoom);
-        	loadRooms();
-            facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "New room created!", "Room creation successful"));
-//            rooms.add(newRoom);
-            initNewRoom();
-        } catch (Exception e) {
-            String errorMessage = getRootErrorMessage(e);
-            FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR, errorMessage, "Registration Unsuccessful");
-            facesContext.addMessage(null, m);
-        }
-        return "";
-    }
+			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
+			if (room.getId() == null) {
+				roomService.createRoom(room);
+			} else {
+				roomService.updateRoom(room);
+			}
+			loadRooms();
 
-    @PostConstruct
-    public void initNewRoom() {
-        newRoom = new Room("E785", 12);
-    }
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Update failed.");
+			facesContext.addMessage(null, m);
+		}
+		return "";
+	}
 
-    private String getRootErrorMessage(Exception e) {
-        // Default to general error message that registration failed.
-        String errorMessage = "Registration failed. See server log for more information";
-        if (e == null) {
-            // This shouldn't happen, but return the default messages
-            return errorMessage;
-        }
+	public String deleteRoom() throws Exception {
+		try {
+			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
+			roomService.deleteRoom(room.getId());
+			loadRooms();
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Update failed.");
+			facesContext.addMessage(null, m);
+		}
+		return "";
+	}
 
-        // Start with the exception and recurse to find the root cause
-        Throwable t = e;
-        while (t != null) {
-            // Get the message from the Throwable class instance
-            errorMessage = t.getLocalizedMessage();
-            t = t.getCause();
-        }
-        // This is the root cause message
-        return errorMessage;
-    }
-    
-    public String updateRoom() throws Exception{
-    	Room room = (Room) ((HtmlDataTable)dataTable).getRowData();
-    	roomService.updateRoom(room);
-    	return "";
-    }
-    
-    public String updateRoomName() throws Exception{
-    	log.info("update called");
-    	return "";
-    }
+	public String updateRoomName() throws Exception {
+		log.info("update called");
+		return "";
+	}
 }

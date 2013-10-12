@@ -70,7 +70,7 @@ public class RoomServiceTest {
 		room3 = service.createRoom(room3);
 		Assert.assertEquals(Integer.valueOf(3), room3.getId());
 		
-		Assert.assertEquals(12, room2.getCapacity());
+		Assert.assertEquals(Integer.valueOf(12), room2.getCapacity());
 		room2.setName("2616");
 		room2.setCapacity(15);
 		service.updateRoom(room2);
@@ -78,7 +78,7 @@ public class RoomServiceTest {
 		Room room2_1 = service.findRoom(2);
 		Assert.assertEquals(Integer.valueOf(2), room2_1.getId());
 		Assert.assertEquals("2616", room2.getName());
-		Assert.assertEquals(15, room2.getCapacity());
+		Assert.assertEquals(Integer.valueOf(15), room2.getCapacity());
 		
 		List<Room> rooms=service.findAllRooms();
 		Assert.assertEquals(3, rooms.size());

@@ -33,7 +33,7 @@ public class Room {
 	@NotNull
 	@Min(0)
 	@Max(10000)
-	private int capacity;
+	private Integer capacity;
 	
 	public Room(){
 		super();
@@ -54,7 +54,10 @@ public class Room {
 		if (getClass() != obj.getClass())
 			return false;
 		Room other = (Room) obj;
-		if (capacity != other.capacity)
+		if (capacity == null) {
+			if (other.capacity != null)
+				return false;
+		} else if (!capacity.equals(other.capacity))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -69,7 +72,7 @@ public class Room {
 		return true;
 	}
 
-	public int getCapacity() {
+	public Integer getCapacity() {
 		return capacity;
 	}
 
@@ -85,13 +88,14 @@ public class Room {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + capacity;
+		result = prime * result
+				+ ((capacity == null) ? 0 : capacity.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
-	public void setCapacity(int capacity) {
+	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
 
