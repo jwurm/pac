@@ -66,6 +66,7 @@ public class Talk {
 
 	@ManyToOne
 	@JoinColumn(name = "conference_id", referencedColumnName = "id")
+	@NotNull
 	private Conference conference;
 	
 	

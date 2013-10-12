@@ -16,6 +16,8 @@
  */
 package com.prodyna.academy.pac.web.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,7 +44,6 @@ import com.prodyna.academy.pac.conference.service.ConferenceService;
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-//@Model
 @ManagedBean(name = "conferenceController")
 @ViewScoped
 public class ConferenceController {
@@ -111,7 +112,13 @@ public class ConferenceController {
 
 	@PostConstruct
 	public void initData() {
-		newConference = new Conference("name", "desc", new Instant("2014-01-01").toDate(), new Instant("2014-01-01").toDate());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			newConference = new Conference("name", "desc",sdf.parse("2014-01-01"), sdf.parse("2014-01-01"));
+		} catch (ParseException e) {
+			//SDF forces us to use a catch block here...gah!
+			throw new RuntimeException(e);
+		}
 		loadConferences();
 	}
 

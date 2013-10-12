@@ -54,7 +54,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public List<Room> findAllRooms() {
+	public List<Room> getRooms() {
 		Query query = em.createNamedQuery(Room.SELECT_ALL);
 		@SuppressWarnings("unchecked")
 		List<Room> result = query.getResultList();

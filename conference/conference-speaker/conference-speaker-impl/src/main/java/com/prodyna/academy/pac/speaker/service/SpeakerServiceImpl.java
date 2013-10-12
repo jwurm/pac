@@ -55,7 +55,7 @@ public class SpeakerServiceImpl implements SpeakerService {
 	}
 
 	@Override
-	public List<Speaker> findAllSpeakers() {
+	public List<Speaker> getSpeakers() {
 		Query query = em.createNamedQuery(Speaker.SELECT_ALL);
 		@SuppressWarnings("unchecked")
 		List<Speaker> result = query.getResultList();

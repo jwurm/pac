@@ -82,7 +82,7 @@
 				<h:column>
 					<!-- 					<f:facet name="header">Actions</f:facet> -->
 					<h:commandButton id="update" action="#{roomController.saveRoom}"
-						value="Save" styleClass="register"  />
+						value="Save" styleClass="register" />
 				</h:column>
 				<h:column>
 					<!-- 					<f:facet name="header">Actions</f:facet> -->
@@ -91,9 +91,9 @@
 				</h:column>
 			</h:dataTable>
 		</h:form>
-		
-		
-		
+
+
+
 		<h:form id="speakercreation">
 			<h2>Speaker Creation</h2>
 			<p>Enforces annotation-based constraints defined on the model
@@ -112,8 +112,8 @@
 			<p>
 				<h:panelGrid columns="2">
 					<h:commandButton id="register"
-						action="#{speakerController.createNewSpeaker}" value="CreateNewSpeaker"
-						styleClass="register" />
+						action="#{speakerController.createNewSpeaker}"
+						value="CreateNewSpeaker" styleClass="register" />
 					<h:messages styleClass="messages" errorClass="invalid"
 						infoClass="valid" warnClass="warning" globalOnly="true" />
 				</h:panelGrid>
@@ -149,21 +149,23 @@
 						href="#{request.contextPath}/rest/speakers">/rest/speakers</a>
 				</f:facet>
 				<h:column>
-					<!-- 					<f:facet name="header">Actions</f:facet> -->
-					<h:commandButton id="update" action="#{speakerController.saveSpeaker}"
-						value="Save" styleClass="register"  />
+										<f:facet name="header">Actions</f:facet>
+					<h:commandButton id="update"
+						action="#{speakerController.saveSpeaker}" value="Save"
+						styleClass="register" />
 				</h:column>
 				<h:column>
-					<!-- 					<f:facet name="header">Actions</f:facet> -->
-					<h:commandButton id="delete" action="#{speakerController.deleteSpeaker}"
-						value="Delete" styleClass="register" immediate="true" />
+										<f:facet name="header">Actions</f:facet>
+					<h:commandButton id="delete"
+						action="#{speakerController.deleteSpeaker}" value="Delete"
+						styleClass="register" immediate="true" />
 				</h:column>
 			</h:dataTable>
 		</h:form>
-		
-		
-		
-		
+
+
+
+
 		<h:form id="conferencecreation">
 			<h2>Conference Creation</h2>
 			<p>Enforces annotation-based constraints defined on the model
@@ -176,16 +178,18 @@
 				<h:outputLabel for="description" value="Description:" />
 				<h:inputText id="description" value="#{newConference.description}" />
 				<h:message for="description" errorClass="invalid" />
-				
+
 				<h:outputLabel for="start" value="Start:" />
-				<h:inputText id="start" value="#{newConference.start}" >
-				<f:convertDateTime pattern="yyyy-MM-dd" />
+				<h:inputText id="start" value="#{newConference.start}">
+					<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
 				</h:inputText>
 				<h:message for="start" errorClass="invalid" />
-				
-				
+
+
 				<h:outputLabel for="end" value="End:" />
-				<h:inputText id="end" value="#{newConference.end}"><f:convertDateTime pattern="yyyy-MM-dd" /></h:inputText>
+				<h:inputText id="end" value="#{newConference.end}">
+					<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
+				</h:inputText>
 				<h:message for="end" errorClass="invalid" />
 
 			</h:panelGrid>
@@ -193,8 +197,8 @@
 			<p>
 				<h:panelGrid columns="2">
 					<h:commandButton id="register"
-						action="#{conferenceController.createNewConference}" value="CreateNewConference"
-						styleClass="register" />
+						action="#{conferenceController.createNewConference}"
+						value="CreateNewConference" styleClass="register" />
 					<h:messages styleClass="messages" errorClass="invalid"
 						infoClass="valid" warnClass="warning" globalOnly="true" />
 				</h:panelGrid>
@@ -205,8 +209,9 @@
 			<h:panelGroup rendered="#{empty conferenceController.conferences}">
 				<em>No conferences.</em>
 			</h:panelGroup>
-			<h:dataTable id="dataTable" binding="#{conferenceController.dataTable}"
-				var="_conference" value="#{conferenceController.conferences}"
+			<h:dataTable id="dataTable"
+				binding="#{conferenceController.dataTable}" var="_conference"
+				value="#{conferenceController.conferences}"
 				rendered="#{not empty conferenceController.conferences}"
 				styleClass="simpletablestyle">
 				<h:column>
@@ -224,13 +229,13 @@
 				<h:column>
 					<f:facet name="header">Start</f:facet>
 					<h:inputText value="#{_conference.start}">
-						<f:convertDateTime pattern="yyyy-MM-dd" />
+						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
 					</h:inputText>
 				</h:column>
 				<h:column>
 					<f:facet name="header">End</f:facet>
 					<h:inputText value="#{_conference.end}">
-						<f:convertDateTime pattern="yyyy-MM-dd" />
+						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
 					</h:inputText>
 				</h:column>
 				<h:column>
@@ -242,21 +247,120 @@
 						href="#{request.contextPath}/rest/conferences">/rest/conferences</a>
 				</f:facet>
 				<h:column>
-					<!-- 					<f:facet name="header">Actions</f:facet> -->
-					<h:commandButton id="update" action="#{conferenceController.saveConference}"
-						value="Save" styleClass="register"  />
+										<f:facet name="header">Actions</f:facet>
+					<h:commandButton id="update"
+						action="#{conferenceController.saveConference}" value="Save"
+						styleClass="register" />
 				</h:column>
 				<h:column>
-					<!-- 					<f:facet name="header">Actions</f:facet> -->
-					<h:commandButton id="delete" action="#{conferenceController.deleteConference}"
-						value="Delete" styleClass="register" immediate="true" />
+										<f:facet name="header">Actions</f:facet>
+					<h:commandButton id="delete"
+						action="#{conferenceController.deleteConference}" value="Delete"
+						styleClass="register" immediate="true" />
 				</h:column>
 			</h:dataTable>
 		</h:form>
-		
-		
-		
-		
-		
+
+
+<h:form id="talkcreation">
+			<h2>Talk Creation</h2>
+			<p>Enforces annotation-based constraints defined on the model
+				class.</p>
+			<h:panelGrid columns="3" columnClasses="titleCell">
+				<h:outputLabel for="name" value="Name:" />
+				<h:inputText id="name" value="#{newTalk.name}" />
+				<h:message for="name" errorClass="invalid" />
+
+				<h:outputLabel for="description" value="Description:" />
+				<h:inputText id="description" value="#{newTalk.description}" />
+				<h:message for="description" errorClass="invalid" />
+
+				<h:outputLabel for="time" value="Time:" />
+				<h:inputText id="time" value="#{newTalk.datetime}">
+					<f:convertDateTime pattern="HH:mm" timeZone="CET" />
+				</h:inputText>
+				<h:message for="time" errorClass="invalid" />
+
+
+				<h:outputLabel for="duration" value="Duration:" />
+				<h:inputText id="duration" value="#{newTalk.duration}"/>
+				<h:message for="duration" errorClass="invalid" />
+				
+<!-- 				<h:outputLabel for="conference" value="Conference:" /> -->
+<!-- 				<h:inputText id="conference" value="#{newTalk.duration}"/> -->
+<!-- 				<h:message for="conference" errorClass="invalid" /> -->
+				
+<!-- 				<h:outputLabel for="duration" value="Duration:" /> -->
+<!-- 				<h:inputText id="duration" value="#{newTalk.duration}"/> -->
+<!-- 				<h:message for="duration" errorClass="invalid" /> -->
+
+			</h:panelGrid>
+
+			<p>
+				<h:panelGrid columns="2">
+					<h:commandButton id="register"
+						action="#{talkController.createNewTalk}"
+						value="CreateNewTalk" styleClass="register" />
+					<h:messages styleClass="messages" errorClass="invalid"
+						infoClass="valid" warnClass="warning" globalOnly="true" />
+				</h:panelGrid>
+			</p>
+		</h:form>
+		<h:form id="talklist">
+			<h2>Talks</h2>
+			<h:panelGroup rendered="#{empty talkController.talks}">
+				<em>No talks.</em>
+			</h:panelGroup>
+			<h:dataTable id="dataTable"
+				binding="#{talkController.dataTable}" var="_talk"
+				value="#{talkController.talks}"
+				rendered="#{not empty talkController.talks}"
+				styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputText value=" #{_talk.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:inputText value="#{_talk.name}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Description</f:facet>
+					<h:inputText value="#{_talk.description}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Time</f:facet>
+					<h:inputText value="#{_talk.datetime}">
+						<f:convertDateTime pattern="HH:mm" timeZone="CET" />
+					</h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Duration</f:facet>
+					<h:inputText value="#{_talk.duration}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">REST URL</f:facet>
+					<a href="#{request.contextPath}/rest/talks/#{_talk.id}">/rest/talks/#{_talk.id}</a>
+				</h:column>
+				<f:facet name="footer">
+            REST URL for all members: <a
+						href="#{request.contextPath}/rest/talks">/rest/talks</a>
+				</f:facet>
+				<h:column>
+										<f:facet name="header">Actions</f:facet>
+					<h:commandButton id="update"
+						action="#{talkController.saveTalk}" value="Save"
+						styleClass="register" />
+				</h:column>
+				<h:column>
+										<f:facet name="header">Actions</f:facet>
+					<h:commandButton id="delete"
+						action="#{talkController.deleteTalk}" value="Delete"
+						styleClass="register" immediate="true" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+
+
 	</ui:define>
 </ui:composition>

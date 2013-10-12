@@ -14,6 +14,6 @@ public interface SpeakerService {
 	
 	public Speaker findSpeaker(int id);
 
-	public List<Speaker> findAllSpeakers();
+	public List<Speaker> getSpeakers();
 
 }

@@ -17,7 +17,6 @@
 package com.prodyna.academy.pac.web.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -27,23 +26,24 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UICommand;
-import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.prodyna.academy.pac.room.model.Room;
-import com.prodyna.academy.pac.room.service.RoomService;
+import org.joda.time.Instant;
+
+import com.prodyna.academy.pac.conference.model.Talk;
+import com.prodyna.academy.pac.conference.service.TalkService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 //@Model
-@ManagedBean(name = "roomController")
+@ManagedBean(name = "talkController")
 @ViewScoped
-public class RoomController {
+public class TalkController {
 
 	@Inject
 	private Logger log;
@@ -52,12 +52,9 @@ public class RoomController {
 	private FacesContext facesContext;
 
 	@Inject
-	private RoomService roomService;
+	private TalkService talkService;
 
-	
-	private Room newRoom;
-
-	private UICommand updateCommand;
+	private Talk newTalk;
 
 	private HtmlDataTable dataTable;
 
@@ -69,45 +66,32 @@ public class RoomController {
 		return dataTable;
 	}
 
-	private List<Room> rooms = new ArrayList<Room>();
+	private List<Talk> talks = new ArrayList<Talk>();
 
-	public UICommand getUpdateCommand() {
-		return updateCommand;
-	}
-
-	public void setUpdateCommand(UICommand updateCommand) {
-		this.updateCommand = updateCommand;
-	}
-
-	public List<Room> getRooms() {
-		return rooms;
+	public List<Talk> getTalks() {
+		return talks;
 	}
 
 	// @PostConstruct
 
-	private void loadRooms() {
-		rooms = roomService.getRooms();
+	private void loadTalks() {
+		talks = talkService.getTalks();
 	}
 
-//	@Named
-	@Named("newRoom")
+	// @Named
+	@Named("newTalk")
 	@Produces
-	public Room getNewRoom() {
-		return newRoom;
+	public Talk getNewTalk() {
+		return newTalk;
 	}
 
-	public String test() throws Exception {
-		log.info("test called");
-		return "";
-	}
-
-	public String createNewRoom() throws Exception {
+	public String createNewTalk() throws Exception {
 		try {
-			 roomService.createRoom(newRoom);
-			 facesContext.addMessage(null,
-			 new FacesMessage(FacesMessage.SEVERITY_INFO, "New room created!",
-			 "Room creation successful"));
-			 // rooms.add(newRoom);
+			talkService.createTalk(newTalk);
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "New talk created!",
+					"Talk creation successful"));
+			// talks.add(newTalk);
 			initData();
 
 		} catch (Exception e) {
@@ -119,14 +103,15 @@ public class RoomController {
 		return "";
 	}
 
-	public void setNewRoom(Room newRoom) {
-		this.newRoom = newRoom;
+	public void setNewTalk(Talk newTalk) {
+		this.newTalk = newTalk;
 	}
 
 	@PostConstruct
 	public void initData() {
-		newRoom = new Room("E785", 12);
-		loadRooms();
+		newTalk = new Talk("name", "description",
+				new Instant("2014-01-01T15:00").toDate(), 60, null, null);
+		loadTalks();
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -148,16 +133,16 @@ public class RoomController {
 		return errorMessage;
 	}
 
-	public String saveRoom() throws Exception {
+	public String saveTalk() throws Exception {
 		try {
 
-			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
-			if (room.getId() == null) {
-				roomService.createRoom(room);
+			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
+			if (talk.getId() == null) {
+				talkService.createTalk(talk);
 			} else {
-				roomService.updateRoom(room);
+				talkService.updateTalk(talk);
 			}
-			loadRooms();
+			loadTalks();
 
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
@@ -168,22 +153,17 @@ public class RoomController {
 		return "";
 	}
 
-	public String deleteRoom() throws Exception {
+	public String deleteTalk() throws Exception {
 		try {
-			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
-			roomService.deleteRoom(room.getId());
-			loadRooms();
+			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
+			talkService.deleteTalk(talk.getId());
+			loadTalks();
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
-		return "";
-	}
-
-	public String updateRoomName() throws Exception {
-		log.info("update called");
 		return "";
 	}
 }

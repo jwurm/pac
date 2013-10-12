@@ -37,7 +37,6 @@ import com.prodyna.academy.pac.speaker.service.SpeakerService;
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-//@Model
 @ManagedBean(name = "speakerController")
 @ViewScoped
 public class SpeakerController {
@@ -50,8 +49,8 @@ public class SpeakerController {
 
 	@Inject
 	private SpeakerService speakerService;
-
 	
+
 	private Speaker newSpeaker;
 
 	private HtmlDataTable dataTable;
@@ -73,7 +72,7 @@ public class SpeakerController {
 
 
 	private void loadSpeakers() {
-		speakers = speakerService.findAllSpeakers();
+		speakers = speakerService.getSpeakers();
 	}
 
 	@Named

@@ -14,6 +14,6 @@ public interface RoomService {
 	
 	public Room findRoom(int id);
 
-	public List<Room> findAllRooms();
+	public List<Room> getRooms();
 
 }

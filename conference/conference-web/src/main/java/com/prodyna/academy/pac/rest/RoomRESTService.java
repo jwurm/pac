@@ -66,7 +66,7 @@ public class RoomRESTService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Room> listAllMembers() {
-		return repository.findAllRooms();
+		return repository.getRooms();
 	}
 
 	@GET
