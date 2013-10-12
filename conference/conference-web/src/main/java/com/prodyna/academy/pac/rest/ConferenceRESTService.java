@@ -86,7 +86,7 @@ public class ConferenceRESTService {
 	}
 
 	@GET
-	@Path("/find/{id:[0-9][0-9]*}")
+	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") int id) {
 		try {
