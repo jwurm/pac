@@ -84,7 +84,7 @@ public class TalkServiceTest {
 				new Instant("2013-02-01").toDate(),
 				new Instant("2013-02-05").toDate());
 		conference1 = cservice.createConference(conference1);
-		Assert.assertEquals(1, conference1.getId());
+		Assert.assertEquals(Integer.valueOf(1), conference1.getId());
 
 		Room room = new Room("E785", 12);
 		room = roomservice.createRoom(room);

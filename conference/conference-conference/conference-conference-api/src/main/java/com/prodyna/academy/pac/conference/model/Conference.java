@@ -29,7 +29,7 @@ public class Conference {
 
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 
 	@Basic
 	@NotNull
@@ -85,7 +85,10 @@ public class Conference {
 				return false;
 		} else if (!end.equals(other.end))
 			return false;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -96,6 +99,11 @@ public class Conference {
 			if (other.start != null)
 				return false;
 		} else if (!start.equals(other.start))
+			return false;
+		if (talks == null) {
+			if (other.talks != null)
+				return false;
+		} else if (!talks.equals(other.talks))
 			return false;
 		return true;
 	}
@@ -108,7 +116,7 @@ public class Conference {
 		return end;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -131,9 +139,10 @@ public class Conference {
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((end == null) ? 0 : end.hashCode());
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((start == null) ? 0 : start.hashCode());
+		result = prime * result + ((talks == null) ? 0 : talks.hashCode());
 		return result;
 	}
 
@@ -145,7 +154,7 @@ public class Conference {
 		this.end = end;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

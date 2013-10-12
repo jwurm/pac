@@ -82,23 +82,23 @@ public class ConferenceServiceTest {
 		Conference conference1 = new Conference("JAX", "Java conference",
 				sdf.parse("2013-02-01"), sdf.parse("2013-02-05"));
 		conference1 = service.createConference(conference1);
-		Assert.assertEquals(1, conference1.getId());
+		Assert.assertEquals(Integer.valueOf(1), conference1.getId());
 
 		Conference conference2 = new Conference("GamesCon", "Games conference",
 				sdf.parse("2013-07-03"), sdf.parse("2013-07-06"));
 		conference2 = service.createConference(conference2);
-		Assert.assertEquals(2, conference2.getId());
+		Assert.assertEquals(Integer.valueOf(2), conference2.getId());
 		Conference conference3 = new Conference("IAA", "Autozeug",
 				sdf.parse("2013-09-03"), sdf.parse("2013-09-06"));
 		conference3 = service.createConference(conference3);
 		
-		Assert.assertEquals(3, conference3.getId());
+		Assert.assertEquals(Integer.valueOf(3), conference3.getId());
 		Assert.assertEquals("Games conference", conference2.getDescription());
 		
 		conference2.setDescription("Spielekonferenz");
 		service.updateConference(conference2);
 		Conference conference2_1 = service.getCompleteConference(2);
-		Assert.assertEquals(2, conference2_1.getId());
+		Assert.assertEquals(Integer.valueOf(2), conference2_1.getId());
 		Assert.assertEquals("Spielekonferenz", conference2.getDescription());
 		
 		List<Conference> conferences = service.findAllConferences();
