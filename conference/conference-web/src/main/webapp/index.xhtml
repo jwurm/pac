@@ -25,7 +25,7 @@
 
 
 
-		<h:form id="reg">
+		<h:form id="roomcreation">
 			<h2>Room Creation</h2>
 			<p>Enforces annotation-based constraints defined on the model
 				class.</p>
@@ -50,7 +50,7 @@
 				</h:panelGrid>
 			</p>
 		</h:form>
-		<h:form id="list">
+		<h:form id="roomlist">
 			<h2>Rooms</h2>
 			<h:panelGroup rendered="#{empty roomController.rooms}">
 				<em>No rooms.</em>
@@ -87,6 +87,75 @@
 				<h:column>
 					<!-- 					<f:facet name="header">Actions</f:facet> -->
 					<h:commandButton id="delete" action="#{roomController.deleteRoom}"
+						value="Delete" styleClass="register" immediate="true" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+		
+		
+		
+		<h:form id="speakercreation">
+			<h2>Speaker Creation</h2>
+			<p>Enforces annotation-based constraints defined on the model
+				class.</p>
+			<h:panelGrid columns="2" columnClasses="titleCell">
+				<h:outputLabel for="name" value="Name:" />
+				<h:inputText id="name" value="#{newSpeaker.name}" />
+				<h:message for="name" errorClass="invalid" />
+
+				<h:outputLabel for="description" value="Description:" />
+				<h:inputText id="description" value="#{newSpeaker.description}" />
+				<h:message for="description" errorClass="invalid" />
+
+			</h:panelGrid>
+
+			<p>
+				<h:panelGrid columns="2">
+					<h:commandButton id="register"
+						action="#{speakerController.createNewSpeaker}" value="CreateNewSpeaker"
+						styleClass="register" />
+					<h:messages styleClass="messages" errorClass="invalid"
+						infoClass="valid" warnClass="warning" globalOnly="true" />
+				</h:panelGrid>
+			</p>
+		</h:form>
+		<h:form id="speakerlist">
+			<h2>Speakers</h2>
+			<h:panelGroup rendered="#{empty speakerController.speakers}">
+				<em>No speakers.</em>
+			</h:panelGroup>
+			<h:dataTable id="dataTable" binding="#{speakerController.dataTable}"
+				var="_speaker" value="#{speakerController.speakers}"
+				rendered="#{not empty speakerController.speakers}"
+				styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Id</f:facet>
+					<h:outputText value=" #{_speaker.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:inputText value="#{_speaker.name}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Description</f:facet>
+					<h:inputText value="#{_speaker.description}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">REST URL</f:facet>
+					<a href="#{request.contextPath}/rest/speakers/#{_speaker.id}">/rest/speakers/#{_speaker.id}</a>
+				</h:column>
+				<f:facet name="footer">
+            REST URL for all members: <a
+						href="#{request.contextPath}/rest/speakers">/rest/speakers</a>
+				</f:facet>
+				<h:column>
+					<!-- 					<f:facet name="header">Actions</f:facet> -->
+					<h:commandButton id="update" action="#{speakerController.saveSpeaker}"
+						value="Save" styleClass="register"  />
+				</h:column>
+				<h:column>
+					<!-- 					<f:facet name="header">Actions</f:facet> -->
+					<h:commandButton id="delete" action="#{speakerController.deleteSpeaker}"
 						value="Delete" styleClass="register" immediate="true" />
 				</h:column>
 			</h:dataTable>
