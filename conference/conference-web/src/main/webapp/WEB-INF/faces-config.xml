@@ -5,5 +5,28 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
 
-
+<navigation-rule>
+   <from-view-id>backofficeIndex.xhtml</from-view-id>
+   <navigation-case>
+      <from-action>#{backofficeIndex.processPage1}</from-action>
+      <from-outcome>page2</from-outcome>
+      <to-view-id>backofficeIndex.jsf</to-view-id>
+   </navigation-case>
+   <navigation-case>
+      <from-action>#{backofficeIndex.processPage2}</from-action>
+      <from-outcome>page</from-outcome>
+      <to-view-id>backofficeOverview.jsf</to-view-id>
+   </navigation-case>
+    <navigation-case>
+      <from-action>#{navigationController.showPage}</from-action>
+      <from-outcome>page</from-outcome>
+      <to-view-id>backofficeOverview.jsf</to-view-id>
+   </navigation-case>
+   
+   <navigation-case>
+      <from-outcome>goToOverview</from-outcome>
+      <to-view-id>backofficeOverview.jsf</to-view-id>
+   </navigation-case>
+   
+</navigation-rule>
 </faces-config>
