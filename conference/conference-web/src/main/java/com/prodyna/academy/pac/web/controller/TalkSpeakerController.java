@@ -64,32 +64,11 @@ public class TalkSpeakerController {
 	@Inject
 	private SpeakerService speakerService;
 
+	@NotNull
 	private Integer speakerId;
+	
+	@NotNull
 	private Integer talkId;
-
-	public Integer getSpeakerId() {
-		return speakerId;
-	}
-
-	public void setSpeakerId(Integer speakerId) {
-		this.speakerId = speakerId;
-	}
-
-	public Integer getTalkId() {
-		return talkId;
-	}
-
-	public void setTalkId(Integer talkId) {
-		this.talkId = talkId;
-	}
-
-	public Talk getTalk() {
-		return talk;
-	}
-
-	public void setTalk(Talk talk) {
-		this.talk = talk;
-	}
 
 	private Talk talk;
 
@@ -97,16 +76,28 @@ public class TalkSpeakerController {
 
 	private List<Speaker> speakers;
 
-	public void setDataTable(HtmlDataTable dataTable) {
-		this.dataTable = dataTable;
+	public void assignSpeaker() {
+
+		try {
+			Speaker speaker = speakerService.findSpeaker(speakerId);
+			talkService.assignSpeaker(talk, speaker);
+			speakers = talkService.findSpeakers(talk.getId());
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "Speaker assigned.",
+					"Speaker assigned."));
+			initData();
+
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Speaker assignment failed.");
+			facesContext.addMessage(null, m);
+		}
+
 	}
 
 	public HtmlDataTable getDataTable() {
 		return dataTable;
-	}
-
-	@PostConstruct
-	public void initData() {
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -128,28 +119,77 @@ public class TalkSpeakerController {
 		return errorMessage;
 	}
 
-	public void selectTalk() {
-		talk = talkService.findTalk(talkId);
-		speakers = talkService.findSpeakers(talk.getId());
-	}
-
-	public void removeSpeaker() {
-		Speaker speaker = (Speaker) dataTable.getRowData();
-		talkService.unassignSpeaker(talk, speaker);
-		speakers = talkService.findSpeakers(talk.getId());
-	}
-
-	public void assignSpeaker() {
-		Speaker speaker = speakerService.findSpeaker(speakerId);
-		talkService.assignSpeaker(talk, speaker);
-		speakers = talkService.findSpeakers(talk.getId());
+	public Integer getSpeakerId() {
+		return speakerId;
 	}
 
 	public List<Speaker> getSpeakers() {
 		return speakers;
 	}
 
+	public Talk getTalk() {
+		return talk;
+	}
+
+	public Integer getTalkId() {
+		return talkId;
+	}
+
+	@PostConstruct
+	public void initData() {
+	}
+
+	public void removeSpeaker() {
+
+		try {
+			Speaker speaker = (Speaker) dataTable.getRowData();
+			talkService.unassignSpeaker(talk, speaker);
+			speakers = talkService.findSpeakers(talk.getId());
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "Speaker unassigned.",
+					"Speaker assigned."));
+			initData();
+
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Speaker unassignment failed.");
+			facesContext.addMessage(null, m);
+		}
+	}
+
+	public void selectTalk() {
+		try {
+			talk = talkService.findTalk(talkId);
+			if (talk == null) {
+				throw new Exception("No talk found for id " + talkId);
+			}
+			speakers = talkService.findSpeakers(talk.getId());
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Speaker unassignment failed.");
+			facesContext.addMessage(null, m);
+		}
+	}
+
+	public void setDataTable(HtmlDataTable dataTable) {
+		this.dataTable = dataTable;
+	}
+
+	public void setSpeakerId(Integer speakerId) {
+		this.speakerId = speakerId;
+	}
+
 	public void setSpeakers(List<Speaker> speakers) {
 		this.speakers = speakers;
+	}
+
+	public void setTalk(Talk talk) {
+		this.talk = talk;
+	}
+
+	public void setTalkId(Integer talkId) {
+		this.talkId = talkId;
 	}
 }

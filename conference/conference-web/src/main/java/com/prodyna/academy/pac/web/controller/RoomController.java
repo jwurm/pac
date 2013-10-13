@@ -54,7 +54,6 @@ public class RoomController {
 	@Inject
 	private RoomService roomService;
 
-	
 	private Room newRoom;
 
 	private UICommand updateCommand;
@@ -83,23 +82,15 @@ public class RoomController {
 		return rooms;
 	}
 
-	// @PostConstruct
 
 	private void loadRooms() {
 		rooms = roomService.getRooms();
 	}
 
-//	@Named
-	@Named("newRoom")
-	@Produces
 	public Room getNewRoom() {
 		return newRoom;
 	}
 
-	public String test() throws Exception {
-		log.info("test called");
-		return "";
-	}
 
 	public String createNewRoom() throws Exception {
 		try {
@@ -107,7 +98,6 @@ public class RoomController {
 			 facesContext.addMessage(null,
 			 new FacesMessage(FacesMessage.SEVERITY_INFO, "New room created!",
 			 "Room creation successful"));
-			 // rooms.add(newRoom);
 			initData();
 
 		} catch (Exception e) {
@@ -127,7 +117,7 @@ public class RoomController {
 
 	@PostConstruct
 	public void initData() {
-		newRoom = new Room("E785", 12);
+		newRoom = new Room();
 		loadRooms();
 	}
 
@@ -150,7 +140,7 @@ public class RoomController {
 		return errorMessage;
 	}
 
-	public String saveRoom() throws Exception {
+	public void saveRoom() throws Exception {
 		try {
 
 			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
@@ -167,10 +157,9 @@ public class RoomController {
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
-		return "";
 	}
 
-	public String deleteRoom() throws Exception {
+	public void deleteRoom() throws Exception {
 		try {
 			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
 			roomService.deleteRoom(room.getId());
@@ -181,11 +170,5 @@ public class RoomController {
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
-		return "";
-	}
-
-	public String updateRoomName() throws Exception {
-		log.info("update called");
-		return "";
 	}
 }

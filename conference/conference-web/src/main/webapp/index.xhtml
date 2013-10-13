@@ -31,11 +31,12 @@
 				class.</p>
 			<h:panelGrid columns="3" columnClasses="titleCell">
 				<h:outputLabel for="roomname" value="Name:" />
-				<h:inputText id="roomname" value="#{newRoom.name}" />
+				<h:inputText id="roomname" value="#{roomController.newRoom.name}" />
 				<h:message for="roomname" errorClass="invalid" />
 
 				<h:outputLabel for="roomcapacity" value="Capacity:" />
-				<h:inputText id="roomcapacity" value="#{newRoom.capacity}" />
+				<h:inputText id="roomcapacity"
+					value="#{roomController.newRoom.capacity}" />
 				<h:message for="roomcapacity" errorClass="invalid" />
 
 			</h:panelGrid>
@@ -369,8 +370,9 @@
 				</f:facet>
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
-					<h:commandButton id="update" action="#{talkController.saveTalk}"
-						value="Save" styleClass="register" />
+					<h:commandButton id="updatetalk"
+						action="#{talkController.saveTalk}" value="Save"
+						styleClass="register" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
@@ -382,29 +384,43 @@
 
 
 
-		<h:form id="talkspeaker">
-			<h2>Talk/Speaker assignmen</h2>
-			<p>Enforces annotation-based constraints defined on the model
-				class.</p>
-			<h:panelGrid columns="4" columnClasses="titleCell">
+		<h:form id="talkspeakerSpeaker">
+			<h2>Talk/Speaker assignment</h2>
+			<h:panelGrid columns="3" columnClasses="titleCell">
 				<h:outputLabel for="talkId" value="Select talk by id" />
 				<h:inputText id="talkId" value="#{talkSpeakerController.talkId}" />
+				<h:message for="talkId" errorClass="invalid" />
+			</h:panelGrid>
+			<h:panelGrid columns="2" columnClasses="titleCell">
 				<h:commandButton id="selectTalk"
 					action="#{talkSpeakerController.selectTalk}" value="Select Talk"
 					styleClass="register" />
-				<h:message for="talkId" errorClass="invalid" />
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="false" />
+			</h:panelGrid>
 
+		</h:form>
+		<h:form id="talkspeakerAssign">
+			<h:panelGrid columns="3" columnClasses="titleCell">
 				<h:outputLabel for="speakerId" value="SpeakerId" />
 				<h:inputText id="speakerId"
 					value="#{talkSpeakerController.speakerId}" />
-				<h:commandButton id="assignSpeaker"
-					action="#{talkSpeakerController.assignSpeaker}"
-					value="AssignSpeaker" styleClass="register" />
-				<h:message for="speakerId" errorClass="invalid" />
 			</h:panelGrid>
+			<p>
+				<h:panelGrid columns="2">
+					<h:commandButton id="assignSpeaker"
+						action="#{talkSpeakerController.assignSpeaker}"
+						value="AssignSpeaker" styleClass="register" />
+					<h:messages styleClass="messages" errorClass="invalid"
+						infoClass="valid" warnClass="warning" globalOnly="false" />
+				</h:panelGrid>
+			</p>
+
+
 		</h:form>
 		<h:form id="talkspeakerassignmentlist">
-			<h2>Talk Speaker Assignment</h2>
+			<h2>Speaker Assignment for talk
+				#{talkSpeakerController.talk.name}</h2>
 			<h:dataTable id="dataTable"
 				binding="#{talkSpeakerController.dataTable}" var="_speaker"
 				value="#{talkSpeakerController.speakers}"
@@ -428,6 +444,10 @@
 						action="#{talkSpeakerController.removeSpeaker}" value="Remove"
 						styleClass="register" />
 				</h:column>
+				<f:facet name="footer">
+					<h:messages styleClass="messages" errorClass="invalid"
+						infoClass="valid" warnClass="warning" globalOnly="false" />
+				</f:facet>
 			</h:dataTable>
 		</h:form>
 	</ui:define>

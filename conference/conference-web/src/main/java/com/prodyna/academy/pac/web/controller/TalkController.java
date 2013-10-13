@@ -105,20 +105,15 @@ public class TalkController {
 		return talks;
 	}
 
-	// @PostConstruct
-
 	private void loadTalks() {
 		talks = talkService.getTalks();
 	}
 
-	// @Named
-	@Named("newTalk")
-	@Produces
 	public Talk getNewTalk() {
 		return newTalk;
 	}
 
-	public String createNewTalk() throws Exception {
+	public void createNewTalk() throws Exception {
 		try {
 			Room room = roomService.findRoom(roomId);
 			Conference conference = conferenceService
@@ -140,7 +135,6 @@ public class TalkController {
 					errorMessage, "Registration Unsuccessful");
 			facesContext.addMessage(null, m);
 		}
-		return "";
 	}
 
 	public void setNewTalk(Talk newTalk) {
@@ -149,8 +143,6 @@ public class TalkController {
 
 	@PostConstruct
 	public void initData() {
-		newTalk = new Talk("name", "description", new Instant(
-				"2014-01-01T15:00").toDate(), 60, null, null);
 		loadTalks();
 	}
 
@@ -173,7 +165,7 @@ public class TalkController {
 		return errorMessage;
 	}
 
-	public String saveTalk() throws Exception {
+	public void saveTalk() throws Exception {
 		try {
 
 			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
@@ -190,10 +182,9 @@ public class TalkController {
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
-		return "";
 	}
 
-	public String deleteTalk() throws Exception {
+	public void deleteTalk() throws Exception {
 		try {
 			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
 			talkService.deleteTalk(talk.getId());
@@ -204,6 +195,5 @@ public class TalkController {
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
-		return "";
 	}
 }

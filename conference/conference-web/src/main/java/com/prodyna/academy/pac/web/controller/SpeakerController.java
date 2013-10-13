@@ -75,14 +75,12 @@ public class SpeakerController {
 		speakers = speakerService.getSpeakers();
 	}
 
-	@Named
-	@Produces
 	public Speaker getNewSpeaker() {
 		return newSpeaker;
 	}
 
 
-	public String createNewSpeaker() throws Exception {
+	public void createNewSpeaker() throws Exception {
 		try {
 			 speakerService.createSpeaker(newSpeaker);
 			 facesContext.addMessage(null,
@@ -96,7 +94,6 @@ public class SpeakerController {
 					errorMessage, "Registration Unsuccessful");
 			facesContext.addMessage(null, m);
 		}
-		return "";
 	}
 
 	public void setNewSpeaker(Speaker newSpeaker) {
@@ -132,7 +129,7 @@ public class SpeakerController {
 		return errorMessage;
 	}
 
-	public String saveSpeaker() throws Exception {
+	public void saveSpeaker() throws Exception {
 		try {
 
 			Speaker Speaker = (Speaker) ((HtmlDataTable) dataTable).getRowData();
@@ -149,7 +146,6 @@ public class SpeakerController {
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
-		return "";
 	}
 
 	public String deleteSpeaker() throws Exception {
