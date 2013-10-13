@@ -30,13 +30,13 @@
 			<p>Enforces annotation-based constraints defined on the model
 				class.</p>
 			<h:panelGrid columns="3" columnClasses="titleCell">
-				<h:outputLabel for="name" value="Name:" />
-				<h:inputText id="name" value="#{newRoom.name}" />
-				<h:message for="name" errorClass="invalid" />
+				<h:outputLabel for="roomname" value="Name:" />
+				<h:inputText id="roomname" value="#{newRoom.name}" />
+				<h:message for="roomname" errorClass="invalid" />
 
-				<h:outputLabel for="capacity" value="Capacity:" />
-				<h:inputText id="capacity" value="#{newRoom.capacity}" />
-				<h:message for="capacity" errorClass="invalid" />
+				<h:outputLabel for="roomcapacity" value="Capacity:" />
+				<h:inputText id="roomcapacity" value="#{newRoom.capacity}" />
+				<h:message for="roomcapacity" errorClass="invalid" />
 
 			</h:panelGrid>
 
@@ -65,11 +65,13 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:inputText value="#{_room.name}" />
+					<h:inputText id="roomname" value="#{_room.name}" />
+					<h:message for="roomname" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Capacity</f:facet>
-					<h:inputText value="#{_room.capacity}" />
+					<h:inputText id="roomcapacity" value="#{_room.capacity}" />
+					<h:message for="roomcapacity" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">REST URL</f:facet>
@@ -99,13 +101,14 @@
 			<p>Enforces annotation-based constraints defined on the model
 				class.</p>
 			<h:panelGrid columns="3" columnClasses="titleCell">
-				<h:outputLabel for="name" value="Name:" />
-				<h:inputText id="name" value="#{newSpeaker.name}" />
-				<h:message for="name" errorClass="invalid" />
+				<h:outputLabel for="speakername" value="Name:" />
+				<h:inputText id="speakername" value="#{newSpeaker.name}" />
+				<h:message for="speakername" errorClass="invalid" />
 
-				<h:outputLabel for="description" value="Description:" />
-				<h:inputText id="description" value="#{newSpeaker.description}" />
-				<h:message for="description" errorClass="invalid" />
+				<h:outputLabel for="speakerdescription" value="Description:" />
+				<h:inputText id="speakerdescription"
+					value="#{newSpeaker.description}" />
+				<h:message for="speakerdescription" errorClass="invalid" />
 
 			</h:panelGrid>
 
@@ -134,11 +137,14 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:inputText value="#{_speaker.name}" />
+					<h:inputText id="speakerlistname" value="#{_speaker.name}" />
+					<h:message for="speakerlistname" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Description</f:facet>
-					<h:inputText value="#{_speaker.description}" />
+					<h:inputText id="speakerlistdescription"
+						value="#{_speaker.description}" />
+					<h:message for="speakerlistdescription" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">REST URL</f:facet>
@@ -171,26 +177,27 @@
 			<p>Enforces annotation-based constraints defined on the model
 				class.</p>
 			<h:panelGrid columns="3" columnClasses="titleCell">
-				<h:outputLabel for="name" value="Name:" />
-				<h:inputText id="name" value="#{newConference.name}" />
-				<h:message for="name" errorClass="invalid" />
+				<h:outputLabel for="conferencename" value="Name:" />
+				<h:inputText id="conferencename" value="#{newConference.name}" />
+				<h:message for="conferencename" errorClass="invalid" />
 
-				<h:outputLabel for="description" value="Description:" />
-				<h:inputText id="description" value="#{newConference.description}" />
-				<h:message for="description" errorClass="invalid" />
+				<h:outputLabel for="conferencedescription" value="Description:" />
+				<h:inputText id="conferencedescription"
+					value="#{newConference.description}" />
+				<h:message for="conferencedescription" errorClass="invalid" />
 
-				<h:outputLabel for="start" value="Start:" />
-				<h:inputText id="start" value="#{newConference.start}">
+				<h:outputLabel for="conferencestart" value="Start:" />
+				<h:inputText id="conferencestart" value="#{newConference.start}">
 					<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
 				</h:inputText>
-				<h:message for="start" errorClass="invalid" />
+				<h:message for="conferencestart" errorClass="invalid" />
 
 
-				<h:outputLabel for="end" value="End:" />
-				<h:inputText id="end" value="#{newConference.end}">
+				<h:outputLabel for="conferenceend" value="End:" />
+				<h:inputText id="conferenceend" value="#{newConference.end}">
 					<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
 				</h:inputText>
-				<h:message for="end" errorClass="invalid" />
+				<h:message for="conferenceend" errorClass="invalid" />
 
 			</h:panelGrid>
 
@@ -220,23 +227,28 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:inputText value="#{_conference.name}" />
+					<h:inputText id="conferencelistname" value="#{_conference.name}" />
+					<h:message for="conferencelistname" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Description</f:facet>
-					<h:inputText value="#{_conference.description}" />
+					<h:inputText id="conferencelistdesc"
+						value="#{_conference.description}" />
+					<h:message for="conferencelistdesc" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Start</f:facet>
-					<h:inputText value="#{_conference.start}">
+					<h:inputText id="conferenceliststart" value="#{_conference.start}">
 						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
 					</h:inputText>
+					<h:message for="conferenceliststart" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">End</f:facet>
-					<h:inputText value="#{_conference.end}">
+					<h:inputText id="conferencelistend" value="#{_conference.end}">
 						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
 					</h:inputText>
+					<h:message for="conferencelistend" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">REST URL</f:facet>
@@ -267,33 +279,34 @@
 			<p>Enforces annotation-based constraints defined on the model
 				class.</p>
 			<h:panelGrid columns="3" columnClasses="titleCell">
-				<h:outputLabel for="name" value="Name:" />
-				<h:inputText id="name" value="#{newTalk.name}" />
-				<h:message for="name" errorClass="invalid" />
+				<h:outputLabel for="talkname" value="Name:" />
+				<h:inputText id="talkname" value="#{newTalk.name}" />
+				<h:message for="talkname" errorClass="invalid" />
 
-				<h:outputLabel for="description" value="Description:" />
-				<h:inputText id="description" value="#{newTalk.description}" />
-				<h:message for="description" errorClass="invalid" />
+				<h:outputLabel for="talkdescription" value="Description:" />
+				<h:inputText id="talkdescription" value="#{newTalk.description}" />
+				<h:message for="talkdescription" errorClass="invalid" />
 
-				<h:outputLabel for="time" value="Time:" />
-				<h:inputText id="time" value="#{newTalk.datetime}">
+				<h:outputLabel for="talktime" value="Time:" />
+				<h:inputText id="talktime" value="#{newTalk.datetime}">
 					<f:convertDateTime pattern="HH:mm" timeZone="CET" />
 				</h:inputText>
 
-				<h:message for="time" errorClass="invalid" />
+				<h:message for="talktime" errorClass="invalid" />
 
 
-				<h:outputLabel for="duration" value="Duration:" />
-				<h:inputText id="duration" value="#{newTalk.duration}" />
-				<h:message for="duration" errorClass="invalid" />
+				<h:outputLabel for="talkduration" value="Duration:" />
+				<h:inputText id="talkduration" value="#{newTalk.duration}" />
+				<h:message for="talkduration" errorClass="invalid" />
 
-				<h:outputLabel for="conference" value="Conference:" />
-				<h:inputText id="conference" value="#{talkController.conferenceId}" />
-				<h:message for="conference" errorClass="invalid" />
+				<h:outputLabel for="talkconference" value="Conference:" />
+				<h:inputText id="talkconference"
+					value="#{talkController.conferenceId}" />
+				<h:message for="talkconference" errorClass="invalid" />
 
-				<h:outputLabel for="room" value="Room:" />
-				<h:inputText id="room" value="#{talkController.roomId}" />
-				<h:message for="room" errorClass="invalid" />
+				<h:outputLabel for="talkroom" value="Room:" />
+				<h:inputText id="talkroom" value="#{talkController.roomId}" />
+				<h:message for="talkroom" errorClass="invalid" />
 
 			</h:panelGrid>
 
@@ -322,21 +335,29 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:inputText value="#{_talk.name}" />
+					<h:inputText id="conferencelistname" value="#{_talk.name}" />
+					<h:message for="conferencelistname" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Description</f:facet>
-					<h:inputText value="#{_talk.description}" />
+					<h:inputText id="conferencelistdesc" value="#{_talk.description}" />
+					<h:message for="conferencelistdesc" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Time</f:facet>
-					<h:inputText value="#{_talk.datetime}">
+					<h:inputText id="conferencelisttime" value="#{_talk.datetime}">
 						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="CET" />
 					</h:inputText>
+					<h:message for="conferencelisttime" errorClass="invalid" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Duration</f:facet>
-					<h:inputText value="#{_talk.duration}" />
+					<h:inputText id="conferencelistduration" value="#{_talk.duration}" />
+					<h:message for="conferencelistduration" errorClass="invalid" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Conference</f:facet>
+					<h:outputText value="#{_talk.conference.name}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">REST URL</f:facet>
@@ -372,12 +393,13 @@
 					action="#{talkSpeakerController.selectTalk}" value="Select Talk"
 					styleClass="register" />
 				<h:message for="talkId" errorClass="invalid" />
-				
+
 				<h:outputLabel for="speakerId" value="SpeakerId" />
-				<h:inputText id="speakerId" value="#{talkSpeakerController.speakerId}" />
+				<h:inputText id="speakerId"
+					value="#{talkSpeakerController.speakerId}" />
 				<h:commandButton id="assignSpeaker"
-					action="#{talkSpeakerController.assignSpeaker}" value="AssignSpeaker"
-					styleClass="register" />
+					action="#{talkSpeakerController.assignSpeaker}"
+					value="AssignSpeaker" styleClass="register" />
 				<h:message for="speakerId" errorClass="invalid" />
 			</h:panelGrid>
 		</h:form>
