@@ -19,32 +19,24 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	template="/WEB-INF/templates/default.xhtml">
+	template="/WEB-INF/templates/backoffice.xhtml">
 	<ui:define name="content">
 		<h:form>
-		<h:panelGrid columns="1" columnClasses="titleCell">
-			<h:commandLink action="#{navigationController.showPage}"
+		<h:panelGrid columns="4" columnClasses="titleCell">
+			<h:commandLink action="roomCRUD"
 				value="Room Administration">
-				<f:param name="pageId" value="RoomAdmin" />
 			</h:commandLink>
-			<h:commandLink action="#{navigationController.showPage}"
+			<h:commandLink action="speakerCRUD"
 				value="Speaker Administration">
-				<f:param name="pageId" value="SpeakerAdmin" />
 			</h:commandLink>
-			<h:commandLink action="#{navigationController.showPage}"
+			<h:commandLink action="conferenceCRUD"
 				value="Conference Administration">
-				<f:param name="pageId" value="ConferenceAdmin" />
 			</h:commandLink>
-			<h:commandLink action="#{navigationController.showPage}" value="Talk Administration">
-				<f:param name="pageId" value="TalkAdmin" />
-			</h:commandLink>
-			<h:commandLink action="goToOverview" value="Overview">
-			</h:commandLink>
-			
-			<h:commandLink action="backofficeOverview" value="ImplicitOverview">
+			<h:commandLink action="talkCRUD"
+				value="Talk Administration">
 			</h:commandLink>
 			</h:panelGrid>
 		</h:form>
-		
 	</ui:define>
+		<ui:include src="/backofficeNavigation.xhtml" />
 </ui:composition>

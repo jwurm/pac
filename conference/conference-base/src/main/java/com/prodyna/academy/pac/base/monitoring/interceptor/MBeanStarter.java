@@ -5,8 +5,10 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.ejb.DependsOn;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -18,19 +20,22 @@ public class MBeanStarter {
 
 	@Inject
 	private Logger log;
+	
+	@Inject
+	private Performance performance;
+	
 
 	@PostConstruct
 	public void registerMBeans() {
 		log.info("Registering MBeans");
 		MBeanServer ms = ManagementFactory.getPlatformMBeanServer();
 		try {
-			ms.registerMBean(new Performance(), new ObjectName(
+			ms.registerMBean(performance, new ObjectName(
 					Performance.OBJECT_NAME));
 		} catch (Exception e) {
 			log.severe("Failed to register MBeans: " + e.getMessage());
 
 		}
-		// throw new RuntimeException("success!");
 
 	}
 
