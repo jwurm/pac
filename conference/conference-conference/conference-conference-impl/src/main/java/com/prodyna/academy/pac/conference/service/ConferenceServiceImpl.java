@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.model.Conference;
@@ -50,6 +51,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 	@Override
 	public Conference deleteConference(int id) {
 		Conference ret = em.find(Conference.class,id);
+		if(!ret.getTalks().isEmpty()){
+			throw new BusinessException("Cannot delete conference "+id+" due to assigned talks.");
+		}
 		em.remove(ret);
 		log.info("Deleted conference " + ret);
 		return ret;

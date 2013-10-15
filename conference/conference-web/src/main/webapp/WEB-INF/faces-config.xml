@@ -7,25 +7,22 @@
 
 <navigation-rule>
    <from-view-id>backofficeIndex.xhtml</from-view-id>
+  
    <navigation-case>
-      <from-action>#{backofficeIndex.processPage1}</from-action>
-      <from-outcome>page2</from-outcome>
-      <to-view-id>backofficeIndex.jsf</to-view-id>
+      <from-outcome>roomCRUD</from-outcome>
+      <to-view-id>/roomCRUD.jsf</to-view-id>
    </navigation-case>
    <navigation-case>
-      <from-action>#{backofficeIndex.processPage2}</from-action>
-      <from-outcome>page</from-outcome>
-      <to-view-id>backofficeOverview.jsf</to-view-id>
+      <from-outcome>speakerCRUD</from-outcome>
+      <to-view-id>/speakerCRUD.jsf</to-view-id>
    </navigation-case>
-    <navigation-case>
-      <from-action>#{navigationController.showPage}</from-action>
-      <from-outcome>page</from-outcome>
-      <to-view-id>backofficeOverview.jsf</to-view-id>
-   </navigation-case>
-   
    <navigation-case>
-      <from-outcome>goToOverview</from-outcome>
-      <to-view-id>backofficeOverview.jsf</to-view-id>
+      <from-outcome>conferenceCRUD</from-outcome>
+      <to-view-id>/conferenceCRUD.jsf</to-view-id>
+   </navigation-case>
+   <navigation-case>
+      <from-outcome>talkCRUD</from-outcome>
+      <to-view-id>/talkCRUD.jsf</to-view-id>
    </navigation-case>
    
 </navigation-rule>
