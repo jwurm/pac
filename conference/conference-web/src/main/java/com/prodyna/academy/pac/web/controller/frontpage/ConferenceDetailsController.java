@@ -101,6 +101,9 @@ public class ConferenceDetailsController {
 	public void initData() {
 		Map<String, String> requestParameterMap = facesContext.getExternalContext().getRequestParameterMap();
 		String string = requestParameterMap.get("cId");
+		if(string==null){
+			return;
+		}
 		conference = conferenceService.getCompleteConference(Integer.valueOf(string));
 		
 		List<Talk> talks = conference.getTalks();
@@ -125,7 +128,7 @@ public class ConferenceDetailsController {
 	
 	public String talkDetails(){
 		Object rowData = dataTable.getRowData();
-		return "tDetails";
+		return "talkDetails";
 	}
 	
 
