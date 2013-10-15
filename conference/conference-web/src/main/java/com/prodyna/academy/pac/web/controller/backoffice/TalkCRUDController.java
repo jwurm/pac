@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.web.controller;
+package com.prodyna.academy.pac.web.controller.backoffice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,17 +40,15 @@ import com.prodyna.academy.pac.conference.service.ConferenceService;
 import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.room.service.RoomService;
-import com.prodyna.academy.pac.speaker.model.Speaker;
-import com.prodyna.academy.pac.speaker.service.SpeakerService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 //@Model
-@ManagedBean(name = "talkSpeakerController")
+@ManagedBean(name = "talkCRUDController")
 @ViewScoped
-public class TalkSpeakerController {
+public class TalkCRUDController {
 
 	@Inject
 	private Logger log;
@@ -60,44 +58,93 @@ public class TalkSpeakerController {
 
 	@Inject
 	private TalkService talkService;
-
-	@Inject
-	private SpeakerService speakerService;
-
-	@NotNull
-	private Integer speakerId;
 	
-	@NotNull
-	private Integer talkId;
+	@Inject
+	private ConferenceService conferenceService;
+	
+	@Inject
+	private RoomService roomService;
 
-	private Talk talk;
+	private Talk newTalk;
 
 	private HtmlDataTable dataTable;
 
-	private List<Speaker> speakers;
+	@NotNull
+	private Integer conferenceId;
 
-	public void assignSpeaker() {
+	@NotNull
+	private Integer roomId;
 
+	public Integer getConferenceId() {
+		return conferenceId;
+	}
+
+	public void setConferenceId(Integer conferenceId) {
+		this.conferenceId = conferenceId;
+	}
+
+	public Integer getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(Integer roomId) {
+		this.roomId = roomId;
+	}
+
+	public void setDataTable(HtmlDataTable dataTable) {
+		this.dataTable = dataTable;
+	}
+
+	public HtmlDataTable getDataTable() {
+		return dataTable;
+	}
+
+	private List<Talk> talks = new ArrayList<Talk>();
+
+	public List<Talk> getTalks() {
+		return talks;
+	}
+
+	private void loadTalks() {
+		talks = talkService.getTalks();
+	}
+
+	public Talk getNewTalk() {
+		return newTalk;
+	}
+
+	public void createNewTalk() {
 		try {
-			Speaker speaker = speakerService.findSpeaker(speakerId);
-			talkService.assignSpeaker(talk, speaker);
-			speakers = talkService.findSpeakers(talk.getId());
+			Room room = roomService.findRoom(roomId);
+			Conference conference = conferenceService
+					.getCompleteConference(conferenceId);
+			newTalk.setConference(conference);
+			newTalk.setRoom(room);
+			talkService.createTalk(newTalk);
 			facesContext.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_INFO, "Speaker assigned.",
-					"Speaker assigned."));
+					FacesMessage.SEVERITY_INFO, "New talk created!",
+					"Talk creation successful"));
+			
+			
+			// talks.add(newTalk);
 			initData();
 
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Speaker assignment failed.");
+					errorMessage, "Registration Unsuccessful");
 			facesContext.addMessage(null, m);
 		}
-
 	}
 
-	public HtmlDataTable getDataTable() {
-		return dataTable;
+	public void setNewTalk(Talk newTalk) {
+		this.newTalk = newTalk;
+	}
+
+	@PostConstruct
+	public void initData() {
+		loadTalks();
+		newTalk=new Talk();
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -119,77 +166,35 @@ public class TalkSpeakerController {
 		return errorMessage;
 	}
 
-	public Integer getSpeakerId() {
-		return speakerId;
-	}
-
-	public List<Speaker> getSpeakers() {
-		return speakers;
-	}
-
-	public Talk getTalk() {
-		return talk;
-	}
-
-	public Integer getTalkId() {
-		return talkId;
-	}
-
-	@PostConstruct
-	public void initData() {
-	}
-
-	public void removeSpeaker() {
-
+	public void saveTalk() {
 		try {
-			Speaker speaker = (Speaker) dataTable.getRowData();
-			talkService.unassignSpeaker(talk, speaker);
-			speakers = talkService.findSpeakers(talk.getId());
-			facesContext.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_INFO, "Speaker unassigned.",
-					"Speaker assigned."));
-			initData();
 
-		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
-			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Speaker unassignment failed.");
-			facesContext.addMessage(null, m);
-		}
-	}
-
-	public void selectTalk() {
-		try {
-			talk = talkService.findTalk(talkId);
-			if (talk == null) {
-				throw new Exception("No talk found for id " + talkId);
+			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
+			if (talk.getId() == null) {
+				talkService.createTalk(talk);
+			} else {
+				talkService.updateTalk(talk);
 			}
-			speakers = talkService.findSpeakers(talk.getId());
+			loadTalks();
+
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Speaker unassignment failed.");
+					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
 	}
 
-	public void setDataTable(HtmlDataTable dataTable) {
-		this.dataTable = dataTable;
-	}
-
-	public void setSpeakerId(Integer speakerId) {
-		this.speakerId = speakerId;
-	}
-
-	public void setSpeakers(List<Speaker> speakers) {
-		this.speakers = speakers;
-	}
-
-	public void setTalk(Talk talk) {
-		this.talk = talk;
-	}
-
-	public void setTalkId(Integer talkId) {
-		this.talkId = talkId;
+	public void deleteTalk() {
+		try {
+			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
+			talkService.deleteTalk(talk.getId());
+			loadTalks();
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Update failed.");
+			facesContext.addMessage(null, m);
+		}
 	}
 }

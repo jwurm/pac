@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.web.controller;
+package com.prodyna.academy.pac.web.controller.backoffice;
 
 import java.io.Serializable;
 

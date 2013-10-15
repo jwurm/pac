@@ -43,12 +43,12 @@
 				class.</p>
 			<h:panelGrid columns="3" columnClasses="titleCell">
 				<h:outputLabel for="roomname" value="Name:" />
-				<h:inputText id="roomname" value="#{roomController.newRoom.name}" />
+				<h:inputText id="roomname" value="#{roomCRUDController.newRoom.name}" />
 				<h:message for="roomname" errorClass="invalid" />
 
 				<h:outputLabel for="roomcapacity" value="Capacity:" />
 				<h:inputText id="roomcapacity"
-					value="#{roomController.newRoom.capacity}" />
+					value="#{roomCRUDController.newRoom.capacity}" />
 				<h:message for="roomcapacity" errorClass="invalid" />
 
 			</h:panelGrid>
@@ -56,7 +56,7 @@
 			<p>
 				<h:panelGrid columns="2">
 					<h:commandButton id="register"
-						action="#{roomController.createNewRoom}" value="CreateNewRoom"
+						action="#{roomCRUDController.createNewRoom}" value="CreateNewRoom"
 						styleClass="register" />
 					<h:messages styleClass="messages" errorClass="invalid"
 						infoClass="valid" warnClass="warning" globalOnly="true" />
@@ -65,12 +65,12 @@
 		</h:form>
 		<h:form id="roomlist">
 			<h2>Rooms</h2>
-			<h:panelGroup rendered="#{empty roomController.rooms}">
+			<h:panelGroup rendered="#{empty roomCRUDController.rooms}">
 				<em>No rooms.</em>
 			</h:panelGroup>
-			<h:dataTable id="dataTable" binding="#{roomController.dataTable}"
-				var="_room" value="#{roomController.rooms}"
-				rendered="#{not empty roomController.rooms}"
+			<h:dataTable id="dataTable" binding="#{roomCRUDController.dataTable}"
+				var="_room" value="#{roomCRUDController.rooms}"
+				rendered="#{not empty roomCRUDController.rooms}"
 				styleClass="simpletablestyle">
 				<h:column>
 					<f:facet name="header">Id</f:facet>
@@ -96,12 +96,12 @@
 				</f:facet>
 				<h:column>
 					<!-- 					<f:facet name="header">Actions</f:facet> -->
-					<h:commandButton id="update" action="#{roomController.saveRoom}"
+					<h:commandButton id="update" action="#{roomCRUDController.saveRoom}"
 						value="Save" styleClass="register" />
 				</h:column>
 				<h:column>
 					<!-- 					<f:facet name="header">Actions</f:facet> -->
-					<h:commandButton id="delete" action="#{roomController.deleteRoom}"
+					<h:commandButton id="delete" action="#{roomCRUDController.deleteRoom}"
 						value="Delete" styleClass="register" immediate="true" />
 				</h:column>
 			</h:dataTable>

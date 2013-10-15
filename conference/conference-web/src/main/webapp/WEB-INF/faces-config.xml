@@ -6,23 +6,23 @@
     version="2.2">
 
 <navigation-rule>
-   <from-view-id>backofficeIndex.xhtml</from-view-id>
+   <from-view-id>/backoffice/backofficeIndex.xhtml</from-view-id>
   
    <navigation-case>
       <from-outcome>roomCRUD</from-outcome>
-      <to-view-id>/roomCRUD.jsf</to-view-id>
+      <to-view-id>/backoffice/roomCRUD.jsf</to-view-id>
    </navigation-case>
    <navigation-case>
       <from-outcome>speakerCRUD</from-outcome>
-      <to-view-id>/speakerCRUD.jsf</to-view-id>
+      <to-view-id>/backoffice/speakerCRUD.jsf</to-view-id>
    </navigation-case>
    <navigation-case>
       <from-outcome>conferenceCRUD</from-outcome>
-      <to-view-id>/conferenceCRUD.jsf</to-view-id>
+      <to-view-id>/backoffice/conferenceCRUD.jsf</to-view-id>
    </navigation-case>
    <navigation-case>
       <from-outcome>talkCRUD</from-outcome>
-      <to-view-id>/talkCRUD.jsf</to-view-id>
+      <to-view-id>/backoffice/talkCRUD.jsf</to-view-id>
    </navigation-case>
    
 </navigation-rule>

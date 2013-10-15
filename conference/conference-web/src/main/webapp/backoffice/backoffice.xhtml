@@ -205,7 +205,7 @@
 			<p>
 				<h:panelGrid columns="2">
 					<h:commandButton id="register"
-						action="#{conferenceController.createNewConference}"
+						action="#{conferenceCRUDController.createNewConference}"
 						value="CreateNewConference" styleClass="register" />
 					<h:messages styleClass="messages" errorClass="invalid"
 						infoClass="valid" warnClass="warning" globalOnly="true" />
@@ -214,13 +214,13 @@
 		</h:form>
 		<h:form id="conferencelist">
 			<h2>Conferences</h2>
-			<h:panelGroup rendered="#{empty conferenceController.conferences}">
+			<h:panelGroup rendered="#{empty conferenceCRUDController.conferences}">
 				<em>No conferences.</em>
 			</h:panelGroup>
 			<h:dataTable id="dataTable"
-				binding="#{conferenceController.dataTable}" var="_conference"
-				value="#{conferenceController.conferences}"
-				rendered="#{not empty conferenceController.conferences}"
+				binding="#{conferenceCRUDController.dataTable}" var="_conference"
+				value="#{conferenceCRUDController.conferences}"
+				rendered="#{not empty conferenceCRUDController.conferences}"
 				styleClass="simpletablestyle">
 				<h:column>
 					<f:facet name="header">Id</f:facet>
@@ -262,13 +262,13 @@
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
 					<h:commandButton id="update"
-						action="#{conferenceController.saveConference}" value="Save"
+						action="#{conferenceCRUDController.saveConference}" value="Save"
 						styleClass="register" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
 					<h:commandButton id="delete"
-						action="#{conferenceController.deleteConference}" value="Delete"
+						action="#{conferenceCRUDController.deleteConference}" value="Delete"
 						styleClass="register" immediate="true" />
 				</h:column>
 			</h:dataTable>

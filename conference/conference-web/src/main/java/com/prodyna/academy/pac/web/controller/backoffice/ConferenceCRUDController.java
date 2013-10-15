@@ -14,9 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.web.controller;
+package com.prodyna.academy.pac.web.controller.backoffice;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -25,21 +28,25 @@ import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UICommand;
+import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.prodyna.academy.pac.speaker.model.Speaker;
-import com.prodyna.academy.pac.speaker.service.SpeakerService;
+import org.joda.time.Instant;
+
+import com.prodyna.academy.pac.conference.model.Conference;
+import com.prodyna.academy.pac.conference.service.ConferenceService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-@ManagedBean(name = "speakerController")
+@ManagedBean(name = "conferenceCRUDController")
 @ViewScoped
-public class SpeakerController {
+public class ConferenceCRUDController {
 
 	@Inject
 	private Logger log;
@@ -48,10 +55,9 @@ public class SpeakerController {
 	private FacesContext facesContext;
 
 	@Inject
-	private SpeakerService speakerService;
-	
+	private ConferenceService conferenceService;
 
-	private Speaker newSpeaker;
+	private Conference newConference;
 
 	private HtmlDataTable dataTable;
 
@@ -63,29 +69,31 @@ public class SpeakerController {
 		return dataTable;
 	}
 
-	private List<Speaker> speakers = new ArrayList<Speaker>();
+	private List<Conference> conferences = new ArrayList<Conference>();
 
-
-	public List<Speaker> getSpeakers() {
-		return speakers;
+	public List<Conference> getConferences() {
+		return conferences;
 	}
 
+	// @PostConstruct
 
-	private void loadSpeakers() {
-		speakers = speakerService.getSpeakers();
+	private void loadConferences() {
+		conferences = conferenceService.findAllConferences();
 	}
 
-	public Speaker getNewSpeaker() {
-		return newSpeaker;
+	@Named("newConference")
+	@Produces
+	public Conference getNewConference() {
+		return newConference;
 	}
 
-
-	public void createNewSpeaker() {
+	public void createNewConference() {
 		try {
-			 speakerService.createSpeaker(newSpeaker);
-			 facesContext.addMessage(null,
-			 new FacesMessage(FacesMessage.SEVERITY_INFO, "New speaker created!",
-			 "Speaker creation successful"));
+			conferenceService.createConference(newConference);
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "New conference created!",
+					"Conference creation successful"));
+			// conferences.add(newConference);
 			initData();
 
 		} catch (Exception e) {
@@ -96,18 +104,14 @@ public class SpeakerController {
 		}
 	}
 
-	public void setNewSpeaker(Speaker newSpeaker) {
-		this.newSpeaker = newSpeaker;
+	public void setNewConference(Conference newConference) {
+		this.newConference = newConference;
 	}
 
 	@PostConstruct
 	public void initData() {
-		newSpeaker = createSpeaker();
-		loadSpeakers();
-	}
-
-	private Speaker createSpeaker() {
-		return new Speaker("Name", "Description");
+		newConference = new Conference();
+		loadConferences();
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -129,16 +133,17 @@ public class SpeakerController {
 		return errorMessage;
 	}
 
-	public void saveSpeaker() {
+	public String saveConference() {
 		try {
 
-			Speaker Speaker = (Speaker) ((HtmlDataTable) dataTable).getRowData();
-			if (Speaker.getId() == null) {
-				speakerService.createSpeaker(Speaker);
+			Conference conference = (Conference) ((HtmlDataTable) dataTable)
+					.getRowData();
+			if (conference.getId() == null) {
+				conferenceService.createConference(conference);
 			} else {
-				speakerService.updateSpeaker(Speaker);
+				conferenceService.updateConference(conference);
 			}
-			loadSpeakers();
+			loadConferences();
 
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
@@ -146,13 +151,15 @@ public class SpeakerController {
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
+		return "";
 	}
 
-	public void deleteSpeaker() {
+	public void deleteConference() {
 		try {
-			Speaker Speaker = (Speaker) ((HtmlDataTable) dataTable).getRowData();
-			speakerService.deleteSpeaker(Speaker.getId());
-			loadSpeakers();
+			Conference conference = (Conference) ((HtmlDataTable) dataTable)
+					.getRowData();
+			conferenceService.deleteConference(conference.getId());
+			loadConferences();
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -160,5 +167,4 @@ public class SpeakerController {
 			facesContext.addMessage(null, m);
 		}
 	}
-
 }

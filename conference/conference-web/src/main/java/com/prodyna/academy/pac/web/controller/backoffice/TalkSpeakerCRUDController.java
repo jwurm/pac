@@ -14,12 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.web.controller;
+package com.prodyna.academy.pac.web.controller.backoffice;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -29,24 +26,31 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UICommand;
-import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 
 import org.joda.time.Instant;
 
 import com.prodyna.academy.pac.conference.model.Conference;
+import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.service.TalkService;
+import com.prodyna.academy.pac.room.model.Room;
+import com.prodyna.academy.pac.room.service.RoomService;
+import com.prodyna.academy.pac.speaker.model.Speaker;
+import com.prodyna.academy.pac.speaker.service.SpeakerService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-@ManagedBean(name = "conferenceController")
+//@Model
+@ManagedBean(name = "talkSpeakerCRUDController")
 @ViewScoped
-public class ConferenceController {
+public class TalkSpeakerCRUDController {
 
 	@Inject
 	private Logger log;
@@ -55,63 +59,45 @@ public class ConferenceController {
 	private FacesContext facesContext;
 
 	@Inject
-	private ConferenceService conferenceService;
+	private TalkService talkService;
 
-	private Conference newConference;
+	@Inject
+	private SpeakerService speakerService;
+
+	@NotNull
+	private Integer speakerId;
+	
+	@NotNull
+	private Integer talkId;
+
+	private Talk talk;
 
 	private HtmlDataTable dataTable;
 
-	public void setDataTable(HtmlDataTable dataTable) {
-		this.dataTable = dataTable;
-	}
+	private List<Speaker> speakers;
 
-	public HtmlDataTable getDataTable() {
-		return dataTable;
-	}
+	public void assignSpeaker() {
 
-	private List<Conference> conferences = new ArrayList<Conference>();
-
-	public List<Conference> getConferences() {
-		return conferences;
-	}
-
-	// @PostConstruct
-
-	private void loadConferences() {
-		conferences = conferenceService.findAllConferences();
-	}
-
-	@Named("newConference")
-	@Produces
-	public Conference getNewConference() {
-		return newConference;
-	}
-
-	public void createNewConference() {
 		try {
-			conferenceService.createConference(newConference);
+			Speaker speaker = speakerService.findSpeaker(speakerId);
+			talkService.assignSpeaker(talk, speaker);
+			speakers = talkService.findSpeakers(talk.getId());
 			facesContext.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_INFO, "New conference created!",
-					"Conference creation successful"));
-			// conferences.add(newConference);
+					FacesMessage.SEVERITY_INFO, "Speaker assigned.",
+					"Speaker assigned."));
 			initData();
 
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Registration Unsuccessful");
+					errorMessage, "Speaker assignment failed.");
 			facesContext.addMessage(null, m);
 		}
+
 	}
 
-	public void setNewConference(Conference newConference) {
-		this.newConference = newConference;
-	}
-
-	@PostConstruct
-	public void initData() {
-		newConference = new Conference();
-		loadConferences();
+	public HtmlDataTable getDataTable() {
+		return dataTable;
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -133,38 +119,77 @@ public class ConferenceController {
 		return errorMessage;
 	}
 
-	public String saveConference() {
-		try {
-
-			Conference conference = (Conference) ((HtmlDataTable) dataTable)
-					.getRowData();
-			if (conference.getId() == null) {
-				conferenceService.createConference(conference);
-			} else {
-				conferenceService.updateConference(conference);
-			}
-			loadConferences();
-
-		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
-			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Update failed.");
-			facesContext.addMessage(null, m);
-		}
-		return "";
+	public Integer getSpeakerId() {
+		return speakerId;
 	}
 
-	public void deleteConference() {
+	public List<Speaker> getSpeakers() {
+		return speakers;
+	}
+
+	public Talk getTalk() {
+		return talk;
+	}
+
+	public Integer getTalkId() {
+		return talkId;
+	}
+
+	@PostConstruct
+	public void initData() {
+	}
+
+	public void removeSpeaker() {
+
 		try {
-			Conference conference = (Conference) ((HtmlDataTable) dataTable)
-					.getRowData();
-			conferenceService.deleteConference(conference.getId());
-			loadConferences();
+			Speaker speaker = (Speaker) dataTable.getRowData();
+			talkService.unassignSpeaker(talk, speaker);
+			speakers = talkService.findSpeakers(talk.getId());
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "Speaker unassigned.",
+					"Speaker assigned."));
+			initData();
+
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Update failed.");
+					errorMessage, "Speaker unassignment failed.");
 			facesContext.addMessage(null, m);
 		}
+	}
+
+	public void selectTalk() {
+		try {
+			talk = talkService.findTalk(talkId);
+			if (talk == null) {
+				throw new Exception("No talk found for id " + talkId);
+			}
+			speakers = talkService.findSpeakers(talk.getId());
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Speaker unassignment failed.");
+			facesContext.addMessage(null, m);
+		}
+	}
+
+	public void setDataTable(HtmlDataTable dataTable) {
+		this.dataTable = dataTable;
+	}
+
+	public void setSpeakerId(Integer speakerId) {
+		this.speakerId = speakerId;
+	}
+
+	public void setSpeakers(List<Speaker> speakers) {
+		this.speakers = speakers;
+	}
+
+	public void setTalk(Talk talk) {
+		this.talk = talk;
+	}
+
+	public void setTalkId(Integer talkId) {
+		this.talkId = talkId;
 	}
 }

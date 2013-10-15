@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    JBoss, Home of Professional Open Source
+    Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
+    contributors by the @authors tag. See the copyright.txt in the
+    distribution for a full listing of individual contributors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<h1>Welcome to PAC Conferences!</h1>
+
+		
+		<h:form id="conferencelist">
+			<h2>Conferences</h2>
+			<h:panelGroup rendered="#{empty conferenceOverviewController.conferences}">
+				<em>No conferences.</em>
+			</h:panelGroup>
+			<h:dataTable id="dataTable"
+				binding="#{conferenceOverviewController.dataTable}" var="_conference"
+				value="#{conferenceOverviewController.conferences}"
+				rendered="#{not empty conferenceOverviewController.conferences}"
+				styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:outputText id="conferencelistname" value="#{_conference.name}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Description</f:facet>
+					<h:outputText id="conferencelistdesc"
+						value="#{_conference.description}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Start</f:facet>
+					<h:outputText id="conferenceliststart" value="#{_conference.start}">
+						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">End</f:facet>
+					<h:outputText id="conferencelistend" value="#{_conference.end}">
+						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Link</f:facet>
+					<h:commandLink action="conferenceDetails" value="conference details"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Actions</f:facet>
+					<h:commandButton id="delete"
+						action="#{conferenceOverviewController.deleteConference}" value="Delete"
+						styleClass="register" immediate="true" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

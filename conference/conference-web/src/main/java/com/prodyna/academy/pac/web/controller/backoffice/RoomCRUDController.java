@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.web.controller;
+package com.prodyna.academy.pac.web.controller.backoffice;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,9 +41,9 @@ import com.prodyna.academy.pac.room.service.RoomService;
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 //@Model
-@ManagedBean(name = "roomController")
+@ManagedBean(name = "roomCRUDController")
 @ViewScoped
-public class RoomController {
+public class RoomCRUDController {
 
 	@Inject
 	private Logger log;

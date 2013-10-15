@@ -40,12 +40,12 @@
 			<h:panelGrid columns="3" columnClasses="titleCell">
 				<h:outputLabel for="speakername" value="Name:" />
 				<h:inputText id="speakername"
-					value="#{speakerController.newSpeaker.name}" />
+					value="#{speakerCRUDController.newSpeaker.name}" />
 				<h:message for="speakername" errorClass="invalid" />
 
 				<h:outputLabel for="speakerdescription" value="Description:" />
 				<h:inputText id="speakerdescription"
-					value="#{speakerController.newSpeaker.description}" />
+					value="#{speakerCRUDController.newSpeaker.description}" />
 				<h:message for="speakerdescription" errorClass="invalid" />
 
 			</h:panelGrid>
@@ -53,7 +53,7 @@
 			<p>
 				<h:panelGrid columns="2">
 					<h:commandButton id="register"
-						action="#{speakerController.createNewSpeaker}"
+						action="#{speakerCRUDController.createNewSpeaker}"
 						value="CreateNewSpeaker" styleClass="register" />
 					<h:messages styleClass="messages" errorClass="invalid"
 						infoClass="valid" warnClass="warning" globalOnly="true" />
@@ -62,12 +62,12 @@
 		</h:form>
 		<h:form id="speakerlist">
 			<h2>Speakers</h2>
-			<h:panelGroup rendered="#{empty speakerController.speakers}">
+			<h:panelGroup rendered="#{empty speakerCRUDController.speakers}">
 				<em>No speakers.</em>
 			</h:panelGroup>
-			<h:dataTable id="dataTable" binding="#{speakerController.dataTable}"
-				var="_speaker" value="#{speakerController.speakers}"
-				rendered="#{not empty speakerController.speakers}"
+			<h:dataTable id="dataTable" binding="#{speakerCRUDController.dataTable}"
+				var="_speaker" value="#{speakerCRUDController.speakers}"
+				rendered="#{not empty speakerCRUDController.speakers}"
 				styleClass="simpletablestyle">
 				<h:column>
 					<f:facet name="header">Id</f:facet>
@@ -95,13 +95,13 @@
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
 					<h:commandButton id="update"
-						action="#{speakerController.saveSpeaker}" value="Save"
+						action="#{speakerCRUDController.saveSpeaker}" value="Save"
 						styleClass="register" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
 					<h:commandButton id="delete"
-						action="#{speakerController.deleteSpeaker}" value="Delete"
+						action="#{speakerCRUDController.deleteSpeaker}" value="Delete"
 						styleClass="register" immediate="true" />
 				</h:column>
 			</h:dataTable>
