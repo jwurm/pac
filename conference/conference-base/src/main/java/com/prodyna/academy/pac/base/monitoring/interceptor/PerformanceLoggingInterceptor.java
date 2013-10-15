@@ -10,8 +10,6 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerInvocationHandler;
 import javax.management.ObjectName;
 
-import com.prodyna.academy.pac.base.BusinessException;
-
 
 @PerformanceLogged
 @Interceptor
@@ -33,14 +31,13 @@ public class PerformanceLoggingInterceptor implements Serializable {
 			long duration = (System.nanoTime() - nanoTime) / 1000000;
 			performance.report(invocationContext.getMethod()
 					.getDeclaringClass().getCanonicalName(), invocationContext
-					.getMethod().getName(), duration, SuccessType.SUCCESS);
+					.getMethod().getName(), duration, true);
 			return response;
 		} catch (Exception e) {
 			long duration = (System.nanoTime() - nanoTime) / 1000000;
-			String errorType = e instanceof BusinessException?SuccessType.BUSINESS_ERROR:SuccessType.TECHNICAL_ERROR;
 			performance.report(invocationContext.getMethod()
 					.getDeclaringClass().getCanonicalName(), invocationContext
-					.getMethod().getName(), duration, errorType);
+					.getMethod().getName(), duration, false);
 			throw e;
 		}
 	}

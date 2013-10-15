@@ -9,19 +9,22 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Validator;
 
 /**
- * Producer for Logger etc.
- * 
+ * Producer
+ *
  */
-public class Resources {
-
+public class Resources 
+{
+	
+//	@SuppressWarnings("unused")
 	@Produces
 	@PersistenceContext
 	private EntityManager em;
 
 	@Produces
-	public static Logger produceLog(InjectionPoint injectionPoint) {
+	public Logger produceLog(InjectionPoint injectionPoint) {
 		return Logger.getLogger(injectionPoint.getMember().getDeclaringClass()
 				.getName());
 	}
@@ -38,11 +41,11 @@ public class Resources {
 	@Produces
 	public QueueConnectionFactory produceQCF() {
 		try {
-			return (QueueConnectionFactory) produceIC().lookup(
-					"ConnectionFactory");
+			return (QueueConnectionFactory) produceIC().lookup("ConnectionFactory");
 		} catch (NamingException e) {
 			throw new RuntimeException(e);
 		}
 	}
+	
 
 }

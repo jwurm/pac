@@ -57,6 +57,7 @@ public class ConferenceController {
 	@Inject
 	private ConferenceService conferenceService;
 
+	
 	private Conference newConference;
 
 	private HtmlDataTable dataTable;
@@ -87,13 +88,13 @@ public class ConferenceController {
 		return newConference;
 	}
 
-	public void createNewConference() {
+	public String createNewConference() throws Exception {
 		try {
-			conferenceService.createConference(newConference);
-			facesContext.addMessage(null, new FacesMessage(
-					FacesMessage.SEVERITY_INFO, "New conference created!",
-					"Conference creation successful"));
-			// conferences.add(newConference);
+			 conferenceService.createConference(newConference);
+			 facesContext.addMessage(null,
+			 new FacesMessage(FacesMessage.SEVERITY_INFO, "New conference created!",
+			 "Conference creation successful"));
+			 // conferences.add(newConference);
 			initData();
 
 		} catch (Exception e) {
@@ -102,6 +103,7 @@ public class ConferenceController {
 					errorMessage, "Registration Unsuccessful");
 			facesContext.addMessage(null, m);
 		}
+		return "";
 	}
 
 	public void setNewConference(Conference newConference) {
@@ -110,7 +112,13 @@ public class ConferenceController {
 
 	@PostConstruct
 	public void initData() {
-		newConference = new Conference();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			newConference = new Conference("name", "desc",sdf.parse("2014-01-01"), sdf.parse("2014-01-01"));
+		} catch (ParseException e) {
+			//SDF forces us to use a catch block here...gah!
+			throw new RuntimeException(e);
+		}
 		loadConferences();
 	}
 
@@ -133,11 +141,10 @@ public class ConferenceController {
 		return errorMessage;
 	}
 
-	public String saveConference() {
+	public String saveConference() throws Exception {
 		try {
 
-			Conference conference = (Conference) ((HtmlDataTable) dataTable)
-					.getRowData();
+			Conference conference = (Conference) ((HtmlDataTable) dataTable).getRowData();
 			if (conference.getId() == null) {
 				conferenceService.createConference(conference);
 			} else {
@@ -154,10 +161,9 @@ public class ConferenceController {
 		return "";
 	}
 
-	public void deleteConference() {
+	public String deleteConference() throws Exception {
 		try {
-			Conference conference = (Conference) ((HtmlDataTable) dataTable)
-					.getRowData();
+			Conference conference = (Conference) ((HtmlDataTable) dataTable).getRowData();
 			conferenceService.deleteConference(conference.getId());
 			loadConferences();
 		} catch (Exception e) {
@@ -166,5 +172,6 @@ public class ConferenceController {
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
+		return "";
 	}
 }

@@ -14,7 +14,6 @@ import javax.persistence.Query;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 
-import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.model.Conference;
@@ -152,9 +151,7 @@ public class TalkServiceImpl implements TalkService {
 
 	private void validateConferenceInterval(Talk talk) {
 		// read conference and room to have up to date data
-		
-		
-		Conference conf =conference.getCompleteConference(talk.getConference()
+		Conference conf = conference.getCompleteConference(talk.getConference()
 				.getId());
 
 		// validate conference date
@@ -162,7 +159,7 @@ public class TalkServiceImpl implements TalkService {
 		boolean conferenceIntervalOk = conferenceInterval.contains(talk
 				.buildInterval());
 		if (!conferenceIntervalOk) {
-			throw new BusinessException(
+			throw new RuntimeException(
 					"Talk is set outside of the duration of the conference! "
 							+ talk.toString() + " " + conf.toString());
 		}
@@ -180,7 +177,7 @@ public class TalkServiceImpl implements TalkService {
 
 			Interval otherRoomTalkInterval = currTalk.buildInterval();
 			if (otherRoomTalkInterval.overlaps(talkInterval)) {
-				throw new BusinessException(
+				throw new RuntimeException(
 						"The designated room is already occupied by "
 								+ currTalk + " at that time.");
 			}
@@ -210,7 +207,7 @@ public class TalkServiceImpl implements TalkService {
 						currTalk.getDatetime()), new Instant(
 						currTalk.buildEndDateTime()));
 				if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
-					throw new BusinessException(
+					throw new RuntimeException(
 							"The designated speaker is already occupied by "
 									+ currTalk + " at that time.");
 				}
@@ -239,7 +236,7 @@ public class TalkServiceImpl implements TalkService {
 					currTalk.getDatetime()), new Instant(
 					currTalk.buildEndDateTime()));
 			if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
-				throw new BusinessException(
+				throw new RuntimeException(
 						"The designated speaker is already occupied by "
 								+ currTalk + " at that time.");
 			}

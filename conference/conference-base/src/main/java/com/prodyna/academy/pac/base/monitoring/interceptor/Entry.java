@@ -3,8 +3,6 @@ package com.prodyna.academy.pac.base.monitoring.interceptor;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.prodyna.academy.pac.base.BusinessException;
-
 public class Entry {
 	private String service;
 	private String method;
@@ -13,7 +11,7 @@ public class Entry {
 	private long max = Long.MIN_VALUE;
 	private long sum;
 
-	private Queue<String> calls = new LinkedList<String>();
+	private Queue<Boolean> calls = new LinkedList<Boolean>();
 	private int callsBufferLength = 100;
 
 	public Entry(String service, String method) {
@@ -22,21 +20,13 @@ public class Entry {
 		this.method = method;
 	}
 
-	@Override
-	public String toString() {
-		return "Entry [service=" + service + ", method=" + method + ", count="
-				+ count + ", min=" + min + ", max=" + max + ", sum=" + sum
-				+ ", calls=" + calls + ", callsBufferLength="
-				+ callsBufferLength + "]";
-	}
-
-	public void increment(long time, String successType) {
+	public void increment(long time, boolean success) {
 		count++;
 		sum += time;
 		min = Math.min(min, time);
 		max = Math.max(max, time);
 
-		calls.add(successType);
+		calls.add(success);
 		if (calls.size() > callsBufferLength) {
 			calls.poll();
 		}
@@ -65,19 +55,16 @@ public class Entry {
 	public long getMin() {
 		return min;
 	}
-
-	/**
-	 * Builds a string that codes the success information of the past requests.
-	 * Codes: Success: - Business exception: O Any other, usually technical
-	 * exception: X
-	 * 
-	 * @return String
-	 */
-	public String getSuccessString() {
+	
+	public String getSuccessString(){
 		StringBuilder sb = new StringBuilder();
-
-		for (String curr : calls) {
-			sb.append(curr);
+		
+		for (Boolean curr : calls) {
+			if(curr){
+				sb.append("-");
+			}else{
+				sb.append("X");
+			}
 		}
 		return sb.toString();
 	}

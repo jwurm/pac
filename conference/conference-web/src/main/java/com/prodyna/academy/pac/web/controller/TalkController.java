@@ -113,7 +113,7 @@ public class TalkController {
 		return newTalk;
 	}
 
-	public void createNewTalk() {
+	public void createNewTalk() throws Exception {
 		try {
 			Room room = roomService.findRoom(roomId);
 			Conference conference = conferenceService
@@ -165,7 +165,7 @@ public class TalkController {
 		return errorMessage;
 	}
 
-	public void saveTalk() {
+	public void saveTalk() throws Exception {
 		try {
 
 			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
@@ -184,7 +184,7 @@ public class TalkController {
 		}
 	}
 
-	public void deleteTalk() {
+	public void deleteTalk() throws Exception {
 		try {
 			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
 			talkService.deleteTalk(talk.getId());

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PerformanceMXBean {
 	void reset();
-	void report(String service, String method, long time, String success);
+	void report(String service, String method, long time, boolean success);
 	List<Entry> getAll();
 	int getCount();
 	Entry getWorstByTime();

@@ -40,7 +40,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.conference.model.Conference;
-import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
 import com.prodyna.academy.pac.room.model.Room;
 
@@ -65,21 +64,12 @@ public class ConferenceRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/list")
 	public Response listAllMembers() {
 
 		try {
 			List<Conference> findAllConferences = repository
 					.findAllConferences();
-			/*
-			 * remove backwards reference. not very nice, but it saves us from
-			 * using jackson specific annotations and the effect is the same.
-			 */
-			for (Conference conference : findAllConferences) {
-				for(Talk talk:conference.getTalks()){
-					talk.setConference(null);
-				}
-				
-			}
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(findAllConferences);
 		} catch (ConstraintViolationException ce) {
@@ -101,15 +91,6 @@ public class ConferenceRESTService {
 	public Response find(@PathParam("id") int id) {
 		try {
 			Conference conference = repository.getCompleteConference(id);
-			
-			/*
-			 * remove backwards reference. not very nice, but it saves us from
-			 * using jackson specific annotations and the effect is the same.
-			 */
-			for (Talk talk : conference.getTalks()) {
-				talk.setConference(null);
-			}
-			
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(conference);
 		} catch (ConstraintViolationException ce) {

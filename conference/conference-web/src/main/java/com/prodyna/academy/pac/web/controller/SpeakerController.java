@@ -80,7 +80,7 @@ public class SpeakerController {
 	}
 
 
-	public void createNewSpeaker() {
+	public void createNewSpeaker() throws Exception {
 		try {
 			 speakerService.createSpeaker(newSpeaker);
 			 facesContext.addMessage(null,
@@ -129,7 +129,7 @@ public class SpeakerController {
 		return errorMessage;
 	}
 
-	public void saveSpeaker() {
+	public void saveSpeaker() throws Exception {
 		try {
 
 			Speaker Speaker = (Speaker) ((HtmlDataTable) dataTable).getRowData();
@@ -148,7 +148,7 @@ public class SpeakerController {
 		}
 	}
 
-	public void deleteSpeaker() {
+	public String deleteSpeaker() throws Exception {
 		try {
 			Speaker Speaker = (Speaker) ((HtmlDataTable) dataTable).getRowData();
 			speakerService.deleteSpeaker(Speaker.getId());
@@ -159,6 +159,7 @@ public class SpeakerController {
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
+		return "";
 	}
 
 }
