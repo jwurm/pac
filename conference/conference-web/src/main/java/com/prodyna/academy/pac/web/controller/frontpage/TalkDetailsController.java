@@ -16,24 +16,31 @@
  */
 package com.prodyna.academy.pac.web.controller.frontpage;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import com.prodyna.academy.pac.conference.model.Conference;
-import com.prodyna.academy.pac.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.model.Talk;
+import com.prodyna.academy.pac.conference.service.TalkService;
 
-@ManagedBean(name = "conferenceOverviewController")
+@ManagedBean(name = "talkDetailsController")
 @ViewScoped
-public class ConferenceOverviewController {
+public class TalkDetailsController {
+
+	private Talk talk;
+
+	public Talk getTalk() {
+		return talk;
+	}
+
+	public void setTalk(Talk talk) {
+		this.talk = talk;
+	}
 
 	@Inject
 	private Logger log;
@@ -42,46 +49,15 @@ public class ConferenceOverviewController {
 	private FacesContext facesContext;
 
 	@Inject
-	private ConferenceService conferenceService;
-
-
-	private HtmlDataTable dataTable;
-
-	public void setDataTable(HtmlDataTable dataTable) {
-		this.dataTable = dataTable;
-	}
-
-	public HtmlDataTable getDataTable() {
-		return dataTable;
-	}
-
-	private List<Conference> conferences = new ArrayList<Conference>();
-
-	private Conference conference;
-
-	public List<Conference> getConferences() {
-		return conferences;
-	}
-
-	private void loadConferences() {
-		conferences = conferenceService.findAllConferences();
-	}
+	private TalkService talkService;
 
 	@PostConstruct
 	public void initData() {
-		loadConferences();
-	}
-	
-	public String conferenceDetails(){
-		return "conferenceDetails";
-	}
-
-	public Conference getConference() {
-		return conference;
+		Map<String, String> requestParameterMap = facesContext
+				.getExternalContext().getRequestParameterMap();
+		String string = requestParameterMap.get("talkId");
+		talk = talkService.findTalk(Integer.valueOf(string));
 	}
 
-	public void setConference(Conference conference) {
-		this.conference = conference;
-	}
 
 }

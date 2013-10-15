@@ -1,29 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<faces-config
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
-    version="2.2">
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
 
-<navigation-rule>
-   <from-view-id>/backoffice/backofficeIndex.xhtml</from-view-id>
-  
-   <navigation-case>
-      <from-outcome>roomCRUD</from-outcome>
-      <to-view-id>/backoffice/roomCRUD.jsf</to-view-id>
-   </navigation-case>
-   <navigation-case>
-      <from-outcome>speakerCRUD</from-outcome>
-      <to-view-id>/backoffice/speakerCRUD.jsf</to-view-id>
-   </navigation-case>
-   <navigation-case>
-      <from-outcome>conferenceCRUD</from-outcome>
-      <to-view-id>/backoffice/conferenceCRUD.jsf</to-view-id>
-   </navigation-case>
-   <navigation-case>
-      <from-outcome>talkCRUD</from-outcome>
-      <to-view-id>/backoffice/talkCRUD.jsf</to-view-id>
-   </navigation-case>
-   
-</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/backoffice/backofficeIndex.xhtml</from-view-id>
+
+		<navigation-case>
+			<from-outcome>roomCRUD</from-outcome>
+			<to-view-id>/backoffice/roomCRUD.jsf</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>speakerCRUD</from-outcome>
+			<to-view-id>/backoffice/speakerCRUD.jsf</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>conferenceCRUD</from-outcome>
+			<to-view-id>/backoffice/conferenceCRUD.jsf</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>talkCRUD</from-outcome>
+			<to-view-id>/backoffice/talkCRUD.jsf</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+
+<!-- 	<navigation-rule> -->
+<!-- 		<from-view-id>/frontpage/conferenceOverview.xhtml</from-view-id> -->
+<!-- 		<navigation-case> -->
+<!-- 			<from-outcome>cDetails</from-outcome> -->
+<!-- 			<to-view-id>/frontpage/conferenceDetails.xhtml</to-view-id> -->
+<!-- 		</navigation-case> -->
+<!-- 	</navigation-rule> -->
+<!-- 	<navigation-rule> -->
+<!-- 		<from-view-id>/frontpage/conferenceDetails.xhtml</from-view-id> -->
+<!-- 		<navigation-case> -->
+<!-- 			<from-outcome>tDetails</from-outcome> -->
+<!-- 			<to-view-id>/frontpage/talkDetails.xhtml</to-view-id> -->
+<!-- 		</navigation-case> -->
+<!-- 	</navigation-rule> -->
+	
+	
 </faces-config>

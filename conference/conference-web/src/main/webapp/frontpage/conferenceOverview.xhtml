@@ -56,13 +56,16 @@
 					</h:outputText>
 				</h:column>
 				<h:column>
-					<f:facet name="header">Link</f:facet>
-					<h:commandLink action="#{conferenceOverviewController.conferenceDetails}" value="conference details">
-					</h:commandLink>
+					<f:facet name="header">Details</f:facet>
+					<h:commandButton action="conferenceDetails" value="Details">
+					<f:param name="cId" value="#{_conference.id}"/>
+					</h:commandButton>
 				</h:column>
 			</h:dataTable>
+<h:commandButton action="talkDetails" value="Details">
+							<f:param name="talkId" value="2" />
+						</h:commandButton>
 		</h:form>
-
 
 	</ui:define>
 </ui:composition>

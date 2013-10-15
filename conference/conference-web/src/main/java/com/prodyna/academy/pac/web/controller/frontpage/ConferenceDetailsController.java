@@ -16,30 +16,24 @@
  */
 package com.prodyna.academy.pac.web.controller.frontpage;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Produces;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UICommand;
-import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.joda.time.Instant;
 
 import com.prodyna.academy.pac.conference.model.Conference;
+import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
 
 @ManagedBean(name = "conferenceDetailsController")
@@ -48,7 +42,7 @@ public class ConferenceDetailsController {
 
 	private Conference conference;
 
-	@ManagedProperty(value = "#{conferenceId}")
+//	@ManagedProperty(value = "#{conferenceId}")//TODO
 	private int conferenceId;
 
 	public int getConferenceId() {
@@ -57,7 +51,6 @@ public class ConferenceDetailsController {
 
 	public void setConferenceId(int conferenceId) {
 		this.conferenceId = conferenceId;
-		conference = conferenceService.getCompleteConference(conferenceId);
 	}
 
 	public Conference getConference() {
@@ -79,6 +72,14 @@ public class ConferenceDetailsController {
 
 	private HtmlDataTable dataTable;
 
+	private List<TalksByDay> talkList=new ArrayList<TalksByDay>();
+	
+//	private List<Talk> talks=new ArrayList<Talk>();
+	
+//	public List<Talk> getTalks() {
+//		return talks;
+//	}
+
 	public void setDataTable(HtmlDataTable dataTable) {
 		this.dataTable = dataTable;
 	}
@@ -86,13 +87,46 @@ public class ConferenceDetailsController {
 	public HtmlDataTable getDataTable() {
 		return dataTable;
 	}
+	
+	public List<TalksByDay> getTalkList() {
+		return talkList;
+	}
+	
+	public void setTalkList(List<TalksByDay> talkList) {
+		this.talkList = talkList;
+	}
 
 
 	@PostConstruct
 	public void initData() {
-		String string = facesContext.getExternalContext().getRequestParameterMap().get("conferenceId");
-		conference = conferenceService.getCompleteConference(conferenceId);
-		System.out.println();
+		Map<String, String> requestParameterMap = facesContext.getExternalContext().getRequestParameterMap();
+		String string = requestParameterMap.get("cId");
+		conference = conferenceService.getCompleteConference(Integer.valueOf(string));
+		
+		List<Talk> talks = conference.getTalks();
+//		this.talks.addAll(talks);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		//sorted map so that we get the right order simply by using its iterator
+		SortedMap<String, TalksByDay> talksByDay=new TreeMap<String, TalksByDay>();
+		for (Talk talk : talks) {
+			String dateString = sdf.format(talk.getDatetime());
+			TalksByDay talksbd = talksByDay.get(dateString);
+			if(talksbd==null){
+				talksbd=new TalksByDay(dateString);
+				talksByDay.put(dateString, talksbd);
+			}
+			talksbd.getTalks().add(talk);
+		}
+		
+		talkList.addAll(talksByDay.values());
+		
 	}
+	
+	public String talkDetails(){
+		Object rowData = dataTable.getRowData();
+		return "tDetails";
+	}
+	
 
 }

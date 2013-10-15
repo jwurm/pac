@@ -22,10 +22,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-		<f:metadata>
-			<f:viewParam name="conferenceId"
-				value="#{conferenceDetailsController.conferenceId}" />
-		</f:metadata>
+		<!-- 		<f:metadata> -->
+		<!-- 			<f:viewParam name="cId" -->
+		<!-- 				value="#{conferenceDetailsController.conferenceId}" /> -->
+		<!-- 		</f:metadata> -->
 		<h1>Welcome to PAC Conferences!</h1>
 
 
@@ -37,7 +37,7 @@
 			</h:panelGroup>
 
 
-			<h:panelGrid columns="4" columnClasses="titleCell">
+			<h:panelGrid columns="2" columnClasses="titleCell">
 				<h:outputLabel for="conferencename" value="Name:" />
 				<h:outputText id="conferencename"
 					value="#{conferenceDetailsController.conference.name}" />
@@ -62,6 +62,49 @@
 
 		</h:form>
 
+		<h:form id="talksDayByDay">
+			<h2>Talks by day</h2>
+			<h:panelGroup
+				rendered="#{empty conferenceDetailsController.talkList}">
+				<em>No talks.</em>
+			</h:panelGroup>
 
+
+			<ui:repeat id="talksDayByDayList" value="#{conferenceDetailsController.talkList}" var="tbd">
+				<h2>#{tbd.day}</h2>
+				<h:dataTable id="talksDayTable" binding="#{conferenceDetailsController.dataTable}" var="_talk" value="#{tbd.talks}"
+					styleClass="simpletablestyle">
+					<h:column>
+						<f:facet name="header">Name</f:facet>
+						<h:outputText id="conferencelistname" value="#{_talk.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Description</f:facet>
+						<h:outputText id="conferencelistdesc" value="#{_talk.description}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Time</f:facet>
+						<h:outputText id="conferencelisttime" value="#{_talk.datetime}">
+							<f:convertDateTime pattern="HH:mm" timeZone="CET" />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Duration</f:facet>
+						<h:outputText id="conferencelistduration"
+							value="#{_talk.duration}" />
+						<h:message for="conferencelistduration" errorClass="invalid" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Details</f:facet>
+						<h:commandLink id="talkDetailsButton" action="#{conferenceDetailsController.abc}" value="Details">
+							<f:param name="talkId" value="#{_talk.id}" />
+						</h:commandLink>
+					</h:column>
+				</h:dataTable>
+			</ui:repeat>
+		<h:commandButton action="talkDetails" value="Details">
+							<f:param name="talkId" value="2" />
+						</h:commandButton>
+		</h:form>
 	</ui:define>
 </ui:composition>
