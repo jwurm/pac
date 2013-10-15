@@ -7,7 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.ejb.DependsOn;
 import javax.inject.Inject;
+
+import com.prodyna.academy.pac.base.Resources;
 
 public class Performance implements PerformanceMXBean {
 
@@ -24,7 +27,7 @@ public class Performance implements PerformanceMXBean {
 	}
 
 	@Override
-	public void report(String service, String method, long time, boolean success) {
+	public void report(String service, String method, long time, String success) {
 		String key = buildKey(service, method);
 		Entry entry = entries.get(key);
 		if (entry == null) {

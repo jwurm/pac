@@ -92,7 +92,7 @@ public class RoomController {
 	}
 
 
-	public String createNewRoom() throws Exception {
+	public void createNewRoom() {
 		try {
 			 roomService.createRoom(newRoom);
 			 facesContext.addMessage(null,
@@ -106,7 +106,6 @@ public class RoomController {
 					errorMessage, "Registration Unsuccessful");
 			facesContext.addMessage(null, m);
 		}
-		return "";
 	}
 	
 	
@@ -140,7 +139,7 @@ public class RoomController {
 		return errorMessage;
 	}
 
-	public void saveRoom() throws Exception {
+	public void saveRoom() {
 		try {
 
 			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
@@ -159,7 +158,7 @@ public class RoomController {
 		}
 	}
 
-	public void deleteRoom() throws Exception {
+	public void deleteRoom() {
 		try {
 			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
 			roomService.deleteRoom(room.getId());
