@@ -55,6 +55,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 			throw new BusinessException("Cannot delete conference "+id+" due to assigned talks.");
 		}
 		em.remove(ret);
+		em.flush();
 		log.info("Deleted conference " + ret);
 		return ret;
 	}

@@ -48,8 +48,8 @@
 				<h:message for="talkdescription" errorClass="invalid" />
 
 				<h:outputLabel for="talktime" value="Time:" />
-				<h:inputText id="talktime" value="#{newTalk.datetime}">
-					<f:convertDateTime pattern="HH:mm" timeZone="CET" />
+				<h:inputText id="talktime" value="#{talkController.newTalk.datetime}">
+					<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="CET" />
 				</h:inputText>
 
 				<h:message for="talktime" errorClass="invalid" />

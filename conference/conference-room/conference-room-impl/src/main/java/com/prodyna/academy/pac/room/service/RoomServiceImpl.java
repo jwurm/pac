@@ -6,8 +6,10 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.room.model.Room;
@@ -42,9 +44,23 @@ public class RoomServiceImpl implements RoomService {
 
 	public Room deleteRoom(int roomId) {
 		Room toRemove = findRoom(roomId);
-		em.remove(toRemove);
-		log.info("Deleted room: " + toRemove);
-		return toRemove;
+		try {
+			em.remove(toRemove);
+			//flush to provoke constraint violation exceptions before leaving the method
+			em.flush();
+			log.info("Deleted room: " + toRemove);
+			return toRemove;
+		} catch (PersistenceException e) {
+			log.warning(e.getMessage());
+			/*
+			 * Optimistically assume that this is a constraint violation exception. 
+			 * We don't have a dependency to hibernate here, so we cannot check this explicitly.
+			 */
+			throw new BusinessException(
+					"Could not delete room "
+							+ roomId
+							+ ", likely it is being used for talks.");
+		}
 	}
 
 	public Room findRoom(int id) {

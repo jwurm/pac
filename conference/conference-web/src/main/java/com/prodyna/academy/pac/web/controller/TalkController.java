@@ -144,6 +144,7 @@ public class TalkController {
 	@PostConstruct
 	public void initData() {
 		loadTalks();
+		newTalk=new Talk();
 	}
 
 	private String getRootErrorMessage(Exception e) {

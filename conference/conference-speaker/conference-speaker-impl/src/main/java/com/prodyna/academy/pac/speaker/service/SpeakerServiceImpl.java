@@ -6,8 +6,10 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.speaker.model.Speaker;
@@ -41,10 +43,25 @@ public class SpeakerServiceImpl implements SpeakerService {
 	}
 
 	public Speaker deleteSpeaker(int id) {
-		Speaker toRemove = findSpeaker(id);
-		em.remove(toRemove);
-		log.info("Deleted speaker: " + toRemove);
-		return toRemove;
+		try {
+			Speaker toRemove = findSpeaker(id);
+			em.remove(toRemove);
+			// flush to provoke constraint violation exceptions before leaving
+			// the method
+			em.flush();
+			log.info("Deleted speaker: " + toRemove);
+			return toRemove;
+		} catch (PersistenceException e) {
+			log.warning(e.getMessage());
+			/*
+			 * Optimistically assume that this is a constraint violation
+			 * exception. We don't have a dependency to hibernate here, so we
+			 * cannot check this explicitly.
+			 */
+			throw new BusinessException("Could not delete speaker " + id
+					+ ", likely it is assigned to talks.");
+		}
+
 	}
 
 	public Speaker findSpeaker(int id) {
