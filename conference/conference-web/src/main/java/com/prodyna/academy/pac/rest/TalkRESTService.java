@@ -42,6 +42,7 @@ import javax.ws.rs.core.Response;
 import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
+import com.prodyna.academy.pac.speaker.service.SpeakerService;
 
 /**
  * JAX-RS Example
@@ -61,11 +62,17 @@ public class TalkRESTService {
 	@Inject
 	private TalkService repository;
 
+	@Inject
+	private SpeakerService speakerService;
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listAllMembers() {
 		try {
 			List<Talk> talks = repository.getTalks();
+			for (Talk talk : talks) {
+				cleanTalk(talk);
+			}
 			return RestResponseBuilder.buildOkResponse(talks);
 		} catch (Exception e) {
 			log.severe(e.getMessage());
@@ -80,8 +87,71 @@ public class TalkRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") int id) {
 		try {
-			Talk talk = repository.findTalk(id);
+			Talk talk = repository.getTalk(id);
 			// // Create an "ok" response
+			cleanTalk(talk);
+			return RestResponseBuilder.buildOkResponse(talk);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
+		}
+	}
+
+	@GET
+	@Path("/assignspeaker/{talkId:[0-9][0-9]*}/{speakerId:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response assignSpeaker(@PathParam("talkId") int talkid,
+			@PathParam("speakerId") int speakerId) {
+		try {
+			Talk talk = repository.getTalk(talkid);
+			if (talk == null) {
+				throw new Exception("No talk found for id " + talkid);
+			}
+			Speaker speaker = speakerService.findSpeaker(speakerId);
+			if (speaker == null) {
+				throw new Exception("No speaker found for id " + speaker);
+			}
+			repository.assignSpeaker(talk, speaker);
+			// // Create an "ok" response
+			cleanTalk(talk);
+			return RestResponseBuilder.buildOkResponse(talk);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
+		}
+	}
+
+	/**
+	 * Removes backwards references to the conference in the talk to avoid a the
+	 * JSON marshaller to run into a circular path.
+	 * 
+	 * @param talk
+	 */
+	private void cleanTalk(Talk talk) {
+		talk.setConference(null);
+	}
+
+	@GET
+	@Path("/unassignspeaker/{talkId:[0-9][0-9]*}/{speakerId:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response unassignSpeaker(@PathParam("talkid") int talkid,
+			@PathParam("speakerId") int speakerId) {
+		try {
+			Talk talk = repository.getTalk(talkid);
+			if (talk == null) {
+				throw new Exception("No talk found for id " + talkid);
+			}
+			Speaker speaker = speakerService.findSpeaker(speakerId);
+			if (speaker == null) {
+				throw new Exception("No speaker found for id " + speaker);
+			}
+			repository.unassignSpeaker(talk, speaker);
+			// // Create an "ok" response
+			cleanTalk(talk);
 			return RestResponseBuilder.buildOkResponse(talk);
 		} catch (Exception e) {
 			log.severe(e.getMessage());
@@ -100,6 +170,7 @@ public class TalkRESTService {
 			Talk rs = repository.createTalk(talk);
 
 			// // Create an "ok" response
+			cleanTalk(rs);
 			return RestResponseBuilder.buildOkResponse(rs);
 		} catch (ConstraintViolationException ce) {
 			log.severe("Constraint violations have been found: "
@@ -122,6 +193,7 @@ public class TalkRESTService {
 			validateTalk(talk);
 			Talk rs = repository.updateTalk(talk);
 			// // Create an "ok" response
+			cleanTalk(rs);
 			return RestResponseBuilder.buildOkResponse(rs);
 		} catch (ConstraintViolationException ce) {
 			log.severe("Constraint violations have been found: "
@@ -143,6 +215,7 @@ public class TalkRESTService {
 		try {
 			Talk talk = repository.deleteTalk(id);
 			// // Create an "ok" response
+			cleanTalk(talk);
 			return RestResponseBuilder.buildOkResponse(talk);
 		} catch (Exception e) {
 			log.severe(e.getMessage());

@@ -13,7 +13,7 @@ public interface TalkService {
 	
 	public List<Talk> getTalks();
 	
-	public List<Talk> getTalksBySpeaker(Speaker speaker);
+	public List<Talk> getTalksBySpeaker(int speakerId);
 
 	public List<Talk> getByRoom(Room room);
 
@@ -27,9 +27,9 @@ public interface TalkService {
 
 	public Talk deleteTalk(int id);
 	
-	public Talk findTalk(int id);
+	public Talk getTalk(int id);
 	
-	public List<Speaker> findSpeakers(int talkId);
+	public List<Speaker> getSpeakersByTalk(int talkId);
 	
 	
 

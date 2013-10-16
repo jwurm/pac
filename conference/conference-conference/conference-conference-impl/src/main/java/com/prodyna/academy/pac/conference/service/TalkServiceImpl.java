@@ -37,10 +37,10 @@ public class TalkServiceImpl implements TalkService {
 	private Logger log;
 
 	@Override
-	public List<Talk> getTalksBySpeaker(Speaker speaker) {
+	public List<Talk> getTalksBySpeaker(int speakerId) {
 		Query query = em
 				.createNamedQuery(TalkSpeakerAssignment.FIND_BY_SPEAKER);
-		query.setParameter("speakerId", speaker.getId());
+		query.setParameter("speakerId", speakerId);
 		@SuppressWarnings("unchecked")
 		List<TalkSpeakerAssignment> ret = query.getResultList();
 		Set<Talk> talks = new HashSet<Talk>();
@@ -121,7 +121,7 @@ public class TalkServiceImpl implements TalkService {
 
 	@Override
 	public Talk deleteTalk(int id) {
-		Talk talk = findTalk(id);
+		Talk talk = getTalk(id);
 		em.remove(talk);
 		log.info("Deleted talk " + talk);
 		return talk;
@@ -129,7 +129,7 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	@Override
-	public Talk findTalk(int id) {
+	public Talk getTalk(int id) {
 		Talk ret = em.find(Talk.class, id);
 		log.info("Search for id " + id + " returned " + ret);
 		return ret;
@@ -152,9 +152,8 @@ public class TalkServiceImpl implements TalkService {
 
 	private void validateConferenceInterval(Talk talk) {
 		// read conference and room to have up to date data
-		
-		
-		Conference conf =conference.getCompleteConference(talk.getConference()
+
+		Conference conf = conference.getCompleteConference(talk.getConference()
 				.getId());
 
 		// validate conference date
@@ -194,12 +193,12 @@ public class TalkServiceImpl implements TalkService {
 			return;
 		}
 		Interval talkInterval = talk.buildInterval();
-		List<Speaker> speakers = findSpeakers(talk.getId());
+		List<Speaker> speakers = getSpeakersByTalk(talk.getId());
 		for (Speaker speaker : speakers) {
 			// no one of the speakers is allowed to have a talk at the same time
 			// as this one, except for this talk.
 
-			List<Talk> speakerTalks = getTalksBySpeaker(speaker);
+			List<Talk> speakerTalks = getTalksBySpeaker(speaker.getId());
 			for (Talk currTalk : speakerTalks) {
 				if (currTalk.getId().equals(talk.getId())) {
 					// if the talk already exists, don't validate against itself
@@ -228,7 +227,7 @@ public class TalkServiceImpl implements TalkService {
 		// no one of the speakers is allowed to have a talk at the same time
 		// as this one, except for this talk.
 
-		List<Talk> speakerTalks = getTalksBySpeaker(speaker);
+		List<Talk> speakerTalks = getTalksBySpeaker(speaker.getId());
 		for (Talk currTalk : speakerTalks) {
 			if (currTalk.getId().equals(talk.getId())) {
 				// if the talk already exists, don't validate against itself
@@ -247,7 +246,7 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	@Override
-	public List<Speaker> findSpeakers(int talkId) {
+	public List<Speaker> getSpeakersByTalk(int talkId) {
 		Query query = em.createNamedQuery(TalkSpeakerAssignment.FIND_BY_TALK);
 		query.setParameter("talkId", talkId);
 		@SuppressWarnings("unchecked")

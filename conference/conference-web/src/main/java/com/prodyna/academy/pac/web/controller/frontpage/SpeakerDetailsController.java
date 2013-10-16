@@ -16,9 +16,12 @@
  */
 package com.prodyna.academy.pac.web.controller.frontpage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -32,36 +35,39 @@ import javax.inject.Inject;
 import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
+import com.prodyna.academy.pac.speaker.service.SpeakerService;
 
-@ManagedBean(name = "talkDetailsController")
+@ManagedBean(name = "speakerDetailsController")
 @SessionScoped
-public class TalkDetailsController {
+public class SpeakerDetailsController {
 
-	@ManagedProperty(value = "#{talkId}")
-	private Integer talkId;
-
-	public void setTalkId(Integer talkId) {
-		this.talkId = talkId;
-	}
-
-	public Integer getTalkId() {
-		return talkId;
-	}
-
-	private Talk talk;
-
-	private List<Speaker> speakers = new ArrayList<Speaker>();
+	@ManagedProperty(value = "#{speakerId}")
+	private Integer speakerId;
 	
-	public List<Speaker> getSpeakers() {
-		return speakers;
+	public Integer getSpeakerId() {
+		return speakerId;
+	}
+	
+	public void setSpeakerId(Integer speakerId) {
+		this.speakerId = speakerId;
 	}
 
-	public Talk getTalk() {
-		return talk;
+	private Speaker speaker;
+
+	public Speaker getSpeaker() {
+		return speaker;
 	}
 
-	public void setTalk(Talk talk) {
-		this.talk = talk;
+	public void setSpeaker(Speaker speaker) {
+		this.speaker = speaker;
+	}
+public void setTalks(List<Talk> talks) {
+	this.talks = talks;
+}
+	private List<Talk> talks = new ArrayList<Talk>();
+
+	public List<Talk> getTalks() {
+		return talks;
 	}
 
 	@Inject
@@ -73,16 +79,19 @@ public class TalkDetailsController {
 	@Inject
 	private TalkService talkService;
 
+	@Inject
+	private SpeakerService speakerService;
+
 	@PostConstruct
 	public void initData() {
 		Map<String, String> requestParameterMap = facesContext
 				.getExternalContext().getRequestParameterMap();
-		String string = requestParameterMap.get("talkId");
-		talk = talkService.getTalk(Integer.valueOf(string));
-		List<Speaker> findSpeakersByTalk = talkService.getSpeakersByTalk(talk
-				.getId());
-		speakers.clear();
-		speakers.addAll(findSpeakersByTalk);
+		String string = requestParameterMap.get("speakerId");
+		speaker = speakerService.findSpeaker(Integer.valueOf(string));
+		List<Talk> talksList = talkService.getTalksBySpeaker(speaker.getId());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		talks.clear();
+		talks.addAll(talksList);
 	}
 
 }

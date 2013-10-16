@@ -95,14 +95,14 @@ public class TalkServiceTest {
 		talk = service.createTalk(talk);
 		Assert.assertEquals(Integer.valueOf(3), talk.getId());
 
-		Talk foundTalk = service.findTalk(3);
+		Talk foundTalk = service.getTalk(3);
 		Assert.assertNotNull(foundTalk.getRoom());
 
 		foundTalk.getRoom().setName("E504");
 		foundTalk.setDuration(60);
 		service.updateTalk(talk);
 
-		foundTalk = service.findTalk(3);
+		foundTalk = service.getTalk(3);
 		Assert.assertNotNull(foundTalk.getRoom());
 		Assert.assertEquals(Integer.valueOf(60), talk.getDuration());
 		// raum soll nicht aktualisiert worden sein
@@ -127,7 +127,7 @@ public class TalkServiceTest {
 		Speaker speaker2 = speakerservice.createSpeaker(new Speaker("Frank",
 				"Hat auch Plan"));
 
-		Talk talk = service.findTalk(3);
+		Talk talk = service.getTalk(3);
 
 		Assert.assertEquals(1, service.getTalks().size());
 
@@ -145,18 +145,18 @@ public class TalkServiceTest {
 
 		service.assignSpeaker(talk2, speaker);
 
-		List<Talk> talksBySpeaker = service.getTalksBySpeaker(speaker);
+		List<Talk> talksBySpeaker = service.getTalksBySpeaker(speaker.getId());
 		Assert.assertEquals(2, talksBySpeaker.size());
 
-		List<Talk> talksBySpeaker2 = service.getTalksBySpeaker(speaker2);
+		List<Talk> talksBySpeaker2 = service.getTalksBySpeaker(speaker2.getId());
 		Assert.assertEquals(1, talksBySpeaker2.size());
 		service.unassignSpeaker(talk, speaker2);
 
-		talksBySpeaker = service.getTalksBySpeaker(speaker2);
+		talksBySpeaker = service.getTalksBySpeaker(speaker2.getId());
 		Assert.assertEquals(0, talksBySpeaker.size());
 
 		service.unassignSpeaker(talk, speaker);
-		talksBySpeaker = service.getTalksBySpeaker(speaker);
+		talksBySpeaker = service.getTalksBySpeaker(speaker.getId());
 		Assert.assertEquals(1, talksBySpeaker.size());
 
 	}

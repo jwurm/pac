@@ -26,33 +26,38 @@
 		
 		<h:form>
 			<h2>Room Details</h2>
-			<h:dataTable id="dataTable"
-				binding="#{.dataTable}" var="_talk"
-				value="#{roomDetailsController.talks}"
-				rendered="#{not empty roomDetailsController.talks}"
-				styleClass="simpletablestyle">
-<!-- 				<h:column> -->
-<!-- 					<f:facet name="header">Name</f:facet> -->
-<!-- 					<h:outputText id="conferencelistname" value="#{_conference.name}" /> -->
-<!-- 				</h:column> -->
-<!-- 				<h:column> -->
-<!-- 					<f:facet name="header">Description</f:facet> -->
-<!-- 					<h:outputText id="conferencelistdesc" -->
-<!-- 						value="#{_conference.description}" /> -->
-<!-- 				</h:column> -->
-<!-- 				<h:column> -->
-<!-- 					<f:facet name="header">Start</f:facet> -->
-<!-- 					<h:outputText id="conferenceliststart" value="#{_conference.start}"> -->
-<!-- 						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" /> -->
-<!-- 					</h:outputText> -->
-<!-- 				</h:column> -->
-<!-- 				<h:column> -->
-<!-- 					<f:facet name="header">End</f:facet> -->
-<!-- 					<h:outputText id="conferencelistend" value="#{_conference.end}"> -->
-<!-- 						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" /> -->
-<!-- 					</h:outputText> -->
-<!-- 				</h:column> -->
-			</h:dataTable>
+			<ui:repeat id="talksDayByDayList" value="#{conferenceDetailsController.talkList}" var="tbd">
+				<h2>#{tbd.day}</h2>
+				<h:dataTable id="talksDayTable" binding="#{conferenceDetailsController.dataTable}" var="_talk" value="#{tbd.talks}"
+					styleClass="simpletablestyle">
+					<h:column>
+						<f:facet name="header">Name</f:facet>
+						<h:outputText id="conferencelistname" value="#{_talk.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Description</f:facet>
+						<h:outputText id="conferencelistdesc" value="#{_talk.description}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Time</f:facet>
+						<h:outputText id="conferencelisttime" value="#{_talk.datetime}">
+							<f:convertDateTime pattern="HH:mm" timeZone="CET" />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Duration</f:facet>
+						<h:outputText id="conferencelistduration"
+							value="#{_talk.duration}" />
+						<h:message for="conferencelistduration" errorClass="invalid" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Details</f:facet>
+						<h:commandLink id="talkDetailsButton" action="talkDetails" value="Details Direkt">
+							<f:param name="talkId" value="#{_talk.id}" />
+						</h:commandLink>
+					</h:column>
+				</h:dataTable>
+			</ui:repeat>
 		</h:form>
 
 

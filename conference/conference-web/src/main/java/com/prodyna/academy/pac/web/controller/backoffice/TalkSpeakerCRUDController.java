@@ -81,7 +81,7 @@ public class TalkSpeakerCRUDController {
 		try {
 			Speaker speaker = speakerService.findSpeaker(speakerId);
 			talkService.assignSpeaker(talk, speaker);
-			speakers = talkService.findSpeakers(talk.getId());
+			speakers = talkService.getSpeakersByTalk(talk.getId());
 			facesContext.addMessage(null, new FacesMessage(
 					FacesMessage.SEVERITY_INFO, "Speaker assigned.",
 					"Speaker assigned."));
@@ -144,7 +144,7 @@ public class TalkSpeakerCRUDController {
 		try {
 			Speaker speaker = (Speaker) dataTable.getRowData();
 			talkService.unassignSpeaker(talk, speaker);
-			speakers = talkService.findSpeakers(talk.getId());
+			speakers = talkService.getSpeakersByTalk(talk.getId());
 			facesContext.addMessage(null, new FacesMessage(
 					FacesMessage.SEVERITY_INFO, "Speaker unassigned.",
 					"Speaker assigned."));
@@ -160,11 +160,11 @@ public class TalkSpeakerCRUDController {
 
 	public void selectTalk() {
 		try {
-			talk = talkService.findTalk(talkId);
+			talk = talkService.getTalk(talkId);
 			if (talk == null) {
 				throw new Exception("No talk found for id " + talkId);
 			}
-			speakers = talkService.findSpeakers(talk.getId());
+			speakers = talkService.getSpeakersByTalk(talk.getId());
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
