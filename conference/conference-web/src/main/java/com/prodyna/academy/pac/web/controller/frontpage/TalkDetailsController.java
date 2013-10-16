@@ -34,24 +34,15 @@ import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
 @ManagedBean(name = "talkDetailsController")
-@SessionScoped
+@ViewScoped
 public class TalkDetailsController {
 
-	@ManagedProperty(value = "#{talkId}")
 	private Integer talkId;
-
-	public void setTalkId(Integer talkId) {
-		this.talkId = talkId;
-	}
-
-	public Integer getTalkId() {
-		return talkId;
-	}
 
 	private Talk talk;
 
 	private List<Speaker> speakers = new ArrayList<Speaker>();
-	
+
 	public List<Speaker> getSpeakers() {
 		return speakers;
 	}
@@ -78,7 +69,8 @@ public class TalkDetailsController {
 		Map<String, String> requestParameterMap = facesContext
 				.getExternalContext().getRequestParameterMap();
 		String string = requestParameterMap.get("talkId");
-		talk = talkService.getTalk(Integer.valueOf(string));
+		talkId = Integer.valueOf(string);
+		talk = talkService.getTalk(talkId);
 		List<Speaker> findSpeakersByTalk = talkService.getSpeakersByTalk(talk
 				.getId());
 		speakers.clear();

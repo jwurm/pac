@@ -115,7 +115,7 @@ public class TalkCRUDController {
 
 	public void createNewTalk() {
 		try {
-			Room room = roomService.findRoom(roomId);
+			Room room = roomService.getRoom(roomId);
 			Conference conference = conferenceService
 					.getCompleteConference(conferenceId);
 			newTalk.setConference(conference);

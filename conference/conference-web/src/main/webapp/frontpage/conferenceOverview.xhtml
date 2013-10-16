@@ -21,22 +21,30 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
+		<h:form>
+			<h:commandLink action="conferenceOverview" value="Overview" /> 
+			<h:commandLink action="backofficeIndex" value="Administration" />
+		</h:form>
 		<h1>Welcome to PAC Conferences!</h1>
 
-		
 		<h:form id="conferencelist">
 			<h2>Conferences</h2>
-			<h:panelGroup rendered="#{empty conferenceOverviewController.conferences}">
+			<h:panelGroup
+				rendered="#{empty conferenceOverviewController.conferences}">
 				<em>No conferences.</em>
 			</h:panelGroup>
 			<h:dataTable id="dataTable"
-				binding="#{conferenceOverviewController.dataTable}" var="_conference"
+				binding="#{conferenceOverviewController.dataTable}"
+				var="_conference"
 				value="#{conferenceOverviewController.conferences}"
 				rendered="#{not empty conferenceOverviewController.conferences}"
 				styleClass="simpletablestyle">
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:outputText id="conferencelistname" value="#{_conference.name}" />
+					<h:commandLink action="conferenceDetails"
+						value="#{_conference.name}">
+						<f:param name="cId" value="#{_conference.id}" />
+					</h:commandLink>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Description</f:facet>
@@ -54,12 +62,6 @@
 					<h:outputText id="conferencelistend" value="#{_conference.end}">
 						<f:convertDateTime pattern="yyyy-MM-dd" timeZone="CET" />
 					</h:outputText>
-				</h:column>
-				<h:column>
-					<f:facet name="header">Details</f:facet>
-					<h:commandButton action="conferenceDetails" value="Details">
-					<f:param name="cId" value="#{_conference.id}"/>
-					</h:commandButton>
 				</h:column>
 			</h:dataTable>
 		</h:form>

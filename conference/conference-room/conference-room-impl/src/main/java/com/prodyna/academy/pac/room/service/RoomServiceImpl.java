@@ -43,7 +43,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	public Room deleteRoom(int roomId) {
-		Room toRemove = findRoom(roomId);
+		Room toRemove = getRoom(roomId);
 		try {
 			em.remove(toRemove);
 			//flush to provoke constraint violation exceptions before leaving the method
@@ -63,7 +63,7 @@ public class RoomServiceImpl implements RoomService {
 		}
 	}
 
-	public Room findRoom(int id) {
+	public Room getRoom(int id) {
 		Room ret = em.find(Room.class, id);
 		log.info("Search for room with id " + id + " returned result: " + ret);
 		return ret;

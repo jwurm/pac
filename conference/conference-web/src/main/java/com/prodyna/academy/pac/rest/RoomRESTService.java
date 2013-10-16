@@ -74,7 +74,7 @@ public class RoomRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") int id) {
 		try {
-			Room room = repository.findRoom(id);
+			Room room = repository.getRoom(id);
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(room);
 		} catch (ConstraintViolationException ce) {

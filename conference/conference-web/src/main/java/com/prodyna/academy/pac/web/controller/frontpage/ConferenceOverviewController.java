@@ -40,9 +40,6 @@ public class ConferenceOverviewController {
 	private Logger log;
 
 	@Inject
-	private FacesContext facesContext;
-
-	@Inject
 	private ConferenceService conferenceService;
 
 

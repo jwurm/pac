@@ -22,10 +22,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-		<!-- 		<f:metadata> -->
-		<!-- 			<f:viewParam name="cId" -->
-		<!-- 				value="#{conferenceDetailsController.conferenceId}" /> -->
-		<!-- 		</f:metadata> -->
+		<h:form>
+			<h:commandLink action="conferenceOverview" value="Overview" />
+			<h:commandLink action="backofficeOverview" value="Administration" />
+		</h:form>
 		<h1>Welcome to PAC Conferences!</h1>
 
 
@@ -70,13 +70,17 @@
 			</h:panelGroup>
 
 
-			<ui:repeat id="talksDayByDayList" value="#{conferenceDetailsController.talkList}" var="tbd">
+			<ui:repeat id="talksDayByDayList"
+				value="#{conferenceDetailsController.talkList}" var="tbd">
 				<h2>#{tbd.day}</h2>
-				<h:dataTable id="talksDayTable" binding="#{conferenceDetailsController.dataTable}" var="_talk" value="#{tbd.talks}"
-					styleClass="simpletablestyle">
+				<h:dataTable id="talksDayTable"
+					binding="#{conferenceDetailsController.dataTable}" var="_talk"
+					value="#{tbd.talks}" styleClass="simpletablestyle">
 					<h:column>
 						<f:facet name="header">Name</f:facet>
-						<h:outputText id="conferencelistname" value="#{_talk.name}" />
+						<h:commandLink action="talkDetails" value="#{_talk.name}">
+							<f:param name="talkId" value="#{_talk.id}" />
+						</h:commandLink>
 					</h:column>
 					<h:column>
 						<f:facet name="header">Description</f:facet>
@@ -93,12 +97,6 @@
 						<h:outputText id="conferencelistduration"
 							value="#{_talk.duration}" />
 						<h:message for="conferencelistduration" errorClass="invalid" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Details</f:facet>
-						<h:commandLink id="talkDetailsButton" action="talkDetails" value="Details Direkt">
-							<f:param name="talkId" value="#{_talk.id}" />
-						</h:commandLink>
 					</h:column>
 				</h:dataTable>
 			</ui:repeat>

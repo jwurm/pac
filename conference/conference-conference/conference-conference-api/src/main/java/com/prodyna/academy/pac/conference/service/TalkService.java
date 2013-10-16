@@ -15,7 +15,7 @@ public interface TalkService {
 	
 	public List<Talk> getTalksBySpeaker(int speakerId);
 
-	public List<Talk> getByRoom(Room room);
+	public List<Talk> getByRoom(int roomid);
 
 	void assignSpeaker(Talk talk, Speaker speaker);
 

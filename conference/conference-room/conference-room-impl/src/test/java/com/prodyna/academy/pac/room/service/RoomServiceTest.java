@@ -75,7 +75,7 @@ public class RoomServiceTest {
 		room2.setCapacity(15);
 		service.updateRoom(room2);
 		
-		Room room2_1 = service.findRoom(2);
+		Room room2_1 = service.getRoom(2);
 		Assert.assertEquals(Integer.valueOf(2), room2_1.getId());
 		Assert.assertEquals("2616", room2.getName());
 		Assert.assertEquals(Integer.valueOf(15), room2.getCapacity());

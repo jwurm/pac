@@ -26,32 +26,30 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.conference.model.Talk;
-import com.prodyna.academy.pac.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.service.TalkService;
+import com.prodyna.academy.pac.room.model.Room;
+import com.prodyna.academy.pac.room.service.RoomService;
 
-@ManagedBean(name = "conferenceDetailsController")
+@ManagedBean(name = "roomDetailsController")
 @SessionScoped
-public class ConferenceDetailsController {
+public class RoomDetailsController {
 
-	private Conference conference;
+	private Room room;
 
-	private int conferenceId;
+	private int roomId;
 
-
-	public Conference getConference() {
-		return conference;
+	public Room getRoom() {
+		return room;
 	}
 
-	public void setConference(Conference conference) {
-		this.conference = conference;
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
 	@Inject
@@ -61,12 +59,14 @@ public class ConferenceDetailsController {
 	private FacesContext facesContext;
 
 	@Inject
-	private ConferenceService conferenceService;
+	private RoomService roomService;
+
+	@Inject
+	private TalkService talkService;
 
 	private HtmlDataTable dataTable;
 
-	private List<TalksByDay> talkList=new ArrayList<TalksByDay>();
-	
+	private List<TalksByDay> talkList = new ArrayList<TalksByDay>();
 
 	public void setDataTable(HtmlDataTable dataTable) {
 		this.dataTable = dataTable;
@@ -75,49 +75,48 @@ public class ConferenceDetailsController {
 	public HtmlDataTable getDataTable() {
 		return dataTable;
 	}
-	
+
 	public List<TalksByDay> getTalkList() {
 		return talkList;
 	}
-	
+
 	public void setTalkList(List<TalksByDay> talkList) {
 		this.talkList = talkList;
 	}
 
-
 	@PostConstruct
 	public void initData() {
-		Map<String, String> requestParameterMap = facesContext.getExternalContext().getRequestParameterMap();
-		String string = requestParameterMap.get("cId");
-//		if(string==null){
-//			return;
-//		}
-		conferenceId = Integer.valueOf(string);
-		conference = conferenceService.getCompleteConference(conferenceId);
-		
-		List<Talk> talks = conference.getTalks();
+		Map<String, String> requestParameterMap = facesContext
+				.getExternalContext().getRequestParameterMap();
+		String string = requestParameterMap.get("roomId");
+		// if(string==null){
+		// return;
+		// }
+		roomId = Integer.valueOf(string);
+		room = roomService.getRoom(roomId);
+		if (room == null) {
+			log.severe("Room not found for id " + roomId);
+			return;
+		}
+
+		List<Talk> talks = talkService.getByRoom(room.getId());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		//sorted map so that we get the right order simply by using its iterator
-		SortedMap<String, TalksByDay> talksByDay=new TreeMap<String, TalksByDay>();
+
+		// sorted map so that we get the right order simply by using its
+		// iterator
+		SortedMap<String, TalksByDay> talksByDay = new TreeMap<String, TalksByDay>();
 		for (Talk talk : talks) {
 			String dateString = sdf.format(talk.getDatetime());
 			TalksByDay talksbd = talksByDay.get(dateString);
-			if(talksbd==null){
-				talksbd=new TalksByDay(dateString);
+			if (talksbd == null) {
+				talksbd = new TalksByDay(dateString);
 				talksByDay.put(dateString, talksbd);
 			}
 			talksbd.getTalks().add(talk);
 		}
-		
+
 		talkList.addAll(talksByDay.values());
-		
+
 	}
-	
-	public String talkDetails(){
-//		Object rowData = dataTable.getRowData();
-		return "talkDetails";
-	}
-	
 
 }

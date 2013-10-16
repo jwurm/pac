@@ -120,7 +120,7 @@ public class TalkServiceTest {
 	@InSequence(2)
 	public void testSpeakerAssignment() throws ParseException {
 		Conference conference = cservice.getCompleteConference(1);
-		Room room = roomservice.findRoom(2);
+		Room room = roomservice.getRoom(2);
 
 		Speaker speaker = speakerservice.createSpeaker(new Speaker("Darko",
 				"Hat Plan"));

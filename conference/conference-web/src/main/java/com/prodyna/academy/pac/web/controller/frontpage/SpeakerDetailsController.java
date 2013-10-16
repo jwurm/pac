@@ -41,17 +41,8 @@ import com.prodyna.academy.pac.speaker.service.SpeakerService;
 @SessionScoped
 public class SpeakerDetailsController {
 
-	@ManagedProperty(value = "#{speakerId}")
 	private Integer speakerId;
 	
-	public Integer getSpeakerId() {
-		return speakerId;
-	}
-	
-	public void setSpeakerId(Integer speakerId) {
-		this.speakerId = speakerId;
-	}
-
 	private Speaker speaker;
 
 	public Speaker getSpeaker() {
@@ -87,9 +78,9 @@ public void setTalks(List<Talk> talks) {
 		Map<String, String> requestParameterMap = facesContext
 				.getExternalContext().getRequestParameterMap();
 		String string = requestParameterMap.get("speakerId");
-		speaker = speakerService.findSpeaker(Integer.valueOf(string));
+		speakerId = Integer.valueOf(string);
+		speaker = speakerService.findSpeaker(speakerId);
 		List<Talk> talksList = talkService.getTalksBySpeaker(speaker.getId());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		talks.clear();
 		talks.addAll(talksList);
 	}

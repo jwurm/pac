@@ -21,6 +21,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
+	<h:form>
+			<h:commandLink action="conferenceOverview" value="Overview" />
+			<h:commandLink action="../backoffice/backofficeOverview" value="Administration" />
+		</h:form>
 		<h1>Welcome to PAC Conferences!</h1>
 
 
@@ -37,35 +41,30 @@
 			</h:panelGrid>
 			
 
-			<h:dataTable value="#{speakerDetailsController.talks}" var="_talk"
-				rendered="true" styleClass="simpletablestyle">
-				<h:column>
-					<f:facet name="header">Name</f:facet>
-					<h:outputText id="conferencelistname" value="#{_talk.name}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">Description</f:facet>
-					<h:outputText id="conferencelistdesc" value="#{_talk.description}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">Time</f:facet>
-					<h:outputText id="conferencelisttime" value="#{_talk.datetime}">
-						<f:convertDateTime pattern="HH:mm" timeZone="CET" />
-					</h:outputText>
-				</h:column>
-				<h:column>
-					<f:facet name="header">Duration</f:facet>
-					<h:outputText id="conferencelistduration" value="#{_talk.duration}" />
-					<h:message for="conferencelistduration" errorClass="invalid" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">Details</f:facet>
-					<h:commandLink id="talkDetailsButton" action="talkDetails"
-						value="Details Direkt">
-						<f:param name="talkId" value="#{_talk.id}" />
-					</h:commandLink>
-				</h:column>
-			</h:dataTable>
+			<h:dataTable  var="_talk" value="#{speakerDetailsController.talks}"
+					styleClass="simpletablestyle">
+					<h:column>
+						<f:facet name="header">Name</f:facet>
+						<h:commandLink  action="talkDetails" value="#{_talk.name}">
+							<f:param name="talkId" value="#{_talk.id}" />
+						</h:commandLink>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Description</f:facet>
+						<h:outputText id="conferencelistdesc" value="#{_talk.description}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Time</f:facet>
+						<h:outputText value="#{_talk.datetime}">
+							<f:convertDateTime pattern="HH:mm" timeZone="CET" />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Duration</f:facet>
+						<h:outputText 
+							value="#{_talk.duration}" />
+					</h:column>
+				</h:dataTable>
 
 		</h:form>
 

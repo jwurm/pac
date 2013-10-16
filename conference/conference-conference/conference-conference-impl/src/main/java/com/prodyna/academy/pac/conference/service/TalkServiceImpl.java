@@ -52,9 +52,9 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	@Override
-	public List<Talk> getByRoom(Room room) {
+	public List<Talk> getByRoom(int roomId) {
 		Query query = em.createNamedQuery(Talk.FIND_BY_ROOM);
-		query.setParameter("roomId", room.getId());
+		query.setParameter("roomId", roomId);
 		@SuppressWarnings("unchecked")
 		List<Talk> ret = query.getResultList();
 
@@ -170,7 +170,7 @@ public class TalkServiceImpl implements TalkService {
 	private void validateRoomAvailability(Talk talk) {
 		Interval talkInterval = talk.buildInterval();
 		// validate room availability
-		List<Talk> roomTalks = getByRoom(talk.getRoom());
+		List<Talk> roomTalks = getByRoom(talk.getRoom().getId());
 		for (Talk currTalk : roomTalks) {
 			if (currTalk.getId().equals(talk.getId())) {
 				// if the talk already exists, don't validate against itself
