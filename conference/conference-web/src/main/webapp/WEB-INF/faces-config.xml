@@ -31,6 +31,7 @@
 		<navigation-case>
 			<from-outcome>backofficeIndex</from-outcome>
 			<to-view-id>/backoffice/backofficeIndex.jsf</to-view-id>
+			<redirect/>
 		</navigation-case>
 	</navigation-rule>
 	<!-- <navigation-rule> -->
