@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
@@ -37,7 +38,7 @@ import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
 
 @ManagedBean(name = "conferenceDetailsController")
-@ViewScoped
+@SessionScoped
 public class ConferenceDetailsController {
 
 	private Conference conference;
@@ -127,7 +128,7 @@ public class ConferenceDetailsController {
 	}
 	
 	public String talkDetails(){
-		Object rowData = dataTable.getRowData();
+//		Object rowData = dataTable.getRowData();
 		return "talkDetails";
 	}
 	

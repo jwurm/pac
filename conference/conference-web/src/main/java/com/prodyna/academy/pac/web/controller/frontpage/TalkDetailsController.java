@@ -21,6 +21,8 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -29,8 +31,19 @@ import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.TalkService;
 
 @ManagedBean(name = "talkDetailsController")
-@ViewScoped
+@SessionScoped
 public class TalkDetailsController {
+	
+	@ManagedProperty(value="#{talkId}")
+	private Integer talkId;
+	
+	public void setTalkId(Integer talkId) {
+		this.talkId = talkId;
+	}
+	
+	public Integer getTalkId() {
+		return talkId;
+	}
 
 	private Talk talk;
 

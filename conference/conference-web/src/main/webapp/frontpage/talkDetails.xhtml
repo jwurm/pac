@@ -40,6 +40,10 @@
 				<h:outputLabel value="Duration:" />
 				<h:outputText value="#{talkDetailsController.talk.duration} minutes" />
 				<h:outputLabel value="Room" />
+				<h:commandLink action="roomDetails" value="#{talkDetailsController.talk.room.name}">
+					<f:param name="roomId"
+						value="#{talkDetailsController.talk.room.id}"/>
+				</h:commandLink>
 
 			</h:panelGrid>
 		</h:form>

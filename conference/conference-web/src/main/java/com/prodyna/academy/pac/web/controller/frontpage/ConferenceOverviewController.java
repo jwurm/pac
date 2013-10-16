@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
@@ -32,7 +33,7 @@ import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
 
 @ManagedBean(name = "conferenceOverviewController")
-@ViewScoped
+@SessionScoped
 public class ConferenceOverviewController {
 
 	@Inject

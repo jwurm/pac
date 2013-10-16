@@ -96,15 +96,12 @@
 					</h:column>
 					<h:column>
 						<f:facet name="header">Details</f:facet>
-						<h:commandLink id="talkDetailsButton" action="#{conferenceDetailsController.talkDetails}" value="Details">
+						<h:commandLink id="talkDetailsButton" action="talkDetails" value="Details Direkt">
 							<f:param name="talkId" value="#{_talk.id}" />
 						</h:commandLink>
 					</h:column>
 				</h:dataTable>
 			</ui:repeat>
-		<h:commandButton action="talkDetails" value="Details">
-							<f:param name="talkId" value="2" />
-						</h:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>
