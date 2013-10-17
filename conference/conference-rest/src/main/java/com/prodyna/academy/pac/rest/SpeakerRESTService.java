@@ -35,11 +35,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.prodyna.academy.pac.conference.model.Conference;
+import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 import com.prodyna.academy.pac.speaker.service.SpeakerService;
 
@@ -51,6 +50,7 @@ import com.prodyna.academy.pac.speaker.service.SpeakerService;
  */
 @Path("/speakers")
 @RequestScoped
+@PerformanceLogged
 public class SpeakerRESTService {
 	@Inject
 	private Logger log;

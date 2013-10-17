@@ -30,5 +30,8 @@
         <dependent-module archiveName="conference-web.war" deploy-path="/" handle="module:/resource/conference-web/conference-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="conference-rest.war" deploy-path="/" handle="module:/resource/conference-rest/conference-rest">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

@@ -1,16 +1,12 @@
 package com.prodyna.academy.pac.base.monitoring.interceptor;
 
-
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import javax.ejb.DependsOn;
 import javax.inject.Inject;
-
-import com.prodyna.academy.pac.base.Resources;
 
 public class Performance implements PerformanceMXBean {
 
@@ -18,7 +14,7 @@ public class Performance implements PerformanceMXBean {
 	private Logger log;
 
 	public static final String OBJECT_NAME = "monitoring:service=performance";
-	private HashMap<String, Entry> entries = new HashMap<String, Entry>();
+	private SortedMap<String, Entry> entries = new TreeMap<String, Entry>();
 
 	@Override
 	public void reset() {
@@ -95,6 +91,14 @@ public class Performance implements PerformanceMXBean {
 	@Override
 	public void dump() {
 		log.info(entries.values().toString());
+
+	}
+
+	@Override
+	public void dumpSorted() {
+		for (Entry curr : entries.values()) {
+			log.info(curr.toString());
+		}
 
 	}
 

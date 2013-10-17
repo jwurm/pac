@@ -13,5 +13,6 @@ public interface PerformanceMXBean {
 	Entry getWorstByAverage();
 	Entry getWorstByCount();
 	void dump();
+	void dumpSorted();
 
 }

@@ -10,7 +10,7 @@
         </web-resource-collection>
         <auth-constraint>
             <description/>
-            <role-name>TutorialUser</role-name>
+            <role-name>conferenceBackoffice</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -25,6 +25,6 @@
 
     <security-role>
         <description/>
-        <role-name>TutorialUser</role-name>
+        <role-name>conferenceBackoffice</role-name>
     </security-role>
 </web-app>
