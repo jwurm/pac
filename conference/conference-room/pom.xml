@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.prodyna.academy.pac</groupId>
     <artifactId>conference</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <artifactId>conference-room</artifactId>
   <packaging>pom</packaging>

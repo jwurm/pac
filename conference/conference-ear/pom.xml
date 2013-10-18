@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.prodyna.academy.pac</groupId>
 		<artifactId>conference</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 	<artifactId>conference-ear</artifactId>
 	<name>conference-ear</name>
@@ -29,7 +27,7 @@
 						in easy way to package any libraries needed in the ear, and automatically 
 						have any modules (EJB-JARs and WARs) use them -->
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
-					<modules></modules>
+					<modules />
 					<fileNameMapping>no-version</fileNameMapping>
 				</configuration>
 			</plugin>
@@ -88,37 +86,37 @@
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-conference-impl</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-room-impl</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-speaker-impl</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-base</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-web</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-rest</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0</version>
 			<type>war</type>
 		</dependency>
 	</dependencies>
