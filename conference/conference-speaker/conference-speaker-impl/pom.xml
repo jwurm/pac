@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.prodyna.academy.pac</groupId>
     <artifactId>conference-speaker</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
   </parent>
   <artifactId>conference-speaker-impl</artifactId>
   <name>conference-speaker-impl</name>
@@ -102,12 +102,12 @@
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-speaker-api</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-base</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
   </dependencies>

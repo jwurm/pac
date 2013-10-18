@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.prodyna.academy.pac</groupId>
 		<artifactId>conference</artifactId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>conference-rest</artifactId>
 	<name>conference-rest</name>
@@ -16,7 +16,7 @@
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-base</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -52,19 +52,19 @@
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-conference-api</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-room-api</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-speaker-api</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.prodyna.academy.pac</groupId>
 		<artifactId>conference</artifactId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>conference-ear</artifactId>
 	<name>conference-ear</name>
@@ -86,37 +86,37 @@
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-conference-impl</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-room-impl</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-speaker-impl</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-base</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>ejb</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-web</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-rest</artifactId>
-			<version>1.0</version>
+			<version>1.1-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
 	</dependencies>
