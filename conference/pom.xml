@@ -140,6 +140,7 @@
 					<password>gi299792</password>
 					<username>jwurm</username>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<pushChanges>false</pushChanges>
 				</configuration>
 			</plugin>
 		</plugins>
