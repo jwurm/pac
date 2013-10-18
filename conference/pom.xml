@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.prodyna.academy.pac</groupId>
 	<artifactId>conference</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>conference</name>
@@ -17,7 +18,7 @@
 		</license>
 	</licenses>
 	<properties>
-			<!-- Explicitly declaring the source encoding eliminates the following 
+		<!-- Explicitly declaring the source encoding eliminates the following 
 			message: -->
 		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered 
 			resources, i.e. build is platform dependent! -->
@@ -60,10 +61,10 @@
 		<module>conference-room</module>
 		<module>conference-conference</module>
 		<module>conference-ear</module>
-    <module>conference-base</module>
-    <module>conference-web</module>
-    <module>conference-rest</module>
-  </modules>
+		<module>conference-base</module>
+		<module>conference-web</module>
+		<module>conference-rest</module>
+	</modules>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -117,22 +118,34 @@
 		</dependencies>
 
 	</dependencyManagement>
-	
-	<build>
-	<plugins>
-		<plugin>
-			<!-- NOTE: We don't need a groupId specification because the group is 
-				org.apache.maven.plugins ...which is assumed by default. -->
-			<artifactId>maven-assembly-plugin</artifactId>
-			<version>2.4</version>
-			<configuration>
-				<descriptorRefs>
-					<descriptorRef>jar-with-dependencies</descriptorRef>
-				</descriptorRefs>
-			</configuration>
-		</plugin>
-	</plugins>
 
-</build>
-	
+	<build>
+		<plugins>
+			<plugin>
+				<!-- NOTE: We don't need a groupId specification because the group is 
+					org.apache.maven.plugins ...which is assumed by default. -->
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.1</version>
+			</plugin>
+		</plugins>
+
+	</build>
+
+
+	<scm>
+		<!-- <connection>scm:git:http://github.com/cool.git</connection> -->
+		<developerConnection>scm:git:ssh://jwurm@github.com//jwurm/pac.git</developerConnection>
+		<url>https://github.com/jwurm/pac.git</url>
+	</scm>
+
 </project>
