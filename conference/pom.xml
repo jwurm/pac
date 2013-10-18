@@ -139,7 +139,6 @@
 				<configuration>
 					<password>gi299792</password>
 					<username>jwurm</username>
-					<dryRun>true</dryRun>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
