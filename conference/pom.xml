@@ -5,7 +5,7 @@
 
 	<groupId>com.prodyna.academy.pac</groupId>
 	<artifactId>conference</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>conference</name>
@@ -136,6 +136,12 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.1</version>
+				<configuration>
+					<password>gi299792</password>
+					<username>jwurm</username>
+					<dryRun>true</dryRun>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
 			</plugin>
 		</plugins>
 
