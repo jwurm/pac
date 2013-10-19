@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.service.mdb;
+package com.prodyna.academy.pac.talk.mdb;
 
 import java.util.logging.Logger;
 
@@ -10,7 +10,7 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-import com.prodyna.academy.pac.conference.service.decorators.TalkChangeNotificationDecorator;
+import com.prodyna.academy.pac.talk.service.decorators.TalkChangeNotificationDecorator;
 
 /**
  * Message-Driven Bean implementation class for: TalkChangeMDB Listens on the

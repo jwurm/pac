@@ -23,15 +23,13 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import com.prodyna.academy.pac.conference.model.Talk;
-import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.service.TalkService;
 
 @ManagedBean(name = "talkDetailsController")
 @ViewScoped

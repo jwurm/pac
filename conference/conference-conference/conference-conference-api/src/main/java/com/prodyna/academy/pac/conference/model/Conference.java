@@ -51,8 +51,6 @@ public class Conference {
 	@NotNull
 	private Date end;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "conference")
-	private List<Talk> talks;
 
 	public Conference(String name, String description, Date start, Date end) {
 		super();
@@ -100,11 +98,6 @@ public class Conference {
 				return false;
 		} else if (!start.equals(other.start))
 			return false;
-		if (talks == null) {
-			if (other.talks != null)
-				return false;
-		} else if (!talks.equals(other.talks))
-			return false;
 		return true;
 	}
 
@@ -128,9 +121,6 @@ public class Conference {
 		return start;
 	}
 
-	public List<Talk> getTalks() {
-		return talks;
-	}
 
 	@Override
 	public int hashCode() {
@@ -142,7 +132,6 @@ public class Conference {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((start == null) ? 0 : start.hashCode());
-		result = prime * result + ((talks == null) ? 0 : talks.hashCode());
 		return result;
 	}
 

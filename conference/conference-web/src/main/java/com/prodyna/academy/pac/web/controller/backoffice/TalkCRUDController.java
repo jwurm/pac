@@ -21,25 +21,20 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UICommand;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
-import org.joda.time.Instant;
-
 import com.prodyna.academy.pac.conference.model.Conference;
-import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
-import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.room.service.RoomService;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.service.TalkService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name

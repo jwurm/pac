@@ -15,7 +15,5 @@
 		<class>com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLoggingInterceptor</class>
 		<class>com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLoggingInterceptor</class>
 	</interceptors>
-	<decorators>
-      <class>com.prodyna.academy.pac.conference.service.decorators.TalkChangeNotificationDecorator</class>
-	</decorators>
+	
 </beans>

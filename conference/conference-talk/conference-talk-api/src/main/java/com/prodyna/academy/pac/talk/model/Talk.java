@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.model;
+package com.prodyna.academy.pac.talk.model;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,18 +23,21 @@ import javax.validation.constraints.Size;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 
+import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.room.model.Room;
 
 @Entity
 @Table(name = "talk")
 @NamedQueries({
 @NamedQuery(name = Talk.SELECT_ALL, query = "select t from Talk t"),
-@NamedQuery(name = Talk.FIND_BY_ROOM, query = "select distinct t from Talk t where room_id=:roomId")
+@NamedQuery(name = Talk.FIND_BY_ROOM, query = "select distinct t from Talk t where room_id=:roomId"),
+@NamedQuery(name = Talk.FIND_BY_CONFERENCE, query = "select distinct t from Talk t where conference_id=:conferenceId")
 
 })
 public class Talk {
 	public static final String SELECT_ALL = "Talk.SELECT_ALL";
 	public static final String FIND_BY_ROOM = "Talk.FIND_BY_ROOM";
+	public static final String FIND_BY_CONFERENCE = "Talk.FIND_BY_CONFERENCE";
 
 	@Id
 	@GeneratedValue

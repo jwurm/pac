@@ -31,10 +31,10 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import com.prodyna.academy.pac.conference.model.Talk;
-import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.room.service.RoomService;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.service.TalkService;
 
 @ManagedBean(name = "roomDetailsController")
 @SessionScoped

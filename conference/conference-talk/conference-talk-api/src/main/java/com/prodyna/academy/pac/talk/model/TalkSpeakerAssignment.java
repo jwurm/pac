@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.model;
+package com.prodyna.academy.pac.talk.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

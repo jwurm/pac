@@ -63,7 +63,8 @@
 		<module>conference-base</module>
 		<module>conference-web</module>
 		<module>conference-rest</module>
-	</modules>
+    <module>conference-talk</module>
+  </modules>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

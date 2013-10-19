@@ -6,8 +6,6 @@
     <project>conference-conference-api</project>
     <project>conference-speaker-api</project>
     <project>conference-room-api</project>
-    <project>conference-speaker-impl</project>
-    <project>conference-room-impl</project>
     <project>conference-base</project>
   </projects>
   <buildSpec>

@@ -119,5 +119,11 @@
 			<version>1.1-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
+		<dependency>
+			<groupId>com.prodyna.academy.pac</groupId>
+			<artifactId>conference-talk-impl</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<type>ejb</type>
+		</dependency>
 	</dependencies>
 </project>

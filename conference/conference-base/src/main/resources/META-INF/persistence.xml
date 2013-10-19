@@ -29,8 +29,8 @@
       <jta-data-source>java:jboss/datasources/ConferenceDS</jta-data-source>
       <class>com.prodyna.academy.pac.room.model.Room</class>
       <class>com.prodyna.academy.pac.speaker.model.Speaker</class>
-      <class>com.prodyna.academy.pac.conference.model.Talk</class>
-      <class>com.prodyna.academy.pac.conference.model.TalkSpeakerAssignment</class>
+      <class>com.prodyna.academy.pac.talk.model.Talk</class>
+      <class>com.prodyna.academy.pac.talk.model.TalkSpeakerAssignment</class>
       <class>com.prodyna.academy.pac.conference.model.Conference</class>
       <properties>
          <!-- Properties for Hibernate -->

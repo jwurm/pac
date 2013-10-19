@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.service;
+package com.prodyna.academy.pac.talk.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,10 +18,10 @@ import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.model.Conference;
-import com.prodyna.academy.pac.conference.model.Talk;
-import com.prodyna.academy.pac.conference.model.TalkSpeakerAssignment;
-import com.prodyna.academy.pac.room.model.Room;
+import com.prodyna.academy.pac.conference.service.ConferenceService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.model.TalkSpeakerAssignment;
 
 @Stateless
 @PerformanceLogged
@@ -271,6 +271,17 @@ public class TalkServiceImpl implements TalkService {
 		}
 
 		return new ArrayList<Talk>(talks);
+	}
+
+	@Override
+	public List<Talk> getTalksByConference(int conferenceId) {
+		Query query = em
+				.createNamedQuery(Talk.FIND_BY_CONFERENCE);
+		query.setParameter("conferenceId", conferenceId);
+		@SuppressWarnings("unchecked")
+		List<Talk> ret = query.getResultList();
+
+		return new ArrayList<Talk>(ret);
 	}
 
 }

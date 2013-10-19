@@ -1,13 +1,9 @@
-package com.prodyna.academy.pac.conference.service;
+package com.prodyna.academy.pac.talk.service;
 
 import java.util.List;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-
-import com.prodyna.academy.pac.conference.model.Talk;
-import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.speaker.model.Speaker;
+import com.prodyna.academy.pac.talk.model.Talk;
 
 public interface TalkService {
 	
@@ -28,6 +24,8 @@ public interface TalkService {
 	public Talk deleteTalk(int id);
 	
 	public Talk getTalk(int id);
+	
+	public List<Talk> getTalksByConference(int id);
 	
 	public List<Speaker> getSpeakersByTalk(int talkId);
 	

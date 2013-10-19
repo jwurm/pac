@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.service.decorators;
+package com.prodyna.academy.pac.talk.service.decorators;
 
 import java.util.logging.Logger;
 
@@ -6,7 +6,6 @@ import javax.decorator.Decorator;
 import javax.decorator.Delegate;
 import javax.inject.Inject;
 import javax.jms.Connection;
-import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.Queue;
 import javax.jms.QueueConnectionFactory;
@@ -14,9 +13,9 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.InitialContext;
 
-import com.prodyna.academy.pac.conference.model.Talk;
-import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.service.TalkService;
 
 @Decorator
 public abstract class TalkChangeNotificationDecorator implements TalkService {

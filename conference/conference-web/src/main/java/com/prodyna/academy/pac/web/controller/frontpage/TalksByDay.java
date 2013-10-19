@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
-import com.prodyna.academy.pac.conference.model.Talk;
+import com.prodyna.academy.pac.talk.model.Talk;
 
 @ManagedBean
 public class TalksByDay {

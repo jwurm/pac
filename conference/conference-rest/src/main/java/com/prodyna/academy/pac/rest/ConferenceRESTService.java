@@ -35,14 +35,13 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.conference.model.Conference;
-import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
-import com.prodyna.academy.pac.room.model.Room;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.service.TalkService;
 
 /**
  * JAX-RS Example
@@ -61,21 +60,24 @@ public class ConferenceRESTService {
 	private Logger log;
 
 	@Inject
-	private ConferenceService repository;
+	private ConferenceService conferenceService;
+	
+	@Inject
+	private TalkService talkService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listAllMembers() {
 
 		try {
-			List<Conference> findAllConferences = repository
+			List<Conference> findAllConferences = conferenceService
 					.findAllConferences();
 			/*
 			 * remove backwards reference. not very nice, but it saves us from
 			 * using jackson specific annotations and the effect is the same.
 			 */
 			for (Conference conference : findAllConferences) {
-				for(Talk talk:conference.getTalks()){
+				for(Talk talk:talkService.getTalksByConference(conference.getId())){
 					talk.setConference(null);
 				}
 				
@@ -100,13 +102,13 @@ public class ConferenceRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") int id) {
 		try {
-			Conference conference = repository.getCompleteConference(id);
+			Conference conference = conferenceService.getCompleteConference(id);
 			
 			/*
 			 * remove backwards reference. not very nice, but it saves us from
 			 * using jackson specific annotations and the effect is the same.
 			 */
-			for (Talk talk : conference.getTalks()) {
+			for (Talk talk : talkService.getTalksByConference(id)) {
 				talk.setConference(null);
 			}
 			
@@ -132,7 +134,7 @@ public class ConferenceRESTService {
 
 		try {
 			validateConference(conference);
-			Conference rs = repository.createConference(conference);
+			Conference rs = conferenceService.createConference(conference);
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(rs);
 		} catch (ConstraintViolationException ce) {
@@ -154,7 +156,7 @@ public class ConferenceRESTService {
 	public Response update(Conference conference) {
 		try {
 			validateConference(conference);
-			Conference rs = repository.updateConference(conference);
+			Conference rs = conferenceService.updateConference(conference);
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(rs);
 		} catch (ConstraintViolationException ce) {
@@ -175,7 +177,7 @@ public class ConferenceRESTService {
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Integer id) {
 		try {
-			Conference conference = repository.deleteConference(id);
+			Conference conference = conferenceService.deleteConference(id);
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(conference);
 		} catch (ConstraintViolationException ce) {

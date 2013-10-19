@@ -26,16 +26,15 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.prodyna.academy.pac.conference.model.Conference;
-import com.prodyna.academy.pac.conference.model.Talk;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.service.TalkService;
 
 @ManagedBean(name = "conferenceDetailsController")
 @SessionScoped
@@ -62,6 +61,9 @@ public class ConferenceDetailsController {
 
 	@Inject
 	private ConferenceService conferenceService;
+	
+	@Inject
+	private TalkService talkService;
 
 	private HtmlDataTable dataTable;
 
@@ -95,7 +97,7 @@ public class ConferenceDetailsController {
 		conferenceId = Integer.valueOf(string);
 		conference = conferenceService.getCompleteConference(conferenceId);
 		
-		List<Talk> talks = conference.getTalks();
+		List<Talk> talks = talkService.getTalksByConference(conferenceId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		//sorted map so that we get the right order simply by using its iterator

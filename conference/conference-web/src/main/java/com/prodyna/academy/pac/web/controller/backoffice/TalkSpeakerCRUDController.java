@@ -16,32 +16,22 @@
  */
 package com.prodyna.academy.pac.web.controller.backoffice;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UICommand;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
-import org.joda.time.Instant;
-
-import com.prodyna.academy.pac.conference.model.Conference;
-import com.prodyna.academy.pac.conference.model.Talk;
-import com.prodyna.academy.pac.conference.service.ConferenceService;
-import com.prodyna.academy.pac.conference.service.TalkService;
-import com.prodyna.academy.pac.room.model.Room;
-import com.prodyna.academy.pac.room.service.RoomService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 import com.prodyna.academy.pac.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.service.TalkService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -65,10 +55,7 @@ public class TalkSpeakerCRUDController {
 	private SpeakerService speakerService;
 
 	@NotNull
-	private Integer speakerId;
-	
-	@NotNull
-	private Integer talkId;
+	private Speaker speaker;
 
 	private Talk talk;
 
@@ -76,12 +63,13 @@ public class TalkSpeakerCRUDController {
 
 	private List<Speaker> speakers;
 
+	private List<Speaker> talkSpeakers;
+
 	public void assignSpeaker() {
 
 		try {
-			Speaker speaker = speakerService.findSpeaker(speakerId);
 			talkService.assignSpeaker(talk, speaker);
-			speakers = talkService.getSpeakersByTalk(talk.getId());
+			talkSpeakers = talkService.getSpeakersByTalk(talk.getId());
 			facesContext.addMessage(null, new FacesMessage(
 					FacesMessage.SEVERITY_INFO, "Speaker assigned.",
 					"Speaker assigned."));
@@ -119,10 +107,6 @@ public class TalkSpeakerCRUDController {
 		return errorMessage;
 	}
 
-	public Integer getSpeakerId() {
-		return speakerId;
-	}
-
 	public List<Speaker> getSpeakers() {
 		return speakers;
 	}
@@ -131,12 +115,9 @@ public class TalkSpeakerCRUDController {
 		return talk;
 	}
 
-	public Integer getTalkId() {
-		return talkId;
-	}
-
 	@PostConstruct
 	public void initData() {
+		this.speakers = speakerService.getSpeakers();
 	}
 
 	public void removeSpeaker() {
@@ -144,7 +125,7 @@ public class TalkSpeakerCRUDController {
 		try {
 			Speaker speaker = (Speaker) dataTable.getRowData();
 			talkService.unassignSpeaker(talk, speaker);
-			speakers = talkService.getSpeakersByTalk(talk.getId());
+			talkSpeakers = talkService.getSpeakersByTalk(talk.getId());
 			facesContext.addMessage(null, new FacesMessage(
 					FacesMessage.SEVERITY_INFO, "Speaker unassigned.",
 					"Speaker assigned."));
@@ -158,13 +139,21 @@ public class TalkSpeakerCRUDController {
 		}
 	}
 
-	public void selectTalk() {
+	public void selectTalk(Talk talk) {
 		try {
-			talk = talkService.getTalk(talkId);
-			if (talk == null) {
-				throw new Exception("No talk found for id " + talkId);
-			}
-			speakers = talkService.getSpeakersByTalk(talk.getId());
+			this.talk = talk;
+			talkSpeakers = talkService.getSpeakersByTalk(talk.getId());
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Speaker unassignment failed.");
+			facesContext.addMessage(null, m);
+		}
+	}
+
+	public void selectSpeaker(Speaker speaker) {
+		try {
+			this.speaker = speaker;
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -177,8 +166,12 @@ public class TalkSpeakerCRUDController {
 		this.dataTable = dataTable;
 	}
 
-	public void setSpeakerId(Integer speakerId) {
-		this.speakerId = speakerId;
+	public Speaker getSpeaker() {
+		return speaker;
+	}
+
+	public void setSpeaker(Speaker speaker) {
+		this.speaker = speaker;
 	}
 
 	public void setSpeakers(List<Speaker> speakers) {
@@ -189,7 +182,7 @@ public class TalkSpeakerCRUDController {
 		this.talk = talk;
 	}
 
-	public void setTalkId(Integer talkId) {
-		this.talkId = talkId;
+	public List<Speaker> getTalkSpeakers() {
+		return talkSpeakers;
 	}
 }

@@ -38,10 +38,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.prodyna.academy.pac.conference.model.Talk;
-import com.prodyna.academy.pac.conference.service.TalkService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 import com.prodyna.academy.pac.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.talk.model.Talk;
+import com.prodyna.academy.pac.talk.service.TalkService;
 
 /**
  * JAX-RS Example

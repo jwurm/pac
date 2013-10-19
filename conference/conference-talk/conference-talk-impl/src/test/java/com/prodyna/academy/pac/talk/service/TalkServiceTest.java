@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.service;
+package com.prodyna.academy.pac.talk.service;
 
 import java.io.File;
 import java.text.ParseException;
@@ -20,11 +20,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.prodyna.academy.pac.conference.model.Conference;
-import com.prodyna.academy.pac.conference.model.Talk;
+import com.prodyna.academy.pac.conference.service.ConferenceService;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.room.service.RoomService;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 import com.prodyna.academy.pac.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.talk.model.Talk;
 
 /**
  * The Class ConferenceServiceTest.
