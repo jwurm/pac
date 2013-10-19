@@ -30,7 +30,7 @@
         <dependent-module archiveName="conference-web.war" deploy-path="/" handle="module:/resource/conference-web/conference-web">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="conference-rest.war" deploy-path="/" handle="module:/resource/conference-rest/conference-rest">
+        <dependent-module archiveName="conference-rest.war" deploy-path="/" handle="module:/classpath/var/M2_REPO/com/prodyna/academy/pac/conference-rest/1.1-SNAPSHOT/conference-rest-1.1-SNAPSHOT.war">
             <dependency-type>uses</dependency-type>
         </dependent-module>
     </wb-module>

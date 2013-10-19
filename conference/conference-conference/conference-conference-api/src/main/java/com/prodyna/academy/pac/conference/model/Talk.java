@@ -112,8 +112,9 @@ public class Talk {
 
 	@Override
 	public String toString() {
-		return "Talk [id=" + id + ", name=" + name + ", description="
-				+ description + ", datetime=" + datetime + ", duration=" + duration + "]";
+		return "Talk [name=" + name + ", description=" + description
+				+ ", datetime=" + datetime + ", duration=" + duration
+				+ ", room=" + room + "]";
 	}
 
 

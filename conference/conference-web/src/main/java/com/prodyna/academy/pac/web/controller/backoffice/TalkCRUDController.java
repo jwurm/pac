@@ -58,10 +58,10 @@ public class TalkCRUDController {
 
 	@Inject
 	private TalkService talkService;
-	
+
 	@Inject
 	private ConferenceService conferenceService;
-	
+
 	@Inject
 	private RoomService roomService;
 
@@ -124,15 +124,12 @@ public class TalkCRUDController {
 			facesContext.addMessage(null, new FacesMessage(
 					FacesMessage.SEVERITY_INFO, "New talk created!",
 					"Talk creation successful"));
-			
-			
-			// talks.add(newTalk);
-			initData();
 
+			initData();
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Registration Unsuccessful");
+					errorMessage, "Talk creation failed");
 			facesContext.addMessage(null, m);
 		}
 	}
@@ -144,7 +141,7 @@ public class TalkCRUDController {
 	@PostConstruct
 	public void initData() {
 		loadTalks();
-		newTalk=new Talk();
+		newTalk = new Talk();
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -175,6 +172,9 @@ public class TalkCRUDController {
 			} else {
 				talkService.updateTalk(talk);
 			}
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Talk updated", "The talk has been updated successfully.");
+			facesContext.addMessage(null, m);
 			loadTalks();
 
 		} catch (Exception e) {
@@ -189,6 +189,9 @@ public class TalkCRUDController {
 		try {
 			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();
 			talkService.deleteTalk(talk.getId());
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Talk deleted.", "The talk has been deleted successfully.");
+			facesContext.addMessage(null, m);
 			loadTalks();
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);

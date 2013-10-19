@@ -106,6 +106,7 @@ form {
   width: 375px;
   border: 1px solid #D5D5D5;
 }
+
 label {
   float: left;
   width: 15%;
@@ -124,7 +125,16 @@ input {
   margin-left: 85px;
 }
 
+.wideform {
+  padding: 1em;
+  font: 80%/1 sans-serif;
+  width: 700px;
+  border: 1px solid #D5D5D5;
+}
+
 /*  -----  table style  -------  */
+
+
 
 
 /*  = Simple Table style (black header, grey/white stripes  */
@@ -145,6 +155,8 @@ input {
   font-size:11px;
   padding:5px 5px;
 }
+
+.buttoncolumn { width: 50px; }
 
 .simpletablestyle th {
 	background: url(#{request.contextPath}/resources/gfx/bkg-blkheader.png) black repeat-x top left;

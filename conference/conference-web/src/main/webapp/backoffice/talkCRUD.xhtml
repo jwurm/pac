@@ -39,7 +39,8 @@
 			<h2>Talk Creation</h2>
 			<h:panelGrid columns="3" columnClasses="titleCell">
 				<h:outputLabel for="talkname" value="Name:" />
-				<h:inputText id="talkname" value="#{talkCRUDController.newTalk.name}" />
+				<h:inputText id="talkname"
+					value="#{talkCRUDController.newTalk.name}" />
 				<h:message for="talkname" errorClass="invalid" />
 
 				<h:outputLabel for="talkdescription" value="Description:" />
@@ -48,7 +49,8 @@
 				<h:message for="talkdescription" errorClass="invalid" />
 
 				<h:outputLabel for="talktime" value="Time:" />
-				<h:inputText id="talktime" value="#{talkCRUDController.newTalk.datetime}">
+				<h:inputText id="talktime"
+					value="#{talkCRUDController.newTalk.datetime}">
 					<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="CET" />
 				</h:inputText>
 
@@ -92,7 +94,10 @@
 				styleClass="simpletablestyle">
 				<h:column>
 					<f:facet name="header">Id</f:facet>
-					<h:outputText value=" #{_talk.id}" />
+					<h:commandLink
+						action="#{talkSpeakerCRUDController.selectTalk(_talk)}"
+						value="#{_talk.id}">
+					</h:commandLink>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Name</f:facet>
@@ -117,6 +122,11 @@
 					<h:message for="conferencelistduration" errorClass="invalid" />
 				</h:column>
 				<h:column>
+					<f:facet name="header">Room</f:facet>
+					<h:inputText id="conferencelistroom" value="#{_talk.room.id}" />
+					<h:message for="conferencelistroom" errorClass="invalid" />
+				</h:column>
+				<h:column>
 					<f:facet name="header">Conference</f:facet>
 					<h:outputText value="#{_talk.conference.name}" />
 				</h:column>
@@ -136,8 +146,9 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
-					<h:commandButton id="delete" action="#{talkCRUDController.deleteTalk}"
-						value="Delete" styleClass="register" immediate="true" />
+					<h:commandButton id="delete"
+						action="#{talkCRUDController.deleteTalk}" value="Delete"
+						styleClass="register" immediate="true" />
 				</h:column>
 			</h:dataTable>
 		</h:form>
@@ -145,45 +156,43 @@
 
 
 		<h:form id="talkspeakerSpeaker">
-			<h2>Talk/Speaker assignment</h2>
-			<h:panelGrid columns="3" columnClasses="titleCell">
-				<h:outputLabel for="talkId" value="Select talk by id" />
-				<h:inputText id="talkId" value="#{talkSpeakerCRUDController.talkId}" />
-				<h:message for="talkId" errorClass="invalid" />
-			</h:panelGrid>
-			<h:panelGrid columns="2" columnClasses="titleCell">
-				<h:commandButton id="selectTalk"
-					action="#{talkSpeakerCRUDController.selectTalk}" value="Select Talk"
-					styleClass="register" />
-				<h:messages styleClass="messages" errorClass="invalid"
-					infoClass="valid" warnClass="warning" globalOnly="false" />
-			</h:panelGrid>
+			<h2>Speakers</h2>
+			<h:dataTable value="#{talkSpeakerCRUDController.speakers}"
+				var="speaker" rendered="true" styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:commandLink
+						action="#{talkSpeakerCRUDController.selectSpeaker(speaker)}"
+						value="#{speaker.name}">
+					</h:commandLink>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Description</f:facet>
+					<h:outputText value="#{speaker.description}" />
+				</h:column>
+			</h:dataTable>
 
 		</h:form>
 		<h:form id="talkspeakerAssign">
-			<h:panelGrid columns="3" columnClasses="titleCell">
-				<h:outputLabel for="speakerId" value="SpeakerId" />
-				<h:inputText id="speakerId"
-					value="#{talkSpeakerCRUDController.speakerId}" />
+			<h2>Selected Talk/Speaker</h2>
+			<h:panelGrid columns="2" columnClasses="titleCell">
+				<h:outputText value="Talk" />
+				<h:outputText value="#{talkSpeakerCRUDController.talk.name}" />
+				<h:outputText value="Speaker" />
+				<h:outputText value="#{talkSpeakerCRUDController.speaker.name}" />
+				<h:commandButton id="assignSpeaker"
+					action="#{talkSpeakerCRUDController.assignSpeaker}"
+					value="AssignSpeaker" styleClass="register" />
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="false" />
 			</h:panelGrid>
-			<p>
-				<h:panelGrid columns="2">
-					<h:commandButton id="assignSpeaker"
-						action="#{talkSpeakerCRUDController.assignSpeaker}"
-						value="AssignSpeaker" styleClass="register" />
-					<h:messages styleClass="messages" errorClass="invalid"
-						infoClass="valid" warnClass="warning" globalOnly="false" />
-				</h:panelGrid>
-			</p>
-
-
 		</h:form>
 		<h:form id="talkspeakerassignmentlist">
 			<h2>Speaker Assignment for talk
 				#{talkSpeakerCRUDController.talk.name}</h2>
 			<h:dataTable id="dataTable"
 				binding="#{talkSpeakerCRUDController.dataTable}" var="_speaker"
-				value="#{talkSpeakerCRUDController.speakers}"
+				value="#{talkSpeakerCRUDController.talkSpeakers}"
 				rendered="#{not empty talkSpeakerCRUDController.speakers}"
 				styleClass="simpletablestyle">
 				<h:column>

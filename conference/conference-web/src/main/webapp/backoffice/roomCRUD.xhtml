@@ -63,7 +63,7 @@
 				</h:panelGrid>
 			</p>
 		</h:form>
-		<h:form id="roomlist">
+		<h:form id="roomlist" class="wideform">
 			<h2>Rooms</h2>
 			<h:panelGroup rendered="#{empty roomCRUDController.rooms}">
 				<em>No rooms.</em>
@@ -95,12 +95,10 @@
 						href="#{request.contextPath}/rest/rooms">/rest/rooms</a>
 				</f:facet>
 				<h:column>
-					<!-- 					<f:facet name="header">Actions</f:facet> -->
 					<h:commandButton id="update" action="#{roomCRUDController.saveRoom}"
 						value="Save" styleClass="register" />
 				</h:column>
-				<h:column>
-					<!-- 					<f:facet name="header">Actions</f:facet> -->
+				<h:column class="buttoncolumn">
 					<h:commandButton id="delete" action="#{roomCRUDController.deleteRoom}"
 						value="Delete" styleClass="register" immediate="true" />
 				</h:column>
