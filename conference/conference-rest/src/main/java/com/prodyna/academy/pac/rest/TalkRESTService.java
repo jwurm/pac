@@ -137,12 +137,12 @@ public class TalkRESTService {
 	@GET
 	@Path("/unassignspeaker/{talkId:[0-9][0-9]*}/{speakerId:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response unassignSpeaker(@PathParam("talkid") int talkid,
+	public Response unassignSpeaker(@PathParam("talkId") int talkId,
 			@PathParam("speakerId") int speakerId) {
 		try {
-			Talk talk = talkService.getTalk(talkid);
+			Talk talk = talkService.getTalk(talkId);
 			if (talk == null) {
-				throw new Exception("No talk found for id " + talkid);
+				throw new Exception("No talk found for id " + talkId);
 			}
 			Speaker speaker = speakerService.getSpeaker(speakerId);
 			if (speaker == null) {

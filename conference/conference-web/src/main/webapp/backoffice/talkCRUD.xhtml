@@ -181,14 +181,18 @@
 				<h:outputText value="#{talkSpeakerCRUDController.talk.name}" />
 				<h:outputText value="Speaker" />
 				<h:outputText value="#{talkSpeakerCRUDController.speaker.name}" />
+
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="false" />
+			</h:panelGrid>
+			<h:panelGrid columns="2" columnClasses="titleCell"
+				rendered="#{talkSpeakerCRUDController.readyToAssign}">
 				<h:commandButton id="assignSpeaker"
 					action="#{talkSpeakerCRUDController.assignSpeaker}"
 					value="AssignSpeaker" styleClass="register" />
 				<a
 					href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/talks/assignspeaker/#{talkSpeakerCRUDController.talk.id}/#{talkSpeakerCRUDController.speaker.id}"
 					styleClass="register">REST link</a>
-				<h:messages styleClass="messages" errorClass="invalid"
-					infoClass="valid" warnClass="warning" globalOnly="false" />
 			</h:panelGrid>
 		</h:form>
 		<h:form id="talkspeakerassignmentlist">
@@ -216,6 +220,12 @@
 					<h:commandButton id="update"
 						action="#{talkSpeakerCRUDController.removeSpeaker}" value="Remove"
 						styleClass="register" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Actions</f:facet>
+					<a
+						href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/talks/unassignspeaker/#{talkSpeakerCRUDController.talk.id}/#{talkSpeakerCRUDController.speaker.id}"
+						styleClass="register">REST link</a>
 				</h:column>
 				<f:facet name="footer">
 					<h:messages styleClass="messages" errorClass="invalid"

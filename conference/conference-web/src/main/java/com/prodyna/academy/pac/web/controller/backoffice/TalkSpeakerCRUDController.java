@@ -185,4 +185,12 @@ public class TalkSpeakerCRUDController {
 	public List<Speaker> getTalkSpeakers() {
 		return talkSpeakers;
 	}
+
+	/**
+	 * Determines if a speaker assignment can be done.
+	 * @return true if both talk and speaker are set
+	 */
+	public boolean isReadyToAssign() {
+		return speaker != null && talk != null;
+	}
 }
