@@ -78,7 +78,7 @@ public class ConferenceCRUDController {
 	// @PostConstruct
 
 	private void loadConferences() {
-		conferences = conferenceService.findAllConferences();
+		conferences = conferenceService.getAllConferences();
 	}
 
 	@Named("newConference")

@@ -88,11 +88,11 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">REST URL</f:facet>
-					<a href="#{request.contextPath}/rest/rooms/#{_room.id}">/rest/rooms/#{_room.id}</a>
+					<a href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/rooms/#{_room.id}">link</a>
 				</h:column>
 				<f:facet name="footer">
             REST URL for all members: <a
-						href="#{request.contextPath}/rest/rooms">/rest/rooms</a>
+						href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/rooms">link</a>
 				</f:facet>
 				<h:column>
 					<h:commandButton id="update" action="#{roomCRUDController.saveRoom}"

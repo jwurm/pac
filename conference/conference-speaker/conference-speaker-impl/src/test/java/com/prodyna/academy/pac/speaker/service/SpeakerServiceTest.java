@@ -56,7 +56,7 @@ public class SpeakerServiceTest {
 		speaker2.setDescription("Hört sich gern reden");
 		service.updateSpeaker(speaker2);
 		
-		Speaker speaker2_1 = service.findSpeaker(2);
+		Speaker speaker2_1 = service.getSpeaker(2);
 		Assert.assertEquals(Integer.valueOf(2), speaker2_1.getId());
 		Assert.assertEquals("Ralf", speaker2.getName());
 		Assert.assertEquals("Hört sich gern reden", speaker2.getDescription());

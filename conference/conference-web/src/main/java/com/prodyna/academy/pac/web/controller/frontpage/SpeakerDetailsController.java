@@ -74,7 +74,7 @@ public void setTalks(List<Talk> talks) {
 				.getExternalContext().getRequestParameterMap();
 		String string = requestParameterMap.get("speakerId");
 		speakerId = Integer.valueOf(string);
-		speaker = speakerService.findSpeaker(speakerId);
+		speaker = speakerService.getSpeaker(speakerId);
 		List<Talk> talksList = talkService.getTalksBySpeaker(speaker.getId());
 		talks.clear();
 		talks.addAll(talksList);

@@ -44,7 +44,7 @@ public class SpeakerServiceImpl implements SpeakerService {
 
 	public Speaker deleteSpeaker(int id) {
 		try {
-			Speaker toRemove = findSpeaker(id);
+			Speaker toRemove = getSpeaker(id);
 			em.remove(toRemove);
 			// flush to provoke constraint violation exceptions before leaving
 			// the method
@@ -64,7 +64,7 @@ public class SpeakerServiceImpl implements SpeakerService {
 
 	}
 
-	public Speaker findSpeaker(int id) {
+	public Speaker getSpeaker(int id) {
 		Speaker ret = em.find(Speaker.class, id);
 		log.info("Search for speaker with id " + id + " returned result: "
 				+ ret);

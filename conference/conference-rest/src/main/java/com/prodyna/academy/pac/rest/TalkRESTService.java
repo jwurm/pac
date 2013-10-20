@@ -59,7 +59,7 @@ public class TalkRESTService {
 	private Validator validator;
 
 	@Inject
-	private TalkService repository;
+	private TalkService talkService;
 
 	@Inject
 	private SpeakerService speakerService;
@@ -68,7 +68,7 @@ public class TalkRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listAllMembers() {
 		try {
-			List<Talk> talks = repository.getTalks();
+			List<Talk> talks = talkService.getAllTalks();
 			for (Talk talk : talks) {
 				cleanTalk(talk);
 			}
@@ -86,7 +86,7 @@ public class TalkRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") int id) {
 		try {
-			Talk talk = repository.getTalk(id);
+			Talk talk = talkService.getTalk(id);
 			// // Create an "ok" response
 			cleanTalk(talk);
 			return RestResponseBuilder.buildOkResponse(talk);
@@ -101,18 +101,18 @@ public class TalkRESTService {
 	@GET
 	@Path("/assignspeaker/{talkId:[0-9][0-9]*}/{speakerId:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response assignSpeaker(@PathParam("talkId") int talkid,
+	public Response assignSpeaker(@PathParam("talkId") int talkId,
 			@PathParam("speakerId") int speakerId) {
 		try {
-			Talk talk = repository.getTalk(talkid);
+			Talk talk = talkService.getTalk(talkId);
 			if (talk == null) {
-				throw new Exception("No talk found for id " + talkid);
+				throw new Exception("No talk found for id " + talkId);
 			}
-			Speaker speaker = speakerService.findSpeaker(speakerId);
+			Speaker speaker = speakerService.getSpeaker(speakerId);
 			if (speaker == null) {
-				throw new Exception("No speaker found for id " + speaker);
+				throw new Exception("No speaker found for id " + speakerId);
 			}
-			repository.assignSpeaker(talk, speaker);
+			talkService.assignSpeaker(talk, speaker);
 			// // Create an "ok" response
 			cleanTalk(talk);
 			return RestResponseBuilder.buildOkResponse(talk);
@@ -140,15 +140,15 @@ public class TalkRESTService {
 	public Response unassignSpeaker(@PathParam("talkid") int talkid,
 			@PathParam("speakerId") int speakerId) {
 		try {
-			Talk talk = repository.getTalk(talkid);
+			Talk talk = talkService.getTalk(talkid);
 			if (talk == null) {
 				throw new Exception("No talk found for id " + talkid);
 			}
-			Speaker speaker = speakerService.findSpeaker(speakerId);
+			Speaker speaker = speakerService.getSpeaker(speakerId);
 			if (speaker == null) {
-				throw new Exception("No speaker found for id " + speaker);
+				throw new Exception("No speaker found for id " + speakerId);
 			}
-			repository.unassignSpeaker(talk, speaker);
+			talkService.unassignSpeaker(talk, speaker);
 			// // Create an "ok" response
 			cleanTalk(talk);
 			return RestResponseBuilder.buildOkResponse(talk);
@@ -166,7 +166,7 @@ public class TalkRESTService {
 	public Response create(Talk talk) {
 		try {
 			validateTalk(talk);
-			Talk rs = repository.createTalk(talk);
+			Talk rs = talkService.createTalk(talk);
 
 			// // Create an "ok" response
 			cleanTalk(rs);
@@ -190,7 +190,7 @@ public class TalkRESTService {
 	public Response update(Talk talk) {
 		try {
 			validateTalk(talk);
-			Talk rs = repository.updateTalk(talk);
+			Talk rs = talkService.updateTalk(talk);
 			// // Create an "ok" response
 			cleanTalk(rs);
 			return RestResponseBuilder.buildOkResponse(rs);
@@ -212,7 +212,7 @@ public class TalkRESTService {
 	@Path("/{id}")
 	public Response delete(@PathParam("id") Integer id) {
 		try {
-			Talk talk = repository.deleteTalk(id);
+			Talk talk = talkService.deleteTalk(id);
 			// // Create an "ok" response
 			cleanTalk(talk);
 			return RestResponseBuilder.buildOkResponse(talk);

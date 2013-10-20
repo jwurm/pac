@@ -87,7 +87,7 @@ public class SpeakerRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") int id) {
 		try {
-			Speaker speaker = repository.findSpeaker(id);
+			Speaker speaker = repository.getSpeaker(id);
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(speaker);
 		} catch (ConstraintViolationException ce) {

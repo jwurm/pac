@@ -86,11 +86,11 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">REST URL</f:facet>
-					<a href="#{request.contextPath}/rest/speakers/#{_speaker.id}">/rest/speakers/#{_speaker.id}</a>
+					<a href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/speakers/#{_speaker.id}">link</a>
 				</h:column>
 				<f:facet name="footer">
             REST URL for all members: <a
-						href="#{request.contextPath}/rest/speakers">/rest/speakers</a>
+						href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/speakers">link</a>
 				</f:facet>
 				<h:column>
 					<f:facet name="header">Actions</f:facet>

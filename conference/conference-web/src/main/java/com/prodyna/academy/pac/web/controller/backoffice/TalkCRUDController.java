@@ -101,7 +101,7 @@ public class TalkCRUDController {
 	}
 
 	private void loadTalks() {
-		talks = talkService.getTalks();
+		talks = talkService.getAllTalks();
 	}
 
 	public Talk getNewTalk() {
@@ -112,7 +112,7 @@ public class TalkCRUDController {
 		try {
 			Room room = roomService.getRoom(roomId);
 			Conference conference = conferenceService
-					.getCompleteConference(conferenceId);
+					.getConference(conferenceId);
 			newTalk.setConference(conference);
 			newTalk.setRoom(room);
 			talkService.createTalk(newTalk);

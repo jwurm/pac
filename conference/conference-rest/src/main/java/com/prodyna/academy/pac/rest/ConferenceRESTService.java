@@ -71,7 +71,7 @@ public class ConferenceRESTService {
 
 		try {
 			List<Conference> findAllConferences = conferenceService
-					.findAllConferences();
+					.getAllConferences();
 			/*
 			 * remove backwards reference. not very nice, but it saves us from
 			 * using jackson specific annotations and the effect is the same.
@@ -102,7 +102,7 @@ public class ConferenceRESTService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response find(@PathParam("id") int id) {
 		try {
-			Conference conference = conferenceService.getCompleteConference(id);
+			Conference conference = conferenceService.getConference(id);
 			
 			/*
 			 * remove backwards reference. not very nice, but it saves us from

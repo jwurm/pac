@@ -62,7 +62,7 @@ public class ConferenceOverviewController {
 	}
 
 	private void loadConferences() {
-		conferences = conferenceService.findAllConferences();
+		conferences = conferenceService.getAllConferences();
 	}
 
 	@PostConstruct

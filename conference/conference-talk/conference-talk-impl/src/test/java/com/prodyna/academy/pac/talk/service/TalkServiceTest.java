@@ -120,7 +120,7 @@ public class TalkServiceTest {
 	@Test
 	@InSequence(2)
 	public void testSpeakerAssignment() throws ParseException {
-		Conference conference = cservice.getCompleteConference(1);
+		Conference conference = cservice.getConference(1);
 		Room room = roomservice.getRoom(2);
 
 		Speaker speaker = speakerservice.createSpeaker(new Speaker("Darko",
@@ -130,13 +130,13 @@ public class TalkServiceTest {
 
 		Talk talk = service.getTalk(3);
 
-		Assert.assertEquals(1, service.getTalks().size());
+		Assert.assertEquals(1, service.getAllTalks().size());
 
 		Talk talk2 = service
 				.createTalk(new Talk("OpenJPA", "Sucks", new Instant(
 						"2013-02-01T16:00").toDate(), 10, conference, room));
 
-		Assert.assertEquals(2, service.getTalks().size());
+		Assert.assertEquals(2, service.getAllTalks().size());
 
 		service.assignSpeaker(talk, speaker);
 		// should not do anything
@@ -171,7 +171,7 @@ public class TalkServiceTest {
 	@Test
 	@InSequence(3)
 	public void testSpeakerCollision() throws ParseException {
-		Conference conference = cservice.getCompleteConference(1);
+		Conference conference = cservice.getConference(1);
 		Room room1 = roomservice.createRoom(new Room("testraum", 50));
 		Room room2 = roomservice.createRoom(new Room("testraum2", 50));
 
@@ -224,7 +224,7 @@ public class TalkServiceTest {
 	@Test
 	@InSequence(4)
 	public void testRoomCollision() throws ParseException {
-		Conference conference = cservice.getCompleteConference(1);
+		Conference conference = cservice.getConference(1);
 		Room room1 = roomservice.createRoom(new Room("testraum", 50));
 
 

@@ -153,7 +153,7 @@ public class TalkServiceImpl implements TalkService {
 	private void validateConferenceInterval(Talk talk) {
 		// read conference and room to have up to date data
 
-		Conference conf = conference.getCompleteConference(talk.getConference()
+		Conference conf = conference.getConference(talk.getConference()
 				.getId());
 
 		// validate conference date
@@ -261,7 +261,7 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	@Override
-	public List<Talk> getTalks() {
+	public List<Talk> getAllTalks() {
 		Query query = em.createNamedQuery(Talk.SELECT_ALL);
 		@SuppressWarnings("unchecked")
 		List<Talk> ret = query.getResultList();

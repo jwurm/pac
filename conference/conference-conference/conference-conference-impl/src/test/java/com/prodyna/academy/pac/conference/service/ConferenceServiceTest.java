@@ -97,15 +97,15 @@ public class ConferenceServiceTest {
 		
 		conference2.setDescription("Spielekonferenz");
 		service.updateConference(conference2);
-		Conference conference2_1 = service.getCompleteConference(2);
+		Conference conference2_1 = service.getConference(2);
 		Assert.assertEquals(Integer.valueOf(2), conference2_1.getId());
 		Assert.assertEquals("Spielekonferenz", conference2.getDescription());
 		
-		List<Conference> conferences = service.findAllConferences();
+		List<Conference> conferences = service.getAllConferences();
 		Assert.assertEquals(3, conferences.size());
 		
 		service.deleteConference(conference2_1.getId());
-		conferences = service.findAllConferences();
+		conferences = service.getAllConferences();
 		Assert.assertEquals(2, conferences.size());
 	}
 

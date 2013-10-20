@@ -27,7 +27,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 	private Logger log;
 
 	@Override
-	public List<Conference> findAllConferences() {
+	public List<Conference> getAllConferences() {
 		Query query = em.createNamedQuery(Conference.SELECT_ALL);
 		@SuppressWarnings("unchecked")
 		List<Conference> resultList = query.getResultList();
@@ -37,7 +37,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 	}
 
 	@Override
-	public Conference getCompleteConference(int id) {
+	public Conference getConference(int id) {
 		Conference ret = em.find(Conference.class, id);
 		log.info("Search for conference with id " + id + " returned " + ret);
 		return ret;

@@ -95,7 +95,7 @@ public class ConferenceDetailsController {
 //			return;
 //		}
 		conferenceId = Integer.valueOf(string);
-		conference = conferenceService.getCompleteConference(conferenceId);
+		conference = conferenceService.getConference(conferenceId);
 		
 		List<Talk> talks = talkService.getTalksByConference(conferenceId);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
