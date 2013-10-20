@@ -35,6 +35,16 @@ CREATE TABLE `conference` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `conference`
+--
+
+LOCK TABLES `conference` WRITE;
+/*!40000 ALTER TABLE `conference` DISABLE KEYS */;
+INSERT INTO `conference` VALUES (1,'jedes jahr','2014-02-01','JAX','2014-01-01'),(15,'Spielemesse','2014-03-15','Gamescon','2014-03-01'),(20,'Automesse','2014-05-09','IAA','2014-05-02');
+/*!40000 ALTER TABLE `conference` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `hibernate_sequence`
 --
 
@@ -45,6 +55,16 @@ CREATE TABLE `hibernate_sequence` (
   `next_val` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hibernate_sequence`
+--
+
+LOCK TABLES `hibernate_sequence` WRITE;
+/*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
+INSERT INTO `hibernate_sequence` VALUES (24);
+/*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `room`
@@ -62,6 +82,16 @@ CREATE TABLE `room` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `room`
+--
+
+LOCK TABLES `room` WRITE;
+/*!40000 ALTER TABLE `room` DISABLE KEYS */;
+INSERT INTO `room` VALUES (2,12,'E785'),(12,5,'E504'),(14,50,'ME701'),(19,12,'M201');
+/*!40000 ALTER TABLE `room` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `speaker`
 --
 
@@ -75,6 +105,16 @@ CREATE TABLE `speaker` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `speaker`
+--
+
+LOCK TABLES `speaker` WRITE;
+/*!40000 ALTER TABLE `speaker` DISABLE KEYS */;
+INSERT INTO `speaker` VALUES (3,'Hat Ahnung','Darko'),(4,'weiss nix','Ralf'),(21,'WoT lead designer','Sergej');
+/*!40000 ALTER TABLE `speaker` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `talk`
@@ -100,6 +140,16 @@ CREATE TABLE `talk` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `talk`
+--
+
+LOCK TABLES `talk` WRITE;
+/*!40000 ALTER TABLE `talk` DISABLE KEYS */;
+INSERT INTO `talk` VALUES (5,'2014-01-01 15:00:00','neue beschreibung',60,'OpenJPA sucks',1,14),(7,'2014-01-01 15:00:00','description',60,'name',1,2),(16,'2014-03-01 16:00:00','WoT for XBox',120,'WoT',15,2);
+/*!40000 ALTER TABLE `talk` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `talk_speaker_assignment`
 --
 
@@ -117,6 +167,16 @@ CREATE TABLE `talk_speaker_assignment` (
   CONSTRAINT `FK199F7180D611FE8D` FOREIGN KEY (`talk_id`) REFERENCES `talk` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `talk_speaker_assignment`
+--
+
+LOCK TABLES `talk_speaker_assignment` WRITE;
+/*!40000 ALTER TABLE `talk_speaker_assignment` DISABLE KEYS */;
+INSERT INTO `talk_speaker_assignment` VALUES (6,3,5),(8,4,7),(17,4,16);
+/*!40000 ALTER TABLE `talk_speaker_assignment` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -127,7 +187,4 @@ CREATE TABLE `talk_speaker_assignment` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-20 14:16:37
-
---GRANT ALL PRIVILEGES ON CONFERENCE.* TO 'conference'@'localhost'
---         IDENTIFIED BY 'pass';
+-- Dump completed on 2013-10-20 14:18:27
