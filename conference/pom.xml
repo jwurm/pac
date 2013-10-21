@@ -116,66 +116,106 @@
 				<artifactId>joda-time</artifactId>
 				<version>2.3</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.arquillian.extension</groupId>
+				<artifactId>arquillian-jacoco</artifactId>
+				<version>1.0.0.Alpha5</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jacoco</groupId>
+				<artifactId>org.jacoco.core</artifactId>
+				<version>0.5.3.201107060350</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
-	<build>
-		
-	</build>
-	
-	<reporting>
-	<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
+	<profiles>
+		<profile>
+			<id>fullbuild</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
 
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<version>2.4</version>
+						<configuration>
+							<!-- <descriptorRefs> -->
+							<!-- <descriptorRef>jar-with-dependencies</descriptorRef> -->
+							<!-- </descriptorRefs> -->
+							<descriptors>
+								<descriptor>assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>buildassembly</id>
+								<phase>install</phase>
+								<goals>
+									<goal>assembly</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+			<reporting>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-project-info-reports-plugin</artifactId>
+
+						<version>2.4</version>
+						<configuration>
+							<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+							<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+						</configuration>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<configuration>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</reporting>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-					<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
 				</configuration>
 			</plugin>
 		</plugins>
-	</reporting>
+	</build>
 
-<!-- 	<pluginRepositories> -->
-<!-- 		<pluginRepository> -->
-<!-- 			<id>central</id> -->
-<!-- 			<name>Maven Plugin Repository</name> -->
-<!-- 			<url>http://repo1.maven.org/maven2</url> -->
-<!-- 			<layout>default</layout> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>false</enabled> -->
-<!-- 			</snapshots> -->
-<!-- 			<releases> -->
-<!-- 				<updatePolicy>never</updatePolicy> -->
-<!-- 			</releases> -->
-<!-- 		</pluginRepository> -->
-<!-- 		<pluginRepository> -->
-<!-- 			<id>mavenhub</id> -->
-<!-- 			<name>Maven Plugin Repository</name> -->
-<!-- 			<url>http://mavenhub.com/mvn/central</url> -->
-<!-- 			<layout>default</layout> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>false</enabled> -->
-<!-- 			</snapshots> -->
-<!-- 			<releases> -->
-<!-- 				<updatePolicy>never</updatePolicy> -->
-<!-- 			</releases> -->
-<!-- 		</pluginRepository> -->
-<!-- 		<pluginRepository> -->
-<!-- 			<id>jboss</id> -->
-<!-- 			<name>Jboss Plugin Repository</name> -->
-<!-- 			<url>https://repository.jboss.org/nexus/content/repositories</url> -->
-<!-- 			<layout>default</layout> -->
-<!-- 			<snapshots> -->
-<!-- 				<enabled>false</enabled> -->
-<!-- 			</snapshots> -->
-<!-- 			<releases> -->
-<!-- 				<updatePolicy>never</updatePolicy> -->
-<!-- 			</releases> -->
-<!-- 		</pluginRepository> -->
-<!-- 	</pluginRepositories> -->
+	<distributionManagement>
+		<repository>
+			<id>file-repository</id>
+			<name>Local Repository</name>
+			<url>file://${user.dir}/target/deploy/repository</url>
+		</repository>
+		<site>
+			<id>local-site</id>
+			<name>Local deployed site</name>
+			<url>file://${user.dir}/target/deploy/site</url>
+		</site>
+	</distributionManagement>
 	<scm>
 		<!-- <connection>scm:git:http://github.com/cool.git</connection> -->
 		<developerConnection>scm:git:ssh://jwurm@github.com//jwurm/pac.git</developerConnection>

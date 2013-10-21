@@ -1,25 +1,39 @@
-<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-  <id>bin</id>
-  <formats>
-    <format>dir</format>
-  </formats>
-  <includeBaseDirectory>true</includeBaseDirectory>
-<!--   <moduleSets> -->
-<!--     <moduleSet> -->
-    
-<!--       Enable access to all projects in the current multimodule build! -->
-<!--       <useAllReactorProjects>true</useAllReactorProjects> -->
-      
-<!--       Now, select which projects to include in this module-set. -->
-<!--       <includes> -->
-<!--         <include>com.prodyna.academy.pac:conference-base</include> -->
-<!--       </includes> -->
-<!--       <binaries> -->
-<!--         <outputDirectory>modules/${artifactId}</outputDirectory> -->
-<!--         <unpack>false</unpack> -->
-<!--       </binaries> -->
-<!--     </moduleSet> -->
-<!--   </moduleSets> -->
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>bin</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	<includeSiteDirectory>true</includeSiteDirectory>
+
+
+	<fileSets>
+		<fileSet>
+			<directory>../sql scripts</directory>
+			<outputDirectory>sql</outputDirectory>
+			<includes>
+				<include>*.sql</include>
+			</includes>
+		</fileSet>
+
+	</fileSets>
+	<moduleSets>
+		<moduleSet>
+
+			<!-- Enable access to all projects in the current multimodule build! -->
+			<useAllReactorProjects>true</useAllReactorProjects>
+
+			<!-- Now, select which projects to include in this module-set. -->
+			<includes>
+			<include>com.prodyna.academy.pac:conference-ear</include>
+			</includes>
+			<binaries>
+<!-- 				<outputDirectory>${artifactId}</outputDirectory> -->
+				<unpack>false</unpack>
+			</binaries>
+		</moduleSet>
+	</moduleSets>
 </assembly>
