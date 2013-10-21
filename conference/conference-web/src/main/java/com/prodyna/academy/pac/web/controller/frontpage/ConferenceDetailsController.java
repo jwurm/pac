@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ import com.prodyna.academy.pac.talk.model.Talk;
 import com.prodyna.academy.pac.talk.service.TalkService;
 
 @ManagedBean(name = "conferenceDetailsController")
-@SessionScoped
+@ViewScoped
 public class ConferenceDetailsController {
 
 	private Conference conference;

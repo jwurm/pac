@@ -74,7 +74,7 @@
 
 			<ui:repeat id="talksDayByDayList"
 				value="#{conferenceDetailsController.talkList}" var="tbd">
-				<h2>#{tbd.day}</h2>
+				<h2>#{tbd.day}: #{tbd.talks.size()} talks</h2>
 				<h:dataTable id="talksDayTable"
 					binding="#{conferenceDetailsController.dataTable}" var="_talk"
 					value="#{tbd.talks}" styleClass="simpletablestyle">

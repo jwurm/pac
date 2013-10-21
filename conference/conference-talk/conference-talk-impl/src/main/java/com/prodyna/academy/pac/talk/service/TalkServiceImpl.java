@@ -220,8 +220,12 @@ public class TalkServiceImpl implements TalkService {
 	private void validateConferenceInterval(Talk talk) {
 		// read conference and room to have up to date data
 
-		Conference conf = conference
-				.getConference(talk.getConference().getId());
+		Integer conferenceId = talk.getConference().getId();
+		Conference conf = conference.getConference(conferenceId);
+		if (conf == null) {
+			throw new BusinessException("no conference found for id"
+					+ conferenceId);
+		}
 
 		// validate conference date
 		Interval conferenceInterval = conf.buildInterval();
