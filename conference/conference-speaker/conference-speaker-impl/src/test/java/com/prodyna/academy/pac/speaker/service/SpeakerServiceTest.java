@@ -73,12 +73,12 @@ public class SpeakerServiceTest {
 		Assert.assertEquals("Ralf", speaker2.getName());
 		Assert.assertEquals("Hört sich gern reden", speaker2.getDescription());
 
-		List<Speaker> speakers = service.getSpeakers();
+		List<Speaker> speakers = service.getAllSpeakers();
 		Assert.assertEquals(3, speakers.size());
 
 		service.deleteSpeaker(speaker2_1.getId());
 
-		speakers = service.getSpeakers();
+		speakers = service.getAllSpeakers();
 		Assert.assertEquals(2, speakers.size());
 	}
 

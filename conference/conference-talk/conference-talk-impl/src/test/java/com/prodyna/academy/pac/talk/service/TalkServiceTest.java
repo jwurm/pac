@@ -53,7 +53,8 @@ public class TalkServiceTest {
 				.addAsWebInfResource("META-INF/beans.xml")
 				.addAsLibraries(resolveAsFiles)
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml")
-				.addAsWebInfResource("hornetq-jms.xml", "hornetq-jms.xml");
+//				.addAsWebInfResource("META-INF/test-jms.xml")
+				;
 	}
 
 	/** The ConferenceService. */

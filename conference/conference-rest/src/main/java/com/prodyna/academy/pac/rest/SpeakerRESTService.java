@@ -66,7 +66,7 @@ public class SpeakerRESTService {
 	public Response listAllMembers() {
 
 		try {
-			List<Speaker> findAllSpeakers = repository.getSpeakers();
+			List<Speaker> findAllSpeakers = repository.getAllSpeakers();
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(findAllSpeakers);
 		} catch (ConstraintViolationException ce) {

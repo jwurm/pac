@@ -62,13 +62,21 @@
 					value="#{talkCRUDController.newTalk.duration}" />
 				<h:message for="talkduration" errorClass="invalid" />
 
-				<h:outputLabel for="talkconference" value="Conference:" />
-				<h:inputText id="talkconference"
-					value="#{talkCRUDController.conferenceId}" />
+				<h:outputLabel  value="Conference:" />
+				<h:selectOneMenu value="#{talkCRUDController.conferenceId}">
+					<f:selectItems value="#{talkCRUDController.conferences}"
+						var="conference" itemLabel="#{conference.name}"
+						itemValue="#{conference.id}">
+					</f:selectItems>
+				</h:selectOneMenu>
 				<h:message for="talkconference" errorClass="invalid" />
 
-				<h:outputLabel for="talkroom" value="Room:" />
-				<h:inputText id="talkroom" value="#{talkCRUDController.roomId}" />
+				<h:outputLabelvalue="Room:" />
+				<h:selectOneMenu value="#{talkCRUDController.roomId}">
+					<f:selectItems value="#{talkCRUDController.rooms}" var="room"
+						itemLabel="#{room.name}" itemValue="#{room.id}">
+					</f:selectItems>
+				</h:selectOneMenu>
 				<h:message for="talkroom" errorClass="invalid" />
 
 			</h:panelGrid>
@@ -123,8 +131,11 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Room</f:facet>
-					<h:inputText id="conferencelistroom" value="#{_talk.room.id}" />
-					<h:message for="conferencelistroom" errorClass="invalid" />
+					<h:selectOneMenu value="#{_talk.room}">
+						<f:selectItems value="#{talkCRUDController.rooms}" var="room"
+							itemLabel="#{room.name}" itemValue="#{room}">
+						</f:selectItems>
+					</h:selectOneMenu>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Conference</f:facet>
@@ -156,43 +167,31 @@
 
 
 
-		<h:form id="talkspeakerSpeaker">
-			<h2>Speakers</h2>
-			<h:dataTable value="#{talkSpeakerCRUDController.speakers}"
-				var="speaker" rendered="true" styleClass="simpletablestyle">
-				<h:column>
-					<f:facet name="header">Name</f:facet>
-					<h:commandLink
-						action="#{talkSpeakerCRUDController.selectSpeaker(speaker)}"
-						value="#{speaker.name}">
-					</h:commandLink>
-				</h:column>
-				<h:column>
-					<f:facet name="header">Description</f:facet>
-					<h:outputText value="#{speaker.description}" />
-				</h:column>
-			</h:dataTable>
 
-		</h:form>
+
 		<h:form id="talkspeakerAssign">
 			<h2>Selected Talk/Speaker</h2>
 			<h:panelGrid columns="2" columnClasses="titleCell">
-				<h:outputText value="Talk" />
-				<h:outputText value="#{talkSpeakerCRUDController.talk.name}" />
 				<h:outputText value="Speaker" />
-				<h:outputText value="#{talkSpeakerCRUDController.speaker.name}" />
 
+
+				<h:selectOneMenu value="#{talkSpeakerCRUDController.speakerId}">
+					<f:selectItems value="#{talkSpeakerCRUDController.speakers}"
+						var="speaker" itemLabel="#{speaker.name}"
+						itemValue="#{speaker.id}" />
+				</h:selectOneMenu>
+				<h:outputText value="Talk" />
+				<h:selectOneMenu value="#{talkSpeakerCRUDController.talkId}">
+					<f:selectItems value="#{talkSpeakerCRUDController.talks}"
+						var="talk" itemLabel="#{talk.name}" itemValue="#{talk.id}" />
+				</h:selectOneMenu>
 				<h:messages styleClass="messages" errorClass="invalid"
 					infoClass="valid" warnClass="warning" globalOnly="false" />
 			</h:panelGrid>
-			<h:panelGrid columns="2" columnClasses="titleCell"
-				rendered="#{talkSpeakerCRUDController.readyToAssign}">
+			<h:panelGrid columns="2" columnClasses="titleCell">
 				<h:commandButton id="assignSpeaker"
 					action="#{talkSpeakerCRUDController.assignSpeaker}"
 					value="AssignSpeaker" styleClass="register" />
-				<a
-					href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/talks/assignspeaker/#{talkSpeakerCRUDController.talk.id}/#{talkSpeakerCRUDController.speaker.id}"
-					styleClass="register">REST link</a>
 			</h:panelGrid>
 		</h:form>
 		<h:form id="talkspeakerassignmentlist">
@@ -204,16 +203,12 @@
 				rendered="#{not empty talkSpeakerCRUDController.speakers}"
 				styleClass="simpletablestyle">
 				<h:column>
-					<f:facet name="header">Id</f:facet>
-					<h:outputText value=" #{_speaker.id}" />
-				</h:column>
-				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:inputText value="#{_speaker.name}" />
+					<h:outputText value="#{_speaker.name}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Description</f:facet>
-					<h:inputText value="#{_speaker.description}" />
+					<h:outputText value="#{_speaker.description}" />
 				</h:column>
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
@@ -223,9 +218,6 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">Actions</f:facet>
-					<a
-						href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/talks/unassignspeaker/#{talkSpeakerCRUDController.talk.id}/#{talkSpeakerCRUDController.speaker.id}"
-						styleClass="register">REST link</a>
 				</h:column>
 				<f:facet name="footer">
 					<h:messages styleClass="messages" errorClass="invalid"

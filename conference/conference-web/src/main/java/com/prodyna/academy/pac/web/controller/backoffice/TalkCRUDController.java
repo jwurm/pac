@@ -33,6 +33,7 @@ import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.conference.service.ConferenceService;
 import com.prodyna.academy.pac.room.model.Room;
 import com.prodyna.academy.pac.room.service.RoomService;
+import com.prodyna.academy.pac.speaker.model.Speaker;
 import com.prodyna.academy.pac.talk.model.Talk;
 import com.prodyna.academy.pac.talk.service.TalkService;
 
@@ -58,7 +59,7 @@ public class TalkCRUDController {
 	private ConferenceService conferenceService;
 
 	@Inject
-	private RoomService roomService;
+	public static RoomService roomService;
 
 	private Talk newTalk;
 
@@ -67,8 +68,16 @@ public class TalkCRUDController {
 	@NotNull
 	private Integer conferenceId;
 
+	private List<Room> rooms;
+
 	@NotNull
 	private Integer roomId;
+
+	private List<Conference> conferences;
+
+	public List<Conference> getConferences() {
+		return conferences;
+	}
 
 	public Integer getConferenceId() {
 		return conferenceId;
@@ -136,7 +145,22 @@ public class TalkCRUDController {
 	@PostConstruct
 	public void initData() {
 		loadTalks();
+		loadRooms();
+		loadConferences();
 		newTalk = new Talk();
+	}
+
+	private void loadConferences() {
+		this.conferences = conferenceService.getAllConferences();
+	}
+
+	private void loadRooms() {
+		this.rooms = roomService.getRooms();
+
+	}
+
+	public List<Room> getRooms() {
+		return rooms;
 	}
 
 	private String getRootErrorMessage(Exception e) {
@@ -170,7 +194,7 @@ public class TalkCRUDController {
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Talk updated", "The talk has been updated successfully.");
 			facesContext.addMessage(null, m);
-			loadTalks();
+			initData();
 
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
@@ -187,12 +211,16 @@ public class TalkCRUDController {
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Talk deleted.", "The talk has been deleted successfully.");
 			facesContext.addMessage(null, m);
-			loadTalks();
+			initData();
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
 		}
+	}
+
+	public Room convertRoom(Integer roomId) {
+		return roomService.getRoom(roomId);
 	}
 }

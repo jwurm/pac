@@ -49,6 +49,6 @@ public interface SpeakerService {
 	 * 
 	 * @return List of speakers
 	 */
-	public List<Speaker> getSpeakers();
+	public List<Speaker> getAllSpeakers();
 
 }

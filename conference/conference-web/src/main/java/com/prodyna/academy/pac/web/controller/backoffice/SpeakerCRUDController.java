@@ -146,7 +146,7 @@ public class SpeakerCRUDController {
 	 * Loads all speakers
 	 */
 	private void loadSpeakers() {
-		speakers = speakerService.getSpeakers();
+		speakers = speakerService.getAllSpeakers();
 	}
 
 	/**

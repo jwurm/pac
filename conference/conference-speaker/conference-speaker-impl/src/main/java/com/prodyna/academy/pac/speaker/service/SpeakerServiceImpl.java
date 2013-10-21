@@ -114,7 +114,7 @@ public class SpeakerServiceImpl implements SpeakerService {
 	 * @see com.prodyna.academy.pac.speaker.service.SpeakerService#getSpeakers()
 	 */
 	@Override
-	public List<Speaker> getSpeakers() {
+	public List<Speaker> getAllSpeakers() {
 		Query query = em.createNamedQuery(Speaker.SELECT_ALL);
 		@SuppressWarnings("unchecked")
 		List<Speaker> result = query.getResultList();

@@ -42,5 +42,9 @@
 	<!-- </navigation-case> -->
 	<!-- </navigation-rule> -->
 
+<!-- <converter> -->
+<!-- <converter-id>roomConverter</converter-id> -->
+<!-- <converter-class>com.prodyna.academy.pac.web.controller.backoffice.RoomConverter</converter-class> -->
+<!-- </converter> -->
 
 </faces-config>

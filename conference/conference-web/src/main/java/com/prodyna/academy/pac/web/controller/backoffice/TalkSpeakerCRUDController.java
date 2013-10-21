@@ -42,32 +42,60 @@ import com.prodyna.academy.pac.talk.service.TalkService;
 @ViewScoped
 public class TalkSpeakerCRUDController {
 
-	@Inject
-	private Logger log;
+	private HtmlDataTable dataTable;
 
 	@Inject
 	private FacesContext facesContext;
 
 	@Inject
-	private TalkService talkService;
+	private Logger log;
+
+	@NotNull
+	private Integer speakerId;
+
+	public void setSpeakerId(Integer speakerId) {
+		this.speakerId = speakerId;
+	}
+
+	public Integer getSpeakerId() {
+		return speakerId;
+	}
+
+	private List<Speaker> speakers;
 
 	@Inject
 	private SpeakerService speakerService;
 
-	@NotNull
-	private Speaker speaker;
-
+	private Integer talkId;
+	
 	private Talk talk;
 
-	private HtmlDataTable dataTable;
+	public Talk getTalk() {
+		return talk;
+	}
 
-	private List<Speaker> speakers;
+	public void setTalk(Talk talk) {
+		this.talk = talk;
+	}
+
+	private List<Talk> talks;
+
+	@Inject
+	private TalkService talkService;
 
 	private List<Speaker> talkSpeakers;
 
 	public void assignSpeaker() {
-
 		try {
+			Talk talk = talkService.getTalk(talkId);
+			Speaker speaker = speakerService.getSpeaker(speakerId);
+			if (talk == null) {
+				throw new Exception("Talk not found.");
+			}
+			if (speaker == null) {
+				throw new Exception("Speaker not found.");
+			}
+
 			talkService.assignSpeaker(talk, speaker);
 			talkSpeakers = talkService.getSpeakersByTalk(talk.getId());
 			facesContext.addMessage(null, new FacesMessage(
@@ -107,22 +135,44 @@ public class TalkSpeakerCRUDController {
 		return errorMessage;
 	}
 
+	public Integer getTalkId() {
+		return talkId;
+	}
+
 	public List<Speaker> getSpeakers() {
 		return speakers;
 	}
 
-	public Talk getTalk() {
-		return talk;
+	public List<Talk> getTalks() {
+		return talks;
+	}
+
+	public List<Speaker> getTalkSpeakers() {
+		return talkSpeakers;
 	}
 
 	@PostConstruct
 	public void initData() {
-		this.speakers = speakerService.getSpeakers();
+		this.speakers = speakerService.getAllSpeakers();
+		this.talks = talkService.getAllTalks();
+	}
+
+	public void selectTalk(Talk talk) {
+		try {
+			this.talk = talk;
+			talkSpeakers = talkService.getSpeakersByTalk(talk.getId());
+		} catch (Exception e) {
+			String errorMessage = getRootErrorMessage(e);
+			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					errorMessage, "Speaker unassignment failed.");
+			facesContext.addMessage(null, m);
+		}
 	}
 
 	public void removeSpeaker() {
 
 		try {
+
 			Speaker speaker = (Speaker) dataTable.getRowData();
 			talkService.unassignSpeaker(talk, speaker);
 			talkSpeakers = talkService.getSpeakersByTalk(talk.getId());
@@ -139,58 +189,16 @@ public class TalkSpeakerCRUDController {
 		}
 	}
 
-	public void selectTalk(Talk talk) {
-		try {
-			this.talk = talk;
-			talkSpeakers = talkService.getSpeakersByTalk(talk.getId());
-		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
-			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Speaker unassignment failed.");
-			facesContext.addMessage(null, m);
-		}
-	}
-
-	public void selectSpeaker(Speaker speaker) {
-		try {
-			this.speaker = speaker;
-		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
-			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					errorMessage, "Speaker unassignment failed.");
-			facesContext.addMessage(null, m);
-		}
-	}
-
 	public void setDataTable(HtmlDataTable dataTable) {
 		this.dataTable = dataTable;
-	}
-
-	public Speaker getSpeaker() {
-		return speaker;
-	}
-
-	public void setSpeaker(Speaker speaker) {
-		this.speaker = speaker;
 	}
 
 	public void setSpeakers(List<Speaker> speakers) {
 		this.speakers = speakers;
 	}
 
-	public void setTalk(Talk talk) {
-		this.talk = talk;
+	public void setTalkId(Integer talkId) {
+		this.talkId = talkId;
 	}
 
-	public List<Speaker> getTalkSpeakers() {
-		return talkSpeakers;
-	}
-
-	/**
-	 * Determines if a speaker assignment can be done.
-	 * @return true if both talk and speaker are set
-	 */
-	public boolean isReadyToAssign() {
-		return speaker != null && talk != null;
-	}
 }
