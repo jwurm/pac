@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import com.prodyna.academy.pac.conference.model.Conference;
 
 /**
- * The Class ConferenceServiceTest.
+ * The Class ConferenceServiceTest. Tests basic crud actions.
  */
 @RunWith(Arquillian.class)
 public class ConferenceServiceTest {

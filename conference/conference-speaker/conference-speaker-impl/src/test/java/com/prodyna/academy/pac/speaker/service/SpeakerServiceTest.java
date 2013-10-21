@@ -17,9 +17,17 @@ import org.junit.runner.RunWith;
 
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
+/**
+ * @author jwurm Test of basic crud actions
+ */
 @RunWith(Arquillian.class)
 public class SpeakerServiceTest {
 
+	/**
+	 * Creates the test archive.
+	 * 
+	 * @return the archive
+	 */
 	@Deployment
 	public static Archive<?> createTestArchive() {
 		return ShrinkWrap
@@ -32,12 +40,16 @@ public class SpeakerServiceTest {
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
 	}
 
+	/** The SpeakerService. */
 	@Inject
 	private SpeakerService service;
-	
-//	@Inject
-//	private MBeanStarter s;
 
+	/**
+	 * Test crud.
+	 * 
+	 * @throws ParseException
+	 *             the parse exception
+	 */
 	@Test
 	public void testCRUD() throws ParseException {
 		Speaker speaker1 = new Speaker("Darko", "Hat den Plan");
@@ -51,22 +63,22 @@ public class SpeakerServiceTest {
 		Speaker speaker3 = new Speaker("Stefan", "Labert gern");
 		speaker3 = service.createSpeaker(speaker3);
 		Assert.assertEquals(Integer.valueOf(3), speaker3.getId());
-		
+
 		Assert.assertEquals("Weiss nix", speaker2.getDescription());
 		speaker2.setDescription("Hört sich gern reden");
 		service.updateSpeaker(speaker2);
-		
+
 		Speaker speaker2_1 = service.getSpeaker(2);
 		Assert.assertEquals(Integer.valueOf(2), speaker2_1.getId());
 		Assert.assertEquals("Ralf", speaker2.getName());
 		Assert.assertEquals("Hört sich gern reden", speaker2.getDescription());
-		
-		List<Speaker> speakers=service.getSpeakers();
+
+		List<Speaker> speakers = service.getSpeakers();
 		Assert.assertEquals(3, speakers.size());
-		
+
 		service.deleteSpeaker(speaker2_1.getId());
-		
-		speakers=service.getSpeakers();
+
+		speakers = service.getSpeakers();
 		Assert.assertEquals(2, speakers.size());
 	}
 

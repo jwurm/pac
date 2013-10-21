@@ -14,27 +14,52 @@ import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.speaker.model.Speaker;
 
+/**
+ * @author jwurm Implementation of the speakerService
+ */
 @Stateless
 @PerformanceLogged
 @ServiceLogged
 public class SpeakerServiceImpl implements SpeakerService {
 
+	/** The EntityManager. */
 	@Inject
 	private EntityManager em;
 
+	/** The logger. */
 	@Inject
 	private Logger log;
 
+	/**
+	 * Sets the em.
+	 * 
+	 * @param em
+	 *            the new em
+	 */
 	public void setEm(EntityManager em) {
 		this.em = em;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.speaker.service.SpeakerService#createSpeaker(
+	 * com.prodyna.academy.pac.speaker.model.Speaker)
+	 */
 	public Speaker createSpeaker(Speaker speaker) {
 		Speaker ret = em.merge(speaker);
 		log.info("Created speaker: " + ret);
 		return ret;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.speaker.service.SpeakerService#updateSpeaker(
+	 * com.prodyna.academy.pac.speaker.model.Speaker)
+	 */
 	public Speaker updateSpeaker(Speaker speaker) {
 		Speaker ret = em.merge(speaker);
 		log.info("Updated speaker: " + ret);
@@ -42,6 +67,12 @@ public class SpeakerServiceImpl implements SpeakerService {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.speaker.service.SpeakerService#deleteSpeaker(int)
+	 */
 	public Speaker deleteSpeaker(int id) {
 		try {
 			Speaker toRemove = getSpeaker(id);
@@ -64,6 +95,12 @@ public class SpeakerServiceImpl implements SpeakerService {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.speaker.service.SpeakerService#getSpeaker(int)
+	 */
 	public Speaker getSpeaker(int id) {
 		Speaker ret = em.find(Speaker.class, id);
 		log.info("Search for speaker with id " + id + " returned result: "
@@ -71,6 +108,11 @@ public class SpeakerServiceImpl implements SpeakerService {
 		return ret;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.prodyna.academy.pac.speaker.service.SpeakerService#getSpeakers()
+	 */
 	@Override
 	public List<Speaker> getSpeakers() {
 		Query query = em.createNamedQuery(Speaker.SELECT_ALL);

@@ -26,6 +26,13 @@ import org.joda.time.Interval;
 import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.room.model.Room;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Talk.
+ *
+ * @author jwurm
+ * Talk entity
+ */
 @Entity
 @Table(name = "talk")
 @NamedQueries({
@@ -35,38 +42,51 @@ import com.prodyna.academy.pac.room.model.Room;
 
 })
 public class Talk {
+	
+	/** The Constant SELECT_ALL. */
 	public static final String SELECT_ALL = "Talk.SELECT_ALL";
+	
+	/** The Constant FIND_BY_ROOM. */
 	public static final String FIND_BY_ROOM = "Talk.FIND_BY_ROOM";
+	
+	/** The Constant FIND_BY_CONFERENCE. */
 	public static final String FIND_BY_CONFERENCE = "Talk.FIND_BY_CONFERENCE";
 
+	/** Auto generated ID. */
 	@Id
 	@GeneratedValue
 	private Integer id;
 
+	/** The name. */
 	@Basic
 	@Size(min=3, max=45)
 	private String name;
 
+	/** The description. */
 	@Basic
 	@Size(min=3, max=45)
 	private String description;
 	
+	/** The datetime. */
 	@Basic
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
 	private Date datetime;
 
+	/** The duration of the talk. */
 	@Basic
 	@NotNull
 	@Min(1)
 	@Max(8*60)
 	private Integer duration;
 
+	/** The room. */
 	@ManyToOne()
 	@JoinColumn(name = "room_id", referencedColumnName = "id")
 	@NotNull
 	private Room room;
 
+	/** The conference. */
 	@ManyToOne
 	@JoinColumn(name = "conference_id", referencedColumnName = "id")
 	@NotNull
@@ -74,6 +94,16 @@ public class Talk {
 	
 	
 
+	/**
+	 * Instantiates a new talk.
+	 *
+	 * @param name the name
+	 * @param description the description
+	 * @param datetime the datetime
+	 * @param duration the duration
+	 * @param conference the conference
+	 * @param room the room
+	 */
 	public Talk(String name, String description,  Date datetime,int duration,
 			Conference conference, Room room) {
 		super();
@@ -85,34 +115,70 @@ public class Talk {
 		this.room = room;
 	}
 
+	/**
+	 * Gets the datetime.
+	 *
+	 * @return the datetime
+	 */
 	public Date getDatetime() {
 		return datetime;
 	}
 
+	/**
+	 * Sets the datetime.
+	 *
+	 * @param datetime the new datetime
+	 */
 	public void setDatetime(Date datetime) {
 		this.datetime = datetime;
 	}
 
+	/**
+	 * Instantiates a new talk.
+	 */
 	public Talk() {
 		super();
 	}
 
+	/**
+	 * Gets the room.
+	 *
+	 * @return the room
+	 */
 	public Room getRoom() {
 		return room;
 	}
 
+	/**
+	 * Sets the room.
+	 *
+	 * @param room the new room
+	 */
 	public void setRoom(Room room) {
 		this.room = room;
 	}
 
+	/**
+	 * Gets the conference.
+	 *
+	 * @return the conference
+	 */
 	public Conference getConference() {
 		return conference;
 	}
 
+	/**
+	 * Sets the conference.
+	 *
+	 * @param conference the new conference
+	 */
 	public void setConference(Conference conference) {
 		this.conference = conference;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Talk [name=" + name + ", description=" + description
@@ -121,6 +187,9 @@ public class Talk {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -136,6 +205,9 @@ public class Talk {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -173,42 +245,83 @@ public class Talk {
 		return true;
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public Integer getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * Gets the duration.
+	 *
+	 * @return the duration
+	 */
 	public Integer getDuration() {
 		return duration;
 	}
 
+	/**
+	 * Sets the duration.
+	 *
+	 * @param duration the new duration
+	 */
 	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 
 
 	/**
-	 * Returns the end datetime of the talk as a derived attribute from datetime and duration
-	 * @return
+	 * Returns the end datetime of the talk as a derived attribute from datetime and duration.
+	 *
+	 * @return the date
 	 */
 	public Date buildEndDateTime() {
 		Calendar instance = GregorianCalendar.getInstance();
@@ -218,8 +331,9 @@ public class Talk {
 	}
 	
 	/**
-	 * Returns the interval of the talk
-	 * @return
+	 * Returns the interval of the talk.
+	 *
+	 * @return the interval
 	 */
 	public Interval buildInterval(){
 		return new Interval(new Instant(this.getDatetime()),

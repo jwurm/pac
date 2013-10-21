@@ -13,38 +13,61 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Room.
+ *
+ * @author jwurm
+ * The room entity.
+ */
 @Entity
 @Table(name = "room")
 @NamedQuery(name=Room.SELECT_ALL, query="select r from Room r")
 public class Room {
 
+	/** The Constant SELECT_ALL. */
 	public static final String SELECT_ALL = "roomSelectAll";
 
+	/** The generated id. */
 	@Id
 	@GeneratedValue
 	private Integer id;
 
+	/** The room name. */
 	@Basic
 	@NotNull
 	@Size(min = 3, max = 45)
 	private String name;
 
+	/** The capacity. */
 	@Basic
 	@NotNull
 	@Min(0)
 	@Max(10000)
 	private Integer capacity;
 	
+	/**
+	 * Instantiates a new room.
+	 */
 	public Room(){
 		super();
 	}
 
+	/**
+	 * Instantiates a new room.
+	 *
+	 * @param name the name
+	 * @param capacity the capacity
+	 */
 	public Room(String name, int capacity) {
 		super();
 		this.name = name;
 		this.capacity = capacity;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -72,18 +95,36 @@ public class Room {
 		return true;
 	}
 
+	/**
+	 * Gets the capacity.
+	 *
+	 * @return the capacity
+	 */
 	public Integer getCapacity() {
 		return capacity;
 	}
 
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
 	public Integer getId() {
 		return id;
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -95,18 +136,36 @@ public class Room {
 		return result;
 	}
 
+	/**
+	 * Sets the capacity.
+	 *
+	 * @param capacity the new capacity
+	 */
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity

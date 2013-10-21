@@ -15,17 +15,30 @@ import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.model.Conference;
 import com.prodyna.academy.pac.room.model.Room;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConferenceServiceImpl.
+ *
+ * @author jwurm
+ * 
+ * Implementation of the ConferenceService
+ */
 @Stateless
 @PerformanceLogged
 @ServiceLogged
 public class ConferenceServiceImpl implements ConferenceService {
 
+	/** The EntityManager. */
 	@Inject
 	private EntityManager em;
 
+	/** The Logger. */
 	@Inject
 	private Logger log;
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.conference.service.ConferenceService#getAllConferences()
+	 */
 	@Override
 	public List<Conference> getAllConferences() {
 		Query query = em.createNamedQuery(Conference.SELECT_ALL);
@@ -36,6 +49,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 		return resultList;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.conference.service.ConferenceService#getConference(int)
+	 */
 	@Override
 	public Conference getConference(int id) {
 		Conference ret = em.find(Conference.class, id);
@@ -43,6 +59,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.conference.service.ConferenceService#updateConference(com.prodyna.academy.pac.conference.model.Conference)
+	 */
 	@Override
 	public Conference updateConference(Conference conference) {
 		Conference ret = em.merge(conference);
@@ -50,6 +69,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 		return ret;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.conference.service.ConferenceService#deleteConference(int)
+	 */
 	@Override
 	public Conference deleteConference(int id) {
 		try {
@@ -72,6 +94,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.conference.service.ConferenceService#createConference(com.prodyna.academy.pac.conference.model.Conference)
+	 */
 	@Override
 	public Conference createConference(Conference conference) {
 		em.persist(conference);
