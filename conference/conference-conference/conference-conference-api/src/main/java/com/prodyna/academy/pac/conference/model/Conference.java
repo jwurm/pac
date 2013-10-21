@@ -21,37 +21,66 @@ import javax.validation.constraints.Size;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 
+/**
+ * @author jwurm Entity Conference
+ */
 @Entity
 @Table(name = "conference")
 @NamedQuery(name = Conference.SELECT_ALL, query = "select c from Conference c")
 public class Conference {
 	public static final String SELECT_ALL = "conference.selectAll";
 
+	/**
+	 * Generated ID
+	 */
 	@Id
 	@GeneratedValue
 	private Integer id;
 
+	/**
+	 * Name of the conference
+	 */
 	@Basic
 	@NotNull
 	@Size(min = 3, max = 45)
 	private String name;
 
+	/**
+	 * Description of the conference.
+	 */
 	@Basic
 	@NotNull
 	@Size(min = 3, max = 45)
 	private String description;
 
+	/**
+	 * Start date of the conference.
+	 */
 	@Basic
 	@Temporal(TemporalType.DATE)
 	@NotNull
 	private Date start;
 
+	/**
+	 * End date of the conference.
+	 */
 	@Basic
 	@Temporal(TemporalType.DATE)
 	@NotNull
 	private Date end;
 
+	public Conference() {
+		super();
+	}
 
+	/**
+	 * Constructor using fields.
+	 * 
+	 * @param name
+	 * @param description
+	 * @param start
+	 * @param end
+	 */
 	public Conference(String name, String description, Date start, Date end) {
 		super();
 		this.name = name;
@@ -60,8 +89,23 @@ public class Conference {
 		this.end = end;
 	}
 
-	public Conference() {
-		super();
+	/**
+	 * Returns the interval of the conference. The end instant is 00:00 of the
+	 * day after the last day of the conference
+	 * 
+	 * @return null if prerequisites are not met
+	 */
+	public Interval buildInterval() {
+		if (start == null || end == null) {
+			return null;
+		}
+
+		Calendar calendar = GregorianCalendar.getInstance();
+		calendar.setTime(end);
+		calendar.add(Calendar.DAY_OF_MONTH, 1);
+		Instant endInstant = new Instant(calendar.getTime());
+
+		return new Interval(new Instant(this.getStart()), endInstant);
 	}
 
 	@Override
@@ -121,7 +165,6 @@ public class Conference {
 		return start;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -159,25 +202,6 @@ public class Conference {
 	public String toString() {
 		return "Conference [id=" + id + ", name=" + name + ", description="
 				+ description + ", start=" + start + ", end=" + end + "]";
-	}
-
-	/**
-	 * Returns the interval of the conference. The end instant is 00:00 of the
-	 * day after the last day of the conference
-	 * 
-	 * @return null if prerequisites are not met
-	 */
-	public Interval buildInterval() {
-		if (start == null || end == null) {
-			return null;
-		}
-
-		Calendar calendar = GregorianCalendar.getInstance();
-		calendar.setTime(end);
-		calendar.add(Calendar.DAY_OF_MONTH, 1);
-		Instant endInstant = new Instant(calendar.getTime());
-
-		return new Interval(new Instant(this.getStart()), endInstant);
 	}
 
 }
