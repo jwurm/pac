@@ -56,19 +56,19 @@ public class TalkServiceTest {
 				.addAsWebInfResource("hornetq-jms.xml", "hornetq-jms.xml");
 	}
 
-	/** The service. */
+	/** The ConferenceService. */
 	@Inject
 	private ConferenceService cservice;
 
-	/** The service. */
+	/** The TalkService. */
 	@Inject
 	private TalkService service;
 
-	/** The service. */
+	/** The SpeakerService. */
 	@Inject
 	private SpeakerService speakerservice;
 
-	/** The service. */
+	/** The RoomService. */
 	@Inject
 	private RoomService roomservice;
 

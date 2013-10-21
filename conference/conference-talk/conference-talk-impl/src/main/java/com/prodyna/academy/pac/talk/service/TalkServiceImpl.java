@@ -23,6 +23,10 @@ import com.prodyna.academy.pac.speaker.model.Speaker;
 import com.prodyna.academy.pac.talk.model.Talk;
 import com.prodyna.academy.pac.talk.model.TalkSpeakerAssignment;
 
+/**
+ * @author jwurm Implementation of the TalkService.
+ * 
+ */
 @Stateless
 @PerformanceLogged
 @ServiceLogged
@@ -36,6 +40,12 @@ public class TalkServiceImpl implements TalkService {
 	@Inject
 	private Logger log;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.talk.service.TalkService#getTalksBySpeaker(int)
+	 */
 	@Override
 	public List<Talk> getTalksBySpeaker(int speakerId) {
 		Query query = em
@@ -51,6 +61,11 @@ public class TalkServiceImpl implements TalkService {
 		return new ArrayList<Talk>(talks);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.prodyna.academy.pac.talk.service.TalkService#getByRoom(int)
+	 */
 	@Override
 	public List<Talk> getByRoom(int roomId) {
 		Query query = em.createNamedQuery(Talk.FIND_BY_ROOM);
@@ -61,6 +76,14 @@ public class TalkServiceImpl implements TalkService {
 		return new ArrayList<Talk>(ret);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.talk.service.TalkService#assignSpeaker(com.prodyna
+	 * .academy.pac.talk.model.Talk,
+	 * com.prodyna.academy.pac.speaker.model.Speaker)
+	 */
 	@Override
 	public void assignSpeaker(Talk talk, Speaker speaker) {
 		List<TalkSpeakerAssignment> resultList = findTalkSpeakerAssignments(
@@ -78,6 +101,14 @@ public class TalkServiceImpl implements TalkService {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.talk.service.TalkService#unassignSpeaker(com.
+	 * prodyna.academy.pac.talk.model.Talk,
+	 * com.prodyna.academy.pac.speaker.model.Speaker)
+	 */
 	@Override
 	public void unassignSpeaker(Talk talk, Speaker speaker) {
 		List<TalkSpeakerAssignment> resultList = findTalkSpeakerAssignments(
@@ -92,6 +123,11 @@ public class TalkServiceImpl implements TalkService {
 
 	}
 
+	/**
+	 * @param talk
+	 * @param speaker
+	 * @return
+	 */
 	private List<TalkSpeakerAssignment> findTalkSpeakerAssignments(Talk talk,
 			Speaker speaker) {
 		Query query = em
@@ -103,6 +139,13 @@ public class TalkServiceImpl implements TalkService {
 		return resultList;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.talk.service.TalkService#createTalk(com.prodyna
+	 * .academy.pac.talk.model.Talk)
+	 */
 	@Override
 	public Talk createTalk(Talk talk) {
 		validateTalk(talk);
@@ -111,6 +154,13 @@ public class TalkServiceImpl implements TalkService {
 		return talk;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.talk.service.TalkService#updateTalk(com.prodyna
+	 * .academy.pac.talk.model.Talk)
+	 */
 	@Override
 	public Talk updateTalk(Talk talk) {
 		validateTalk(talk);
@@ -119,6 +169,11 @@ public class TalkServiceImpl implements TalkService {
 		return ret;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.prodyna.academy.pac.talk.service.TalkService#deleteTalk(int)
+	 */
 	@Override
 	public Talk deleteTalk(int id) {
 		Talk talk = getTalk(id);
@@ -128,6 +183,11 @@ public class TalkServiceImpl implements TalkService {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.prodyna.academy.pac.talk.service.TalkService#getTalk(int)
+	 */
 	@Override
 	public Talk getTalk(int id) {
 		Talk ret = em.find(Talk.class, id);
@@ -137,7 +197,8 @@ public class TalkServiceImpl implements TalkService {
 	}
 
 	/**
-	 * Validates the data of the talk
+	 * Validates the data of the talk, checks for overlapping dates of room,
+	 * speaker etc.
 	 * 
 	 * @param talk
 	 */
@@ -150,11 +211,17 @@ public class TalkServiceImpl implements TalkService {
 
 	}
 
+	/**
+	 * Checks if the talk fits into the conference interval.
+	 * 
+	 * @param talk
+	 * @thows BusinessException if it's outside of the conference
+	 */
 	private void validateConferenceInterval(Talk talk) {
 		// read conference and room to have up to date data
 
-		Conference conf = conference.getConference(talk.getConference()
-				.getId());
+		Conference conf = conference
+				.getConference(talk.getConference().getId());
 
 		// validate conference date
 		Interval conferenceInterval = conf.buildInterval();
@@ -167,6 +234,12 @@ public class TalkServiceImpl implements TalkService {
 		}
 	}
 
+	/**
+	 * Checks if the room is available at the time of the talk.
+	 * 
+	 * @param talk
+	 * @thows BusinessException if it's not available
+	 */
 	private void validateRoomAvailability(Talk talk) {
 		Interval talkInterval = talk.buildInterval();
 		// validate room availability
@@ -186,6 +259,12 @@ public class TalkServiceImpl implements TalkService {
 		}
 	}
 
+	/**
+	 * Checks if the speaker is available for the talk
+	 * 
+	 * @thows BusinessException if it's not available
+	 * @param talk
+	 */
 	private void validateSpeakerAvailability(Talk talk) {
 		if (talk.getId() == null) {
 			// if the talk hasn't been persisted yet, then it cannot have any
@@ -217,6 +296,13 @@ public class TalkServiceImpl implements TalkService {
 		}
 	}
 
+	/**
+	 * Checks if the speaker is available for the talk
+	 * 
+	 * @thows BusinessException if it's not available
+	 * @param talk
+	 * @param speaker
+	 */
 	private void validateSpeakerAvailability(Talk talk, Speaker speaker) {
 		if (talk.getId() == null) {
 			// if the talk hasn't been persisted yet, then it cannot have any
@@ -245,6 +331,12 @@ public class TalkServiceImpl implements TalkService {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.talk.service.TalkService#getSpeakersByTalk(int)
+	 */
 	@Override
 	public List<Speaker> getSpeakersByTalk(int talkId) {
 		Query query = em.createNamedQuery(TalkSpeakerAssignment.FIND_BY_TALK);
@@ -260,6 +352,11 @@ public class TalkServiceImpl implements TalkService {
 		return new ArrayList<Speaker>(ret);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.prodyna.academy.pac.talk.service.TalkService#getAllTalks()
+	 */
 	@Override
 	public List<Talk> getAllTalks() {
 		Query query = em.createNamedQuery(Talk.SELECT_ALL);
@@ -273,10 +370,16 @@ public class TalkServiceImpl implements TalkService {
 		return new ArrayList<Talk>(talks);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.prodyna.academy.pac.talk.service.TalkService#getTalksByConference
+	 * (int)
+	 */
 	@Override
 	public List<Talk> getTalksByConference(int conferenceId) {
-		Query query = em
-				.createNamedQuery(Talk.FIND_BY_CONFERENCE);
+		Query query = em.createNamedQuery(Talk.FIND_BY_CONFERENCE);
 		query.setParameter("conferenceId", conferenceId);
 		@SuppressWarnings("unchecked")
 		List<Talk> ret = query.getResultList();

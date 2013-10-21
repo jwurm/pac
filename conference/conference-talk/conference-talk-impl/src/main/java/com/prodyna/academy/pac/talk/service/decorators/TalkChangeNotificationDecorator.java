@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.prodyna.academy.pac.talk.service.decorators;
 
 import java.util.logging.Logger;
@@ -17,27 +20,39 @@ import com.prodyna.academy.pac.speaker.model.Speaker;
 import com.prodyna.academy.pac.talk.model.Talk;
 import com.prodyna.academy.pac.talk.service.TalkService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Decorator which watches for talk changes and writes a report about these into
+ * a queue.
+ */
 @Decorator
 public abstract class TalkChangeNotificationDecorator implements TalkService {
 
-	/**
-	 * Name of the queue to write to
-	 */
+	/** Name of the queue to write to. */
 	public static final String QUEUE_NAME = "queue/test";
 
+	/** The talk service. */
 	@Inject
 	@Delegate
 	private TalkService service;
 
+	/** The InitialContext. */
 	@Inject
 	private InitialContext ctx;
-	
+
+	/** The logger. */
 	@Inject
 	private Logger log;
 
+	/** The InitialContext. */
 	@Inject
 	private QueueConnectionFactory qcf;
 
+	/**
+	 * Send queue message.
+	 *
+	 * @param message the message
+	 */
 	private void sendQueueMessage(String message) {
 		try {
 			Queue queue = (Queue) ctx.lookup(QUEUE_NAME);
@@ -45,7 +60,6 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 			Session session = conn.createSession(false,
 					Session.AUTO_ACKNOWLEDGE);
 			MessageProducer producer = session.createProducer(queue);
-			
 
 			conn.start();
 			// We create a simple TextMessage and send it:
@@ -56,12 +70,15 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 			session.close();
 			conn.stop();
 			conn.close();
-			log.info("Queue message written: "+tm.getText());
+			log.info("Queue message written: " + tm.getText());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.talk.service.TalkService#assignSpeaker(com.prodyna.academy.pac.talk.model.Talk, com.prodyna.academy.pac.speaker.model.Speaker)
+	 */
 	@Override
 	public void assignSpeaker(Talk talk, Speaker speaker) {
 		service.assignSpeaker(talk, speaker);
@@ -70,6 +87,9 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.talk.service.TalkService#unassignSpeaker(com.prodyna.academy.pac.talk.model.Talk, com.prodyna.academy.pac.speaker.model.Speaker)
+	 */
 	@Override
 	public void unassignSpeaker(Talk talk, Speaker speaker) {
 		service.unassignSpeaker(talk, speaker);
@@ -78,6 +98,9 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.talk.service.TalkService#updateTalk(com.prodyna.academy.pac.talk.model.Talk)
+	 */
 	@Override
 	public Talk updateTalk(Talk talk) {
 		Talk updateTalk = service.updateTalk(talk);
@@ -85,6 +108,9 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 		return updateTalk;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.prodyna.academy.pac.talk.service.TalkService#deleteTalk(int)
+	 */
 	@Override
 	public Talk deleteTalk(int id) {
 		Talk talk = service.deleteTalk(id);
