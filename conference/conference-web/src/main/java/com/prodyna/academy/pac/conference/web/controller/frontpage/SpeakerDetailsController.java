@@ -31,9 +31,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
-import com.prodyna.academy.pac.conference.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkService;
+import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 @ManagedBean(name = "speakerDetailsController")
 @ViewScoped
@@ -68,10 +68,10 @@ public class SpeakerDetailsController {
 	private FacesContext facesContext;
 
 	@Inject
-	private TalkService talkService;
+	private TalkCRUDService talkService;
 
 	@Inject
-	private SpeakerService speakerService;
+	private SpeakerCRUDService speakerService;
 
 	@PostConstruct
 	public void initData() {

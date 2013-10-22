@@ -29,7 +29,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
-import com.prodyna.academy.pac.conference.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 
 /**
  * CRUD Backing bean for the speaker entity
@@ -63,7 +63,7 @@ public class SpeakerCRUDController {
 	private List<Speaker> speakers = new ArrayList<Speaker>();
 
 	@Inject
-	private SpeakerService speakerService;
+	private SpeakerCRUDService speakerService;
 
 	/**
 	 * Creates a new speaker from the newSpeaker field.

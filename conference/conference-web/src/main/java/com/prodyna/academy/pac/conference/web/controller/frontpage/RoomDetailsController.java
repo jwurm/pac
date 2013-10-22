@@ -32,9 +32,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomService;
+import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkService;
+import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 @ManagedBean(name = "roomDetailsController")
 @SessionScoped
@@ -59,10 +59,10 @@ public class RoomDetailsController {
 	private FacesContext facesContext;
 
 	@Inject
-	private RoomService roomService;
+	private RoomCRUDService roomService;
 
 	@Inject
-	private TalkService talkService;
+	private TalkCRUDService talkService;
 
 	private HtmlDataTable dataTable;
 

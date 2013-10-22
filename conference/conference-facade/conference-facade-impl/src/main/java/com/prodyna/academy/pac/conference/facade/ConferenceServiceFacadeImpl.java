@@ -5,15 +5,15 @@ import java.util.List;
 import javax.inject.Inject;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceServiceFacade;
-import com.prodyna.academy.pac.conference.talk.service.TalkService;
+import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 public class ConferenceServiceFacadeImpl implements ConferenceServiceFacade{
 //	@Inject
-	private ConferenceService conferenceService;
+	private ConferenceCRUDService conferenceService;
 //	@Inject
-	private TalkService talkService;
+	private TalkCRUDService talkService;
 	@Override
 	public Conference getConference(int conferenceId) {
 		return conferenceService.getConference(conferenceId);

@@ -10,7 +10,7 @@ import com.prodyna.academy.pac.conference.room.model.Room;
  * @author Jens Wurm
  * 
  */
-public interface RoomService {
+public interface RoomCRUDService {
 
 	/**
 	 * Creates a room and retrieves it

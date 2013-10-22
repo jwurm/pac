@@ -10,7 +10,7 @@ import com.prodyna.academy.pac.conference.speaker.model.Speaker;
  * @author Jens Wurm
  * 
  */
-public interface SpeakerService {
+public interface SpeakerCRUDService {
 
 	/**
 	 * Creates a speaker

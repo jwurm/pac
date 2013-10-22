@@ -38,7 +38,7 @@ import javax.inject.Named;
 import org.joda.time.Instant;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -55,7 +55,7 @@ public class ConferenceCRUDController {
 	private FacesContext facesContext;
 
 	@Inject
-	private ConferenceService conferenceService;
+	private ConferenceCRUDService conferenceService;
 
 	private Conference newConference;
 

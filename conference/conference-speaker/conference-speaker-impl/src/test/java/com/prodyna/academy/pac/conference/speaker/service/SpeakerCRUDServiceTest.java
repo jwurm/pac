@@ -16,13 +16,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
-import com.prodyna.academy.pac.conference.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 
 /**
  * @author jwurm Test of basic crud actions
  */
 @RunWith(Arquillian.class)
-public class SpeakerServiceTest {
+public class SpeakerCRUDServiceTest {
 
 	/**
 	 * Creates the test archive.
@@ -43,7 +43,7 @@ public class SpeakerServiceTest {
 
 	/** The SpeakerService. */
 	@Inject
-	private SpeakerService service;
+	private SpeakerCRUDService service;
 
 	/**
 	 * Test crud.

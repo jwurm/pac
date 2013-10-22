@@ -9,7 +9,7 @@ import com.prodyna.academy.pac.conference.conference.model.Conference;
  * @author Jens Wurm
  *
  */
-public interface ConferenceService {
+public interface ConferenceCRUDService {
 	
 	/**
 	 * Finds a conference by Id.

@@ -20,19 +20,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomService;
+import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
-import com.prodyna.academy.pac.conference.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkService;
+import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 /**
  * The Class ConferenceServiceTest.
  */
 @RunWith(Arquillian.class)
-public class TalkServiceTest {
+public class TalkCRUDServiceTest {
 
 	/**
 	 * Creates the test archive.
@@ -60,19 +60,19 @@ public class TalkServiceTest {
 
 	/** The ConferenceService. */
 	@Inject
-	private ConferenceService cservice;
+	private ConferenceCRUDService cservice;
 
 	/** The TalkService. */
 	@Inject
-	private TalkService service;
+	private TalkCRUDService service;
 
 	/** The SpeakerService. */
 	@Inject
-	private SpeakerService speakerservice;
+	private SpeakerCRUDService speakerservice;
 
 	/** The RoomService. */
 	@Inject
-	private RoomService roomservice;
+	private RoomCRUDService roomservice;
 
 	/**
 	 * Test crud.

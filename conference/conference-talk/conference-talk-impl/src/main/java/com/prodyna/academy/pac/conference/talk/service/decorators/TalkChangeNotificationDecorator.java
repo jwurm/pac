@@ -18,7 +18,7 @@ import javax.naming.InitialContext;
 
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkService;
+import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -26,7 +26,7 @@ import com.prodyna.academy.pac.conference.talk.service.TalkService;
  * a queue.
  */
 @Decorator
-public abstract class TalkChangeNotificationDecorator implements TalkService {
+public abstract class TalkChangeNotificationDecorator implements TalkCRUDService {
 
 	/** Name of the queue to write to. */
 	public static final String QUEUE_NAME = "queue/test";
@@ -34,7 +34,7 @@ public abstract class TalkChangeNotificationDecorator implements TalkService {
 	/** The talk service. */
 	@Inject
 	@Delegate
-	private TalkService service;
+	private TalkCRUDService service;
 
 	/** The InitialContext. */
 	@Inject

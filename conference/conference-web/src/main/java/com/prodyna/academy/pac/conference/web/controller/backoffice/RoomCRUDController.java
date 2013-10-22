@@ -34,7 +34,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomService;
+import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -52,7 +52,7 @@ public class RoomCRUDController {
 	private FacesContext facesContext;
 
 	@Inject
-	private RoomService roomService;
+	private RoomCRUDService roomService;
 
 	private Room newRoom;
 

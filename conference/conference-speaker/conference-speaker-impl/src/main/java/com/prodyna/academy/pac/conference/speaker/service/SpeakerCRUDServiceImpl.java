@@ -13,7 +13,7 @@ import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
-import com.prodyna.academy.pac.conference.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 
 /**
  * @author jwurm Implementation of the speakerService
@@ -21,7 +21,7 @@ import com.prodyna.academy.pac.conference.speaker.service.SpeakerService;
 @Stateless
 @PerformanceLogged
 @ServiceLogged
-public class SpeakerServiceImpl implements SpeakerService {
+public class SpeakerCRUDServiceImpl implements SpeakerCRUDService {
 
 	/** The EntityManager. */
 	@Inject

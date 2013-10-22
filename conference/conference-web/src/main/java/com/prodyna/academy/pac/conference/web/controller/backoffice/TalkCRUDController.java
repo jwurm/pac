@@ -30,12 +30,12 @@ import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomService;
+import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkService;
+import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -53,13 +53,13 @@ public class TalkCRUDController {
 	private FacesContext facesContext;
 
 	@Inject
-	private TalkService talkService;
+	private TalkCRUDService talkService;
 
 	@Inject
-	private ConferenceService conferenceService;
+	private ConferenceCRUDService conferenceService;
 
 	@Inject
-	public static RoomService roomService;
+	public static RoomCRUDService roomService;
 
 	private Talk newTalk;
 

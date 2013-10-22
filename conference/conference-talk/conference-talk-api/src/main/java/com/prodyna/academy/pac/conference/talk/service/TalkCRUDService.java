@@ -5,7 +5,7 @@ import java.util.List;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
 
-public interface TalkService {
+public interface TalkCRUDService {
 
 	/**
 	 * @return List of all talks

@@ -16,14 +16,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomService;
+import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 
 
 /**
  * The Class RoomServiceTest.
  */
 @RunWith(Arquillian.class)
-public class RoomServiceTest {
+public class RoomCRUDServiceTest {
 
 	/**
 	 * Creates the test archive.
@@ -49,7 +49,7 @@ public class RoomServiceTest {
 
 	/** The service. */
 	@Inject
-	private RoomService service;
+	private RoomCRUDService service;
 
 	/**
 	 * Test crud.

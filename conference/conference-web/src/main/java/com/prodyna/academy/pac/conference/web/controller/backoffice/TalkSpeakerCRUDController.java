@@ -29,9 +29,9 @@ import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
-import com.prodyna.academy.pac.conference.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkService;
+import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -64,7 +64,7 @@ public class TalkSpeakerCRUDController {
 	private List<Speaker> speakers;
 
 	@Inject
-	private SpeakerService speakerService;
+	private SpeakerCRUDService speakerService;
 
 	private Integer talkId;
 	
@@ -81,7 +81,7 @@ public class TalkSpeakerCRUDController {
 	private List<Talk> talks;
 
 	@Inject
-	private TalkService talkService;
+	private TalkCRUDService talkService;
 
 	private List<Speaker> talkSpeakers;
 

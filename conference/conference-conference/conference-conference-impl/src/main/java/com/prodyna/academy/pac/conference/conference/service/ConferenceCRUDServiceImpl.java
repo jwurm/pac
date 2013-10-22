@@ -13,7 +13,7 @@ import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.room.model.Room;
 
 // TODO: Auto-generated Javadoc
@@ -27,7 +27,7 @@ import com.prodyna.academy.pac.conference.room.model.Room;
 @Stateless
 @PerformanceLogged
 @ServiceLogged
-public class ConferenceServiceImpl implements ConferenceService {
+public class ConferenceCRUDServiceImpl implements ConferenceCRUDService {
 
 	/** The EntityManager. */
 	@Inject

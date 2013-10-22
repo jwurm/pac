@@ -18,11 +18,11 @@ import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
 import com.prodyna.academy.pac.conference.talk.model.TalkSpeakerAssignment;
-import com.prodyna.academy.pac.conference.talk.service.TalkService;
+import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 /**
  * @author jwurm Implementation of the TalkService.
@@ -31,12 +31,12 @@ import com.prodyna.academy.pac.conference.talk.service.TalkService;
 @Stateless
 @PerformanceLogged
 @ServiceLogged
-public class TalkServiceImpl implements TalkService {
+public class TalkCRUDServiceImpl implements TalkCRUDService {
 	@Inject
 	private EntityManager em;
 
 	@Inject
-	private ConferenceService conference;
+	private ConferenceCRUDService conference;
 
 	@Inject
 	private Logger log;

@@ -13,12 +13,12 @@ import com.prodyna.academy.pac.base.BusinessException;
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomService;
+import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 
 @Stateless
 @PerformanceLogged
 @ServiceLogged
-public class RoomServiceImpl implements RoomService {
+public class RoomCRUDServiceImpl implements RoomCRUDService {
 
 	@Inject
 	private EntityManager em;

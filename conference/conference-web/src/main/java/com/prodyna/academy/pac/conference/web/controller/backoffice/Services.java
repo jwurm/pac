@@ -5,7 +5,7 @@ import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.prodyna.academy.pac.conference.room.service.RoomService;
+import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 
 @ManagedBean
 @Named
@@ -13,6 +13,6 @@ import com.prodyna.academy.pac.conference.room.service.RoomService;
 public class Services {
 	
 	@Inject
-	public static RoomService roomService;
+	public static RoomCRUDService roomService;
 
 }

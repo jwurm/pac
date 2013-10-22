@@ -40,7 +40,7 @@ import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
-import com.prodyna.academy.pac.conference.speaker.service.SpeakerService;
+import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 
 /**
  * JAX-RS Example
@@ -59,7 +59,7 @@ public class SpeakerRESTService {
 	private Validator validator;
 
 	@Inject
-	private SpeakerService repository;
+	private SpeakerCRUDService repository;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

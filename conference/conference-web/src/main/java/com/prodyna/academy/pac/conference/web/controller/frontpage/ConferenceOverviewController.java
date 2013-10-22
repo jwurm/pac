@@ -30,7 +30,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 
 @ManagedBean(name = "conferenceOverviewController")
 @SessionScoped
@@ -40,7 +40,7 @@ public class ConferenceOverviewController {
 	private Logger log;
 
 	@Inject
-	private ConferenceService conferenceService;
+	private ConferenceCRUDService conferenceService;
 
 
 	private HtmlDataTable dataTable;

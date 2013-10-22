@@ -24,13 +24,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceService;
+import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 
 /**
  * The Class ConferenceServiceTest. Tests basic crud actions.
  */
 @RunWith(Arquillian.class)
-public class ConferenceServiceTest {
+public class ConferenceCRUDServiceTest {
 
 	/**
 	 * Creates the test archive.
@@ -57,7 +57,7 @@ public class ConferenceServiceTest {
 
 	/** The service. */
 	@Inject
-	private ConferenceService service;
+	private ConferenceCRUDService service;
 
 	/**
 	 * Test crud.

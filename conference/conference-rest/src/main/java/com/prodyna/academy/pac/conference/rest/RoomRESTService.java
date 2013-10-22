@@ -40,7 +40,7 @@ import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomService;
+import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 
 /**
  * JAX-RS Example
@@ -59,7 +59,7 @@ public class RoomRESTService {
 	private Validator validator;
 
 	@Inject
-	private RoomService repository;
+	private RoomCRUDService repository;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
