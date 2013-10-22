@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.prodyna.academy.pac</groupId>
 		<artifactId>conference-facade</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>conference-facade-impl</artifactId>
 	<name>conference-facade-impl</name>
@@ -103,6 +103,34 @@
 			<groupId>com.prodyna.academy.pac</groupId>
 			<artifactId>conference-facade-api</artifactId>
 			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.prodyna.academy.pac</groupId>
+			<artifactId>conference-conference-impl</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.prodyna.academy.pac</groupId>
+			<artifactId>conference-talk-impl</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.prodyna.academy.pac</groupId>
+			<artifactId>conference-speaker-impl</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.prodyna.academy.pac</groupId>
+			<artifactId>conference-room-impl</artifactId>
+			<version>1.1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
 		</dependency>
 	</dependencies>
 	<build>

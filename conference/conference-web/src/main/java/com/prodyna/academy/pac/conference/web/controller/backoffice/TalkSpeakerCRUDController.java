@@ -28,6 +28,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
+import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
@@ -81,7 +82,7 @@ public class TalkSpeakerCRUDController {
 	private List<Talk> talks;
 
 	@Inject
-	private TalkCRUDService talkService;
+	private TalkService talkService;
 
 	private List<Speaker> talkSpeakers;
 

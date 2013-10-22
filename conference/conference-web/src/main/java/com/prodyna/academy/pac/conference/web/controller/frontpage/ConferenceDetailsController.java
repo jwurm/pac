@@ -26,17 +26,15 @@ import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
+import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
+import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 @ManagedBean(name = "conferenceDetailsController")
 @ViewScoped
@@ -62,10 +60,10 @@ public class ConferenceDetailsController {
 	private FacesContext facesContext;
 
 	@Inject
-	private ConferenceCRUDService conferenceService;
+	private ConferenceService conferenceService;
 	
 	@Inject
-	private TalkCRUDService talkService;
+	private TalkService talkService;
 
 	private HtmlDataTable dataTable;
 

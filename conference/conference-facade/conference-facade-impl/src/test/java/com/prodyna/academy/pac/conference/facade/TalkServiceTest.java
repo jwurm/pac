@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.talk.service;
+package com.prodyna.academy.pac.conference.facade;
 
 import java.io.File;
 import java.text.ParseException;
@@ -21,6 +21,8 @@ import org.junit.runner.RunWith;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
+import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
+import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
@@ -32,7 +34,7 @@ import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
  * The Class ConferenceServiceTest.
  */
 @RunWith(Arquillian.class)
-public class TalkCRUDServiceTest {
+public class TalkServiceTest {
 
 	/**
 	 * Creates the test archive.
@@ -47,7 +49,7 @@ public class TalkCRUDServiceTest {
 		File[] resolveAsFiles = resolver.artifact("joda-time:joda-time")
 				.resolveAsFiles();
 		return ShrinkWrap
-				.create(WebArchive.class, "conferencetest.war")
+				.create(WebArchive.class, "conferencefacadetest.war")
 				.addPackages(true, "com.prodyna.academy.pac")
 				.addAsResource("META-INF/test-persistence.xml",
 						"META-INF/persistence.xml")
@@ -60,11 +62,11 @@ public class TalkCRUDServiceTest {
 
 	/** The ConferenceService. */
 	@Inject
-	private ConferenceCRUDService cservice;
+	private ConferenceService cservice;
 
 	/** The TalkService. */
 	@Inject
-	private TalkCRUDService service;
+	private TalkService service;
 
 	/** The SpeakerService. */
 	@Inject
@@ -164,6 +166,107 @@ public class TalkCRUDServiceTest {
 
 	}
 
-	
+	/**
+	 * Test speaker assignment collisions
+	 * 
+	 * @throws ParseException
+	 *             the parse exception
+	 */
+	@Test
+	@InSequence(3)
+	public void testSpeakerCollision() throws ParseException {
+		Conference conference = cservice.getConference(1);
+		Room room1 = roomservice.createRoom(new Room("testraum", 50));
+		Room room2 = roomservice.createRoom(new Room("testraum2", 50));
+
+		Speaker speaker = speakerservice.createSpeaker(new Speaker("Laberer",
+				"schwätzt dumm"));
+
+		// create two talks with overlapping datetime
+		Talk talk1 = new Talk("Test1", "desc",
+				new Instant("2013-02-01T15:00").toDate(), 60, conference, room1);
+		talk1 = service.createTalk(talk1);
+
+		Talk talk2 = new Talk("Test2", "desc",
+				new Instant("2013-02-01T15:30").toDate(), 60, conference, room2);
+		talk2 = service.createTalk(talk2);
+
+		service.assignSpeaker(talk1, speaker);
+		try {
+
+			service.assignSpeaker(talk2, speaker);
+			Assert.fail("Collision detection failed!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		talk1.setDuration(30);
+		talk1 = service.updateTalk(talk1);
+		// now it should be possible to assign the speaker, as the talks no
+		// longer overlap
+
+		service.assignSpeaker(talk2, speaker);
+
+		talk2.setDatetime(new Instant("2013-02-01T15:29").toDate());
+		try {
+
+			service.updateTalk(talk2);
+			// this should fail, as this makes the talk overlap with another
+			// talk that it shares the speaker with.
+			Assert.fail("Collision detection failed!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Test room assignment collisions
+	 * 
+	 * @throws ParseException
+	 *             the parse exception
+	 */
+	@Test
+	@InSequence(4)
+	public void testRoomCollision() throws ParseException {
+		Conference conference = cservice.getConference(1);
+		Room room1 = roomservice.createRoom(new Room("testraum", 50));
+
+
+		// create two talks with overlapping datetime
+		Talk talk1 = new Talk("Test1", "desc",
+				new Instant("2013-02-01T15:00").toDate(), 60, conference, room1);
+		talk1 = service.createTalk(talk1);
+
+		Talk talk2 = new Talk("Test2", "desc",
+				new Instant("2013-02-01T15:30").toDate(), 60, conference, room1);
+
+		try {
+			talk2 = service.createTalk(talk2);
+			// room already is occupied by that time
+			Assert.fail("Collision detection failed!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		talk2.setDatetime(new Instant("2013-02-01T16:00").toDate());
+		talk2 = service.createTalk(talk2);
+
+		talk1.setDuration(61);
+		try {
+			talk1 = service.updateTalk(talk1);
+			// this extends into talk2
+			Assert.fail("Collision detection failed!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		// reschedule talk2 a minute later
+		talk2.setDatetime(new Instant("2013-02-01T16:01").toDate());
+		service.updateTalk(talk2);
+		// now this update should be possible.
+		talk1 = service.updateTalk(talk1);
+		// now it should be possible to assign the speaker, as the talks no
+		// longer overlap
+
+	}
 
 }

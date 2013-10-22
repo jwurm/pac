@@ -38,10 +38,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 /**
  * JAX-RS Example
@@ -59,7 +59,7 @@ public class TalkRESTService {
 	private Validator validator;
 
 	@Inject
-	private TalkCRUDService talkService;
+	private TalkService talkService;
 
 	@Inject
 	private SpeakerCRUDService speakerService;

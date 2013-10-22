@@ -16,10 +16,7 @@
  */
 package com.prodyna.academy.pac.conference.web.controller.backoffice;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,17 +25,13 @@ import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UICommand;
-import javax.faces.component.UIForm;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.joda.time.Instant;
-
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
+import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -55,7 +48,7 @@ public class ConferenceCRUDController {
 	private FacesContext facesContext;
 
 	@Inject
-	private ConferenceCRUDService conferenceService;
+	private ConferenceService conferenceService;
 
 	private Conference newConference;
 

@@ -35,8 +35,6 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	@Inject
 	private EntityManager em;
 
-	@Inject
-	private ConferenceCRUDService conference;
 
 	@Inject
 	private Logger log;
@@ -93,7 +91,7 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 			log.info("Speaker " + speaker.getId()
 					+ " already is assigned to talk " + talk.getId());
 		} else {
-			validateSpeakerAvailability(talk, speaker);
+			
 			TalkSpeakerAssignment tsa = new TalkSpeakerAssignment(talk, speaker);
 			em.persist(tsa);
 			log.info("Assigning Speaker +" + speaker.getId() + " to talk "
@@ -149,7 +147,6 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 */
 	@Override
 	public Talk createTalk(Talk talk) {
-		validateTalk(talk);
 		em.persist(talk);
 		log.info("Created talk " + talk);
 		return talk;
@@ -164,7 +161,6 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 */
 	@Override
 	public Talk updateTalk(Talk talk) {
-		validateTalk(talk);
 		Talk ret = em.merge(talk);
 		log.info("Updated talk " + talk);
 		return ret;
@@ -197,144 +193,7 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 
 	}
 
-	/**
-	 * Validates the data of the talk, checks for overlapping dates of room,
-	 * speaker etc.
-	 * 
-	 * @param talk
-	 */
-	private void validateTalk(Talk talk) {
-		validateConferenceInterval(talk);
-
-		validateRoomAvailability(talk);
-
-		validateSpeakerAvailability(talk);
-
-	}
-
-	/**
-	 * Checks if the talk fits into the conference interval.
-	 * 
-	 * @param talk
-	 * @thows BusinessException if it's outside of the conference
-	 */
-	private void validateConferenceInterval(Talk talk) {
-		// read conference and room to have up to date data
-
-		Integer conferenceId = talk.getConference().getId();
-		Conference conf = conference.getConference(conferenceId);
-		if (conf == null) {
-			throw new BusinessException("no conference found for id"
-					+ conferenceId);
-		}
-
-		// validate conference date
-		Interval conferenceInterval = conf.buildInterval();
-		boolean conferenceIntervalOk = conferenceInterval.contains(talk
-				.buildInterval());
-		if (!conferenceIntervalOk) {
-			throw new BusinessException(
-					"Talk is set outside of the duration of the conference! "
-							+ talk.toString() + " " + conf.toString());
-		}
-	}
-
-	/**
-	 * Checks if the room is available at the time of the talk.
-	 * 
-	 * @param talk
-	 * @thows BusinessException if it's not available
-	 */
-	private void validateRoomAvailability(Talk talk) {
-		Interval talkInterval = talk.buildInterval();
-		// validate room availability
-		List<Talk> roomTalks = getByRoom(talk.getRoom().getId());
-		for (Talk currTalk : roomTalks) {
-			if (currTalk.getId().equals(talk.getId())) {
-				// if the talk already exists, don't validate against itself
-				continue;
-			}
-
-			Interval otherRoomTalkInterval = currTalk.buildInterval();
-			if (otherRoomTalkInterval.overlaps(talkInterval)) {
-				throw new BusinessException(
-						"The designated room is already occupied by "
-								+ currTalk + " at that time.");
-			}
-		}
-	}
-
-	/**
-	 * Checks if the speaker is available for the talk
-	 * 
-	 * @thows BusinessException if it's not available
-	 * @param talk
-	 */
-	private void validateSpeakerAvailability(Talk talk) {
-		if (talk.getId() == null) {
-			// if the talk hasn't been persisted yet, then it cannot have any
-			// speakers yet anyway
-			return;
-		}
-		Interval talkInterval = talk.buildInterval();
-		List<Speaker> speakers = getSpeakersByTalk(talk.getId());
-		for (Speaker speaker : speakers) {
-			// no one of the speakers is allowed to have a talk at the same time
-			// as this one, except for this talk.
-
-			List<Talk> speakerTalks = getTalksBySpeaker(speaker.getId());
-			for (Talk currTalk : speakerTalks) {
-				if (currTalk.getId().equals(talk.getId())) {
-					// if the talk already exists, don't validate against itself
-					continue;
-				}
-
-				Interval otherSpeakerTalkInterval = new Interval(new Instant(
-						currTalk.getDatetime()), new Instant(
-						currTalk.buildEndDateTime()));
-				if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
-					throw new BusinessException(
-							"The designated speaker is already occupied by "
-									+ currTalk + " at that time.");
-				}
-			}
-		}
-	}
-
-	/**
-	 * Checks if the speaker is available for the talk
-	 * 
-	 * @thows BusinessException if it's not available
-	 * @param talk
-	 * @param speaker
-	 */
-	private void validateSpeakerAvailability(Talk talk, Speaker speaker) {
-		if (talk.getId() == null) {
-			// if the talk hasn't been persisted yet, then it cannot have any
-			// speakers yet anyway
-			return;
-		}
-		Interval talkInterval = talk.buildInterval();
-		// no one of the speakers is allowed to have a talk at the same time
-		// as this one, except for this talk.
-
-		List<Talk> speakerTalks = getTalksBySpeaker(speaker.getId());
-		for (Talk currTalk : speakerTalks) {
-			if (currTalk.getId().equals(talk.getId())) {
-				// if the talk already exists, don't validate against itself
-				continue;
-			}
-
-			Interval otherSpeakerTalkInterval = new Interval(new Instant(
-					currTalk.getDatetime()), new Instant(
-					currTalk.buildEndDateTime()));
-			if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
-				throw new BusinessException(
-						"The designated speaker is already occupied by "
-								+ currTalk + " at that time.");
-			}
-		}
-	}
+	
 
 	/*
 	 * (non-Javadoc)

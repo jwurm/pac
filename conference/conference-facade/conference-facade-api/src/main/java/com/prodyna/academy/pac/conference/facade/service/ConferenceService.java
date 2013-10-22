@@ -4,18 +4,19 @@ import java.util.List;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 
-public interface ConferenceServiceFacade {
-	
+public interface ConferenceService {
 
 	/**
 	 * Finds a conference by Id.
+	 * 
 	 * @param conferenceId
 	 * @return The Conference or null if none was found.
 	 */
 	public Conference getConference(int conferenceId);
-	
+
 	/**
 	 * Creates a conference.
+	 * 
 	 * @param conference
 	 * @return the freshly created conference with ID
 	 */
@@ -23,6 +24,7 @@ public interface ConferenceServiceFacade {
 
 	/**
 	 * Updates a conference.
+	 * 
 	 * @param conference
 	 * @return the conference
 	 */
@@ -30,6 +32,7 @@ public interface ConferenceServiceFacade {
 
 	/**
 	 * Deletes a conference
+	 * 
 	 * @param conferenceId
 	 * @return the deleted conference.
 	 */
@@ -37,6 +40,7 @@ public interface ConferenceServiceFacade {
 
 	/**
 	 * Finds all conferences.
+	 * 
 	 * @return List of conferences
 	 */
 	public List<Conference> getAllConferences();

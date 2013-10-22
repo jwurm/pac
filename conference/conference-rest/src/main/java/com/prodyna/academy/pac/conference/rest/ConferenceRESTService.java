@@ -39,9 +39,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
+import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
+import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 /**
  * JAX-RS Example
@@ -60,10 +60,10 @@ public class ConferenceRESTService {
 	private Logger log;
 
 	@Inject
-	private ConferenceCRUDService conferenceService;
+	private ConferenceService conferenceService;
 	
 	@Inject
-	private TalkCRUDService talkService;
+	private TalkService talkService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

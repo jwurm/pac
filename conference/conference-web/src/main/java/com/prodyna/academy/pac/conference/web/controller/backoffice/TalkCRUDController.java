@@ -31,6 +31,8 @@ import javax.validation.constraints.NotNull;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
+import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
+import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
@@ -53,10 +55,10 @@ public class TalkCRUDController {
 	private FacesContext facesContext;
 
 	@Inject
-	private TalkCRUDService talkService;
+	private TalkService talkService;
 
 	@Inject
-	private ConferenceCRUDService conferenceService;
+	private ConferenceService conferenceService;
 
 	@Inject
 	public static RoomCRUDService roomService;
