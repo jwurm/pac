@@ -23,8 +23,7 @@
 	<ui:define name="content">
 	<h:form>
 		<h:panelGrid columns="2" columnClasses="titleCell">
-			<h:commandLink action="conferenceOverview" value="Overview" /> 
-			<h:commandLink action="backofficeIndex" value="Administration" />
+			<h:link outcome="conferenceOverview" value="Overview" /> 
 			</h:panelGrid>
 		</h:form>
 		<h1>Welcome to PAC Conferences!</h1>
@@ -46,21 +45,21 @@
 				<h:outputLabel value="Duration:" />
 				<h:outputText value="#{talkDetailsController.talk.duration} minutes" />
 				<h:outputLabel value="Room" />
-				<h:commandLink action="roomDetails"
+				<h:link outcome="roomDetails"
 					value="#{talkDetailsController.talk.room.name}">
 					<f:param name="roomId"
 						value="#{talkDetailsController.talk.room.id}" />
-				</h:commandLink>
+				</h:link>
 			</h:panelGrid>
 			<h:dataTable
 				value="#{talkDetailsController.speakers}" var="speaker"
 				rendered="true" styleClass="simpletablestyle">
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:commandLink action="speakerDetails" value="#{speaker.name}">
+					<h:link outcome="speakerDetails" value="#{speaker.name}">
 						<f:param name="speakerId"
 							value="#{speaker.id}" />
-					</h:commandLink>
+					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Description</f:facet>

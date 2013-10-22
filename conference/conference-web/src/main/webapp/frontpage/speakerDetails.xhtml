@@ -23,8 +23,7 @@
 	<ui:define name="content">
 	<h:form>
 		<h:panelGrid columns="2" columnClasses="titleCell">
-			<h:commandLink action="conferenceOverview" value="Overview" /> 
-			<h:commandLink action="backofficeIndex" value="Administration" />
+			<h:link outcome="conferenceOverview" value="Overview" /> 
 			</h:panelGrid>
 		</h:form>
 		<h1>Welcome to PAC Conferences!</h1>
@@ -47,9 +46,9 @@
 					styleClass="simpletablestyle">
 					<h:column>
 						<f:facet name="header">Name</f:facet>
-						<h:commandLink  action="talkDetails" value="#{_talk.name}">
+						<h:link outcome="talkDetails" value="#{_talk.name}">
 							<f:param name="talkId" value="#{_talk.id}" />
-						</h:commandLink>
+						</h:link>
 					</h:column>
 					<h:column>
 						<f:facet name="header">Description</f:facet>

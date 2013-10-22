@@ -25,15 +25,15 @@
 
 		<h:form>
 			<h:panelGrid columns="4" columnClasses="titleCell">
-				<h:commandLink action="roomCRUD" value="Room Administration">
-				</h:commandLink>
-				<h:commandLink action="speakerCRUD" value="Speaker Administration">
-				</h:commandLink>
-				<h:commandLink action="conferenceCRUD"
+				<h:link outcome="roomCRUD" value="Room Administration">
+				</h:link>
+				<h:link outcome="speakerCRUD" value="Speaker Administration">
+				</h:link>
+				<h:link outcome="conferenceCRUD"
 					value="Conference Administration">
-				</h:commandLink>
-				<h:commandLink action="talkCRUD" value="Talk Administration">
-				</h:commandLink>
+				</h:link>
+				<h:link outcome="talkCRUD" value="Talk Administration">
+				</h:link>
 			</h:panelGrid>
 		</h:form>
 

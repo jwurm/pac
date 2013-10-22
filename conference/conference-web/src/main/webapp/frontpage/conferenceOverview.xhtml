@@ -42,10 +42,10 @@
 				styleClass="simpletablestyle">
 				<h:column>
 					<f:facet name="header">Name</f:facet>
-					<h:commandLink action="conferenceDetails"
+					<h:link outcome="conferenceDetails"
 						value="#{_conference.name}">
 						<f:param name="cId" value="#{_conference.id}" />
-					</h:commandLink>
+					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">Description</f:facet>
