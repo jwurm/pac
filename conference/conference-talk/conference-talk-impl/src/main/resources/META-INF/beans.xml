@@ -17,5 +17,6 @@
 	</interceptors>
 	<decorators>
 		<class>com.prodyna.academy.pac.conference.talk.service.decorators.TalkChangeNotificationDecorator</class>
+		<class>com.prodyna.academy.pac.conference.talk.service.decorators.ConferenceValidationDecorator</class>
 	</decorators>
 </beans>
