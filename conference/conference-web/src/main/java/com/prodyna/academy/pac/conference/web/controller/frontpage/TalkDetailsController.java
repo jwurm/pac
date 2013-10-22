@@ -33,7 +33,7 @@ import com.prodyna.academy.pac.conference.talk.model.Talk;
 import com.prodyna.academy.pac.conference.talk.service.TalkService;
 
 @ManagedBean(name = "talkDetailsController")
-@RequestScoped
+@ViewScoped
 public class TalkDetailsController {
 
 	private Integer talkId;

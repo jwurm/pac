@@ -17,6 +17,8 @@
 package com.prodyna.academy.pac.conference.web.controller.frontpage;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -24,6 +26,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
@@ -33,11 +36,11 @@ import com.prodyna.academy.pac.conference.talk.model.Talk;
 import com.prodyna.academy.pac.conference.talk.service.TalkService;
 
 @ManagedBean(name = "speakerDetailsController")
-@SessionScoped
+@ViewScoped
 public class SpeakerDetailsController {
 
 	private Integer speakerId;
-	
+
 	private Speaker speaker;
 
 	public Speaker getSpeaker() {
@@ -47,9 +50,11 @@ public class SpeakerDetailsController {
 	public void setSpeaker(Speaker speaker) {
 		this.speaker = speaker;
 	}
-public void setTalks(List<Talk> talks) {
-	this.talks = talks;
-}
+
+	public void setTalks(List<Talk> talks) {
+		this.talks = talks;
+	}
+
 	private List<Talk> talks = new ArrayList<Talk>();
 
 	public List<Talk> getTalks() {
@@ -77,6 +82,14 @@ public void setTalks(List<Talk> talks) {
 		speaker = speakerService.getSpeaker(speakerId);
 		List<Talk> talksList = talkService.getTalksBySpeaker(speaker.getId());
 		talks.clear();
+		// sort by date
+		Collections.sort(talksList, new Comparator<Talk>() {
+
+			@Override
+			public int compare(Talk o1, Talk o2) {
+				return o1.getDatetime().compareTo(o2.getDatetime());
+			}
+		});
 		talks.addAll(talksList);
 	}
 
