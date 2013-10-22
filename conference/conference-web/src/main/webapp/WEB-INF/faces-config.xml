@@ -44,7 +44,7 @@
 
 <!-- <converter> -->
 <!-- <converter-id>roomConverter</converter-id> -->
-<!-- <converter-class>com.prodyna.academy.pac.web.controller.backoffice.RoomConverter</converter-class> -->
+<!-- <converter-class>com.prodyna.academy.pac.conference.web.controller.backoffice.RoomConverter</converter-class> -->
 <!-- </converter> -->
 
 </faces-config>

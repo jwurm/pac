@@ -27,11 +27,11 @@
          can find it in the source at ear/src/main/application/META-INF/conference-ds.xml -->
 <!--       <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source> -->
       <jta-data-source>java:jboss/datasources/ConferenceDS</jta-data-source>
-      <class>com.prodyna.academy.pac.room.model.Room</class>
-      <class>com.prodyna.academy.pac.speaker.model.Speaker</class>
-      <class>com.prodyna.academy.pac.talk.model.Talk</class>
-      <class>com.prodyna.academy.pac.talk.model.TalkSpeakerAssignment</class>
-      <class>com.prodyna.academy.pac.conference.model.Conference</class>
+      <class>com.prodyna.academy.pac.conference.room.model.Room</class>
+      <class>com.prodyna.academy.pac.conference.speaker.model.Speaker</class>
+      <class>com.prodyna.academy.pac.conference.talk.model.Talk</class>
+      <class>com.prodyna.academy.pac.conference.talk.model.TalkSpeakerAssignment</class>
+      <class>com.prodyna.academy.pac.conference.conference.model.Conference</class>
       <properties>
          <!-- Properties for Hibernate -->
          <property name="hibernate.hbm2ddl.auto" value="none" /> <!-- create-drop -->
