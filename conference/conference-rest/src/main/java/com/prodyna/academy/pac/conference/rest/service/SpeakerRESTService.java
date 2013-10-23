@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.conference.rest;
+package com.prodyna.academy.pac.conference.rest.service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -38,7 +38,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
+import com.prodyna.academy.pac.conference.rest.util.RestResponseBuilder;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 
@@ -49,8 +51,9 @@ import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
  * speakers table.
  */
 @Path("/speakers")
-@RequestScoped
+@ApplicationScoped
 @PerformanceLogged
+@ServiceLogged
 public class SpeakerRESTService {
 	@Inject
 	private Logger log;
@@ -63,7 +66,7 @@ public class SpeakerRESTService {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listAllMembers() {
+	public Response getAllSpeakers() {
 
 		try {
 			List<Speaker> findAllSpeakers = repository.getAllSpeakers();
@@ -85,7 +88,7 @@ public class SpeakerRESTService {
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response find(@PathParam("id") int id) {
+	public Response getSpeaker(@PathParam("id") int id) {
 		try {
 			Speaker speaker = repository.getSpeaker(id);
 			// // Create an "ok" response
@@ -106,7 +109,7 @@ public class SpeakerRESTService {
 	@GET
 	@Path("/create/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(@PathParam("name") String name) {
+	public Response createSpeaker(@PathParam("name") String name) {
 		try {
 			Speaker speaker = repository.createSpeaker(new Speaker(name, ""));
 			// // Create an "ok" response
@@ -127,7 +130,7 @@ public class SpeakerRESTService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(Speaker speaker) {
+	public Response createSpeaker(Speaker speaker) {
 		try {
 			validateSpeaker(speaker);
 			Speaker rs = repository.createSpeaker(speaker);
@@ -149,7 +152,7 @@ public class SpeakerRESTService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(Speaker speaker) {
+	public Response updateSpeaker(Speaker speaker) {
 		try {
 			validateSpeaker(speaker);
 			Speaker rs = repository.updateSpeaker(speaker);
@@ -171,7 +174,7 @@ public class SpeakerRESTService {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Response delete(@PathParam("id") Integer id) {
+	public Response deleteSpeaker(@PathParam("id") Integer id) {
 		try {
 			Speaker room = repository.deleteSpeaker(id);
 			// // Create an "ok" response
@@ -188,9 +191,10 @@ public class SpeakerRESTService {
 
 		}
 	}
-	
+
 	/**
 	 * Validates a speaker instance
+	 * 
 	 * @param speaker
 	 * @throws ConstraintViolationException
 	 * @throws ValidationException
@@ -207,6 +211,5 @@ public class SpeakerRESTService {
 		}
 
 	}
-
 
 }

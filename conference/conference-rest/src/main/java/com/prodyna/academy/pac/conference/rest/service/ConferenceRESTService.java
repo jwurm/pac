@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.conference.rest;
+package com.prodyna.academy.pac.conference.rest.service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -38,9 +38,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
 import com.prodyna.academy.pac.conference.facade.service.TalkService;
+import com.prodyna.academy.pac.conference.rest.util.RestResponseBuilder;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
 
 /**
@@ -50,37 +53,32 @@ import com.prodyna.academy.pac.conference.talk.model.Talk;
  * conferences table.
  */
 @Path("/conferences")
-@RequestScoped
+@ApplicationScoped
+@PerformanceLogged
+@ServiceLogged
 public class ConferenceRESTService {
 
 	@Inject
 	private Validator validator;
-	
+
 	@Inject
 	private Logger log;
 
 	@Inject
 	private ConferenceService conferenceService;
-	
+
 	@Inject
 	private TalkService talkService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response listAllMembers() {
+	public Response getAllConferences() {
 
 		try {
 			List<Conference> findAllConferences = conferenceService
 					.getAllConferences();
-			/*
-			 * remove backwards reference. not very nice, but it saves us from
-			 * using jackson specific annotations and the effect is the same.
-			 */
 			for (Conference conference : findAllConferences) {
-				for(Talk talk:talkService.getTalksByConference(conference.getId())){
-					talk.setConference(null);
-				}
-				
+				cleanConference(conference);
 			}
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(findAllConferences);
@@ -97,13 +95,24 @@ public class ConferenceRESTService {
 		}
 	}
 
+	/**
+	 * remove backwards reference. not very nice, but it saves us from using
+	 * jackson specific annotations and the effect is the same.
+	 */
+	private void cleanConference(Conference conference) {
+
+		for (Talk talk : talkService.getTalksByConference(conference.getId())) {
+			talk.setConference(null);
+		}
+	}
+
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response find(@PathParam("id") int id) {
+	public Response getConference(@PathParam("id") int id) {
 		try {
 			Conference conference = conferenceService.getConference(id);
-			
+
 			/*
 			 * remove backwards reference. not very nice, but it saves us from
 			 * using jackson specific annotations and the effect is the same.
@@ -111,7 +120,7 @@ public class ConferenceRESTService {
 			for (Talk talk : talkService.getTalksByConference(id)) {
 				talk.setConference(null);
 			}
-			
+
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(conference);
 		} catch (ConstraintViolationException ce) {
@@ -130,7 +139,7 @@ public class ConferenceRESTService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(Conference conference) {
+	public Response createConference(Conference conference) {
 
 		try {
 			validateConference(conference);
@@ -153,7 +162,7 @@ public class ConferenceRESTService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(Conference conference) {
+	public Response updateConference(Conference conference) {
 		try {
 			validateConference(conference);
 			Conference rs = conferenceService.updateConference(conference);
@@ -175,7 +184,7 @@ public class ConferenceRESTService {
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Response delete(@PathParam("id") Integer id) {
+	public Response deleteConference(@PathParam("id") Integer id) {
 		try {
 			Conference conference = conferenceService.deleteConference(id);
 			// // Create an "ok" response
@@ -195,6 +204,7 @@ public class ConferenceRESTService {
 
 	/**
 	 * Validates a conference instance.
+	 * 
 	 * @param conference
 	 * @throws ConstraintViolationException
 	 * @throws ValidationException

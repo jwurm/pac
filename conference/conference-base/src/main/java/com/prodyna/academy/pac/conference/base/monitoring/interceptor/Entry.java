@@ -1,9 +1,9 @@
-package com.prodyna.academy.pac.base.monitoring.interceptor;
+package com.prodyna.academy.pac.conference.base.monitoring.interceptor;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.prodyna.academy.pac.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.BusinessException;
 
 public class Entry {
 	private String service;

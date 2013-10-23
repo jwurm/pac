@@ -30,7 +30,7 @@ public class MonitoringTest {
 	@Deployment
 	public static Archive<?> createTestArchive() {
 		return ShrinkWrap.create(WebArchive.class, "conferencetest.war")
-				.addPackages(true, "com.prodyna.academy.pac.base")
+				.addPackages(true, "com.prodyna.academy.pac.conference.base")
 				// .addAsResource("META-INF/test-persistence.xml",
 				// "META-INF/persistence.xml")
 				.addAsWebInfResource("META-INF/beans.xml")

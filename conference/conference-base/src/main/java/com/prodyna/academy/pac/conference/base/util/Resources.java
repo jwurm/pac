@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.base;
+package com.prodyna.academy.pac.conference.base.util;
 
 import java.util.logging.Logger;
 

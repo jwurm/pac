@@ -13,12 +13,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Room.
+ * The room entity.
  *
  * @author jwurm
- * The room entity.
  */
 @Entity
 @Table(name = "room")

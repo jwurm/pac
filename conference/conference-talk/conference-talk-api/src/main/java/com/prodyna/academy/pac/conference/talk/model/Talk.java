@@ -26,12 +26,10 @@ import org.joda.time.Interval;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.room.model.Room;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Talk.
+ * Talk entity
  *
  * @author jwurm
- * Talk entity
  */
 @Entity
 @Table(name = "talk")
@@ -64,7 +62,7 @@ public class Talk {
 
 	/** The description. */
 	@Basic
-	@Size(min=3, max=45)
+	@Size(min=3, max=200)
 	private String description;
 	
 	/** The datetime. */

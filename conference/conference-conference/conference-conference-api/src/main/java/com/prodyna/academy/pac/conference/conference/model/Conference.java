@@ -22,7 +22,9 @@ import org.joda.time.Instant;
 import org.joda.time.Interval;
 
 /**
- * @author jwurm Entity Conference
+ * Entity Conference
+ * 
+ * @author jwurm
  */
 @Entity
 @Table(name = "conference")
@@ -50,7 +52,7 @@ public class Conference {
 	 */
 	@Basic
 	@NotNull
-	@Size(min = 3, max = 45)
+	@Size(min = 3, max = 200)
 	private String description;
 
 	/**

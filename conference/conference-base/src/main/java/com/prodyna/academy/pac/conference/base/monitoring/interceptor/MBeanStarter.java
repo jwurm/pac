@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.base.monitoring.interceptor;
+package com.prodyna.academy.pac.conference.base.monitoring.interceptor;
 
 import java.lang.management.ManagementFactory;
 import java.util.logging.Logger;

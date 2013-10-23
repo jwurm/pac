@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.rest;
+package com.prodyna.academy.pac.conference.rest.util;
 
 import java.util.HashMap;
 import java.util.Map;

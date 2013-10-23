@@ -8,9 +8,9 @@ import javax.inject.Inject;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 
-import com.prodyna.academy.pac.base.BusinessException;
-import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
-import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
+import com.prodyna.academy.pac.conference.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.facade.service.TalkService;
@@ -40,7 +40,7 @@ public class TalkServiceImpl implements TalkService{
 	}
 
 	@Override
-	public List<Talk> getByRoom(int roomid) {
+	public List<Talk> getTalksByRoom(int roomid) {
 		return talkservice.getByRoom(roomid);
 	}
 
@@ -140,7 +140,7 @@ public class TalkServiceImpl implements TalkService{
 	private void validateRoomAvailability(Talk talk) {
 		Interval talkInterval = talk.buildInterval();
 		// validate room availability
-		List<Talk> roomTalks = getByRoom(talk.getRoom().getId());
+		List<Talk> roomTalks = getTalksByRoom(talk.getRoom().getId());
 		for (Talk currTalk : roomTalks) {
 			if (currTalk.getId().equals(talk.getId())) {
 				// if the talk already exists, don't validate against itself

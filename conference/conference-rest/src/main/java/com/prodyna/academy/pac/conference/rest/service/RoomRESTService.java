@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.conference.rest;
+package com.prodyna.academy.pac.conference.rest.service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -38,7 +38,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
+import com.prodyna.academy.pac.conference.rest.util.RestResponseBuilder;
 import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 
@@ -49,8 +51,9 @@ import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
  * table.
  */
 @Path("/rooms")
-@RequestScoped
+@ApplicationScoped
 @PerformanceLogged
+@ServiceLogged
 public class RoomRESTService {
 	@Inject
 	private Logger log;
@@ -59,61 +62,65 @@ public class RoomRESTService {
 	private Validator validator;
 
 	@Inject
-	private RoomCRUDService repository;
+	private RoomCRUDService roomService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Room> listAllMembers() {
-		return repository.getRooms();
+		return roomService.getRooms();
 	}
 
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response find(@PathParam("id") int id) {
+	public Response getRoom(@PathParam("id") int id) {
 		try {
-			Room room = repository.getRoom(id);
+			Room room = roomService.getRoom(id);
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(room);
 		} catch (ConstraintViolationException ce) {
-			log.severe("Constraint violations have been found: "+ce.getConstraintViolations());
-			return RestResponseBuilder.buildViolationResponse(ce.getConstraintViolations());
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
 		} catch (Exception e) {
 			log.severe(e.getMessage());
 			// Handle generic exceptions
 			return RestResponseBuilder.buildErrorResponse(e);
-			
+
 		}
-		
+
 	}
 
 	@GET
 	@Path("/create/{name}/{capacity:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response create(@PathParam("name") String name,
+	public Response createRoom(@PathParam("name") String name,
 			@PathParam("capacity") int capacity) {
 		Room room = new Room(name, capacity);
-		return create(room);
+		return createRoom(room);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response create(Room room) {
+	public Response createRoom(Room room) {
 		try {
 			validateRoom(room);
-			Room rs = repository.createRoom(room);
+			Room rs = roomService.createRoom(room);
 
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(rs);
 		} catch (ConstraintViolationException ce) {
-			log.severe("Constraint violations have been found: "+ce.getConstraintViolations());
-			return RestResponseBuilder.buildViolationResponse(ce.getConstraintViolations());
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
 		} catch (Exception e) {
 			log.severe(e.getMessage());
 			// Handle generic exceptions
 			return RestResponseBuilder.buildErrorResponse(e);
-			
+
 		}
 
 	}
@@ -121,48 +128,51 @@ public class RoomRESTService {
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response update(Room room) {
+	public Response updateRoom(Room room) {
 		try {
 			validateRoom(room);
-			Room rs = repository.updateRoom(room);
+			Room rs = roomService.updateRoom(room);
 
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(rs);
 		} catch (ConstraintViolationException ce) {
-			log.severe("Constraint violations have been found: "+ce.getConstraintViolations());
-			return RestResponseBuilder.buildViolationResponse(ce.getConstraintViolations());
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
 		} catch (Exception e) {
 			log.severe(e.getMessage());
 			// Handle generic exceptions
 			return RestResponseBuilder.buildErrorResponse(e);
-			
+
 		}
 	}
 
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/{id}")
-	public Response delete(@PathParam("id") Integer id) {
+	public Response deleteRoom(@PathParam("id") Integer id) {
 		try {
-			Room room = repository.deleteRoom(id);
+			Room room = roomService.deleteRoom(id);
 
 			// // Create an "ok" response
 			return RestResponseBuilder.buildOkResponse(room);
 		} catch (ConstraintViolationException ce) {
-			log.severe("Constraint violations have been found: "+ce.getConstraintViolations());
-			return RestResponseBuilder.buildViolationResponse(ce.getConstraintViolations());
+			log.severe("Constraint violations have been found: "
+					+ ce.getConstraintViolations());
+			return RestResponseBuilder.buildViolationResponse(ce
+					.getConstraintViolations());
 		} catch (Exception e) {
 			log.severe(e.getMessage());
 			// Handle generic exceptions
 			return RestResponseBuilder.buildErrorResponse(e);
-			
+
 		}
 	}
 
-	
-
 	/**
 	 * Validates a room instance
+	 * 
 	 * @param room
 	 * @throws ConstraintViolationException
 	 * @throws ValidationException
@@ -178,7 +188,5 @@ public class RoomRESTService {
 		}
 
 	}
-
-	
 
 }

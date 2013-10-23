@@ -9,37 +9,24 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Speaker.
- *
- * @author jwurm The speaker entity
+ * The speaker entity
+ * 
+ * @author jwurm 
  */
 @Entity
 @Table(name = "speaker")
 @NamedQuery(name = Speaker.SELECT_ALL, query = "select s from Speaker s")
 public class Speaker {
 
-	/**
-	 * Gets the description.
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * Sets the description.
-	 *
-	 * @param description the new description
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	/** The Constant SELECT_ALL. */
 	public static final String SELECT_ALL = "speakerSelectAll";
+
+	/** The description. */
+	@Basic
+	@NotNull
+	@Size(min = 3, max = 200)
+	private String description;
 
 	/** Generated id. */
 	@Id
@@ -52,12 +39,6 @@ public class Speaker {
 	@Size(min = 3, max = 45)
 	private String name;
 
-	/** The description. */
-	@Basic
-	@NotNull
-	@Size(min = 3, max = 45)
-	private String description;
-
 	/**
 	 * Instantiates a new speaker.
 	 */
@@ -67,9 +48,11 @@ public class Speaker {
 
 	/**
 	 * Instantiates a new speaker.
-	 *
-	 * @param name the name
-	 * @param description the description
+	 * 
+	 * @param name
+	 *            the name
+	 * @param description
+	 *            the description
 	 */
 	public Speaker(String name, String description) {
 		super();
@@ -77,7 +60,9 @@ public class Speaker {
 		this.description = description;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -108,8 +93,17 @@ public class Speaker {
 	}
 
 	/**
+	 * Gets the description.
+	 * 
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
 	 * Gets the id.
-	 *
+	 * 
 	 * @return the id
 	 */
 	public Integer getId() {
@@ -118,14 +112,16 @@ public class Speaker {
 
 	/**
 	 * Gets the name.
-	 *
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -140,9 +136,20 @@ public class Speaker {
 	}
 
 	/**
+	 * Sets the description.
+	 * 
+	 * @param description
+	 *            the new description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
 	 * Sets the id.
-	 *
-	 * @param id the new id
+	 * 
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -150,14 +157,17 @@ public class Speaker {
 
 	/**
 	 * Sets the name.
-	 *
-	 * @param name the new name
+	 * 
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

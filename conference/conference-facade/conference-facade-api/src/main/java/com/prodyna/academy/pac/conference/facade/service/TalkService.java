@@ -30,7 +30,7 @@ public interface TalkService {
 	 * @param roomid
 	 * @return List of talks
 	 */
-	public List<Talk> getByRoom(int roomid);
+	public List<Talk> getTalksByRoom(int roomid);
 
 	/**
 	 * Assigns a speaker to a talk
@@ -38,7 +38,7 @@ public interface TalkService {
 	 * @param talk
 	 * @param speaker
 	 */
-	void assignSpeaker(Talk talk, Speaker speaker);
+	public void assignSpeaker(Talk talk, Speaker speaker);
 
 	/**
 	 * Removes a speaker from a talk
@@ -46,7 +46,7 @@ public interface TalkService {
 	 * @param talk
 	 * @param speaker
 	 */
-	void unassignSpeaker(Talk talk, Speaker speaker);
+	public void unassignSpeaker(Talk talk, Speaker speaker);
 
 	/**
 	 * Creates a talk.

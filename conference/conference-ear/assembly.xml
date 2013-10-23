@@ -7,16 +7,20 @@
 		<format>zip</format>
 	</formats>
 	<includeBaseDirectory>true</includeBaseDirectory>
-	<includeSiteDirectory>true</includeSiteDirectory>
+	<includeSiteDirectory>false</includeSiteDirectory>
 
 
 	<fileSets>
 		<fileSet>
-			<directory>../sql scripts</directory>
+			<directory>../../sql scripts</directory>
 			<outputDirectory>sql</outputDirectory>
 			<includes>
 				<include>*.sql</include>
 			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../target/staging</directory>
+			<outputDirectory>site</outputDirectory>
 		</fileSet>
 
 	</fileSets>
@@ -31,7 +35,6 @@
 			<include>com.prodyna.academy.pac:conference-ear</include>
 			</includes>
 			<binaries>
-<!-- 				<outputDirectory>${artifactId}</outputDirectory> -->
 				<unpack>false</unpack>
 			</binaries>
 		</moduleSet>

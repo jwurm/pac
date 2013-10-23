@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `conference` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `conference`;
--- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.5.16, for Win32 (x86)
 --
 -- Host: localhost    Database: conference
 -- ------------------------------------------------------
--- Server version	5.6.14
+-- Server version	5.5.28
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `conference`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `conference` (
   `id` int(11) NOT NULL,
-  `description` varchar(45) NOT NULL,
+  `description` varchar(200) NOT NULL,
   `end` date NOT NULL,
   `name` varchar(45) NOT NULL,
   `start` date NOT NULL,
@@ -70,7 +70,7 @@ DROP TABLE IF EXISTS `speaker`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `speaker` (
   `id` int(11) NOT NULL,
-  `description` varchar(45) NOT NULL,
+  `description` varchar(200) NOT NULL,
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS `talk`;
 CREATE TABLE `talk` (
   `id` int(11) NOT NULL,
   `datetime` datetime NOT NULL,
-  `description` varchar(45) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
   `duration` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `conference_id` int(11) NOT NULL,
@@ -127,7 +127,4 @@ CREATE TABLE `talk_speaker_assignment` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-20 14:16:37
-
---GRANT ALL PRIVILEGES ON CONFERENCE.* TO 'conference'@'localhost'
---         IDENTIFIED BY 'pass';
+-- Dump completed on 2013-10-23 18:49:21

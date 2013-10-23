@@ -7,16 +7,19 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 
-import com.prodyna.academy.pac.base.BusinessException;
-import com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLogged;
-import com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLogged;
+import com.prodyna.academy.pac.conference.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
@@ -35,7 +38,6 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	@Inject
 	private EntityManager em;
 
-
 	@Inject
 	private Logger log;
 
@@ -43,7 +45,8 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService#getTalksBySpeaker(int)
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #getTalksBySpeaker(int)
 	 */
 	@Override
 	public List<Talk> getTalksBySpeaker(int speakerId) {
@@ -63,7 +66,9 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.prodyna.academy.pac.conference.conference.talk.service.TalkService#getByRoom(int)
+	 * @see
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #getByRoom(int)
 	 */
 	@Override
 	public List<Talk> getByRoom(int roomId) {
@@ -79,8 +84,8 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService#assignSpeaker(com.prodyna
-	 * .academy.pac.talk.model.Talk,
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #assignSpeaker(com.prodyna .academy.pac.talk.model.Talk,
 	 * com.prodyna.academy.pac.speaker.model.Speaker)
 	 */
 	@Override
@@ -91,7 +96,7 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 			log.info("Speaker " + speaker.getId()
 					+ " already is assigned to talk " + talk.getId());
 		} else {
-			
+
 			TalkSpeakerAssignment tsa = new TalkSpeakerAssignment(talk, speaker);
 			em.persist(tsa);
 			log.info("Assigning Speaker +" + speaker.getId() + " to talk "
@@ -104,8 +109,8 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService#unassignSpeaker(com.
-	 * prodyna.academy.pac.talk.model.Talk,
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #unassignSpeaker(com. prodyna.academy.pac.talk.model.Talk,
 	 * com.prodyna.academy.pac.speaker.model.Speaker)
 	 */
 	@Override
@@ -142,8 +147,8 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService#createTalk(com.prodyna
-	 * .academy.pac.talk.model.Talk)
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #createTalk(com.prodyna .academy.pac.talk.model.Talk)
 	 */
 	@Override
 	public Talk createTalk(Talk talk) {
@@ -156,8 +161,8 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService#updateTalk(com.prodyna
-	 * .academy.pac.talk.model.Talk)
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #updateTalk(com.prodyna .academy.pac.talk.model.Talk)
 	 */
 	@Override
 	public Talk updateTalk(Talk talk) {
@@ -169,21 +174,39 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.prodyna.academy.pac.conference.conference.talk.service.TalkService#deleteTalk(int)
+	 * @see
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #deleteTalk(int)
 	 */
 	@Override
 	public Talk deleteTalk(int id) {
-		Talk talk = getTalk(id);
-		em.remove(talk);
-		log.info("Deleted talk " + talk);
-		return talk;
+		try {
+			Talk talk = getTalk(id);
+			em.remove(talk);
+			// flush to provoke constraint violation exceptions before leaving
+			// the method
+			em.flush();
+			log.info("Deleted talk: " + talk);
+			return talk;
+		} catch (PersistenceException e) {
+			log.warning(e.getMessage());
+			/*
+			 * Optimistically assume that this is a constraint violation
+			 * exception. We don't have a dependency to hibernate here, so we
+			 * cannot check this explicitly.
+			 */
+			throw new BusinessException("Could not delete talk " + id
+					+ ", likely it has speakers assigned.");
+		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.prodyna.academy.pac.conference.conference.talk.service.TalkService#getTalk(int)
+	 * @see
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #getTalk(int)
 	 */
 	@Override
 	public Talk getTalk(int id) {
@@ -193,13 +216,12 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 
 	}
 
-	
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService#getSpeakersByTalk(int)
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #getSpeakersByTalk(int)
 	 */
 	@Override
 	public List<Speaker> getSpeakersByTalk(int talkId) {
@@ -219,7 +241,9 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.prodyna.academy.pac.conference.conference.talk.service.TalkService#getAllTalks()
+	 * @see
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #getAllTalks()
 	 */
 	@Override
 	public List<Talk> getAllTalks() {
@@ -238,8 +262,8 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService#getTalksByConference
-	 * (int)
+	 * com.prodyna.academy.pac.conference.conference.talk.service.TalkService
+	 * #getTalksByConference (int)
 	 */
 	@Override
 	public List<Talk> getTalksByConference(int conferenceId) {

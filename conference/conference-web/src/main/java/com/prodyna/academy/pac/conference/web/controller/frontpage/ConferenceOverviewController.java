@@ -34,7 +34,7 @@ import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDServi
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
 
 @ManagedBean(name = "conferenceOverviewController")
-@SessionScoped
+@ViewScoped
 public class ConferenceOverviewController {
 
 	@Inject

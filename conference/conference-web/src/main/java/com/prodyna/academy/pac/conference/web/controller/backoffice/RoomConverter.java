@@ -7,6 +7,9 @@ import javax.faces.convert.FacesConverter;
 
 import com.prodyna.academy.pac.conference.room.model.Room;
 
+/**
+ * Converts between rooms and roomIds
+ */
 @FacesConverter(forClass = Room.class)
 public class RoomConverter implements Converter {
 
@@ -18,7 +21,6 @@ public class RoomConverter implements Converter {
 
 	@Override
 	public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
-		// TODO Auto-generated method stub
 		return String.valueOf(((Room) arg2).getId());
 	}
 

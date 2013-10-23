@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.base.monitoring.interceptor;
+package com.prodyna.academy.pac.conference.base.monitoring.interceptor;
 
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
@@ -10,8 +10,7 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerInvocationHandler;
 import javax.management.ObjectName;
 
-import com.prodyna.academy.pac.base.BusinessException;
-
+import com.prodyna.academy.pac.conference.base.BusinessException;
 
 @PerformanceLogged
 @Interceptor
@@ -22,7 +21,7 @@ public class PerformanceLoggingInterceptor implements Serializable {
 	public Object logMethodEntry(InvocationContext invocationContext)
 			throws Exception {
 		MBeanServer mbServer = ManagementFactory.getPlatformMBeanServer();
-				PerformanceMXBean performance = MBeanServerInvocationHandler
+		PerformanceMXBean performance = MBeanServerInvocationHandler
 				.newProxyInstance(mbServer, new ObjectName(
 						Performance.OBJECT_NAME), PerformanceMXBean.class,
 						false);
@@ -37,7 +36,22 @@ public class PerformanceLoggingInterceptor implements Serializable {
 			return response;
 		} catch (Exception e) {
 			long duration = (System.nanoTime() - nanoTime) / 1000000;
-			String errorType = e instanceof BusinessException?SuccessType.BUSINESS_ERROR:SuccessType.TECHNICAL_ERROR;
+
+			// find the root exception, sometimes the container wraps our
+			// business exceptions
+			Throwable cause = e;
+			while (cause.getCause() != null) {
+				cause = cause.getCause();
+				if (cause instanceof BusinessException) {
+					// special case: sometimes a business exception may wrap
+					// another kind of exception. stop in this case, we found
+					// what we are looking for.
+					break;
+				}
+			}
+
+			String errorType = cause instanceof BusinessException ? SuccessType.BUSINESS_ERROR
+					: SuccessType.TECHNICAL_ERROR;
 			performance.report(invocationContext.getMethod()
 					.getDeclaringClass().getCanonicalName(), invocationContext
 					.getMethod().getName(), duration, errorType);

@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.prodyna.academy.pac.conference.rest;
+package com.prodyna.academy.pac.conference.rest.service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -38,7 +38,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
+import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.facade.service.TalkService;
+import com.prodyna.academy.pac.conference.rest.util.RestResponseBuilder;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
@@ -50,7 +53,9 @@ import com.prodyna.academy.pac.conference.talk.model.Talk;
  * speakers table.
  */
 @Path("/talks")
-@RequestScoped
+@ApplicationScoped
+@PerformanceLogged
+@ServiceLogged
 public class TalkRESTService {
 	@Inject
 	private Logger log;
@@ -84,12 +89,69 @@ public class TalkRESTService {
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response find(@PathParam("id") int id) {
+	public Response getTalk(@PathParam("id") int id) {
 		try {
 			Talk talk = talkService.getTalk(id);
 			// // Create an "ok" response
 			cleanTalk(talk);
 			return RestResponseBuilder.buildOkResponse(talk);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
+		}
+	}
+	
+	@GET
+	@Path("/getBySpeaker/{speakerId:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTalkBySpeaker(@PathParam("speakerId") int speakerId) {
+		try {
+			List<Talk> talks = talkService.getTalksBySpeaker(speakerId);
+			// // Create an "ok" response
+			for (Talk talk : talks) {
+				cleanTalk(talk);
+			}
+			return RestResponseBuilder.buildOkResponse(talks);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
+		}
+	}
+	
+	@GET
+	@Path("/getByRoom/{roomId:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTalkByRoom(@PathParam("roomId") int roomId) {
+		try {
+			List<Talk> talks = talkService.getTalksByRoom(roomId);
+			// // Create an "ok" response
+			for (Talk talk : talks) {
+				cleanTalk(talk);
+			}
+			return RestResponseBuilder.buildOkResponse(talks);
+		} catch (Exception e) {
+			log.severe(e.getMessage());
+			// Handle generic exceptions
+			return RestResponseBuilder.buildErrorResponse(e);
+
+		}
+	}
+	
+	@GET
+	@Path("/getByRoom/{roomId:[0-9][0-9]*}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTalksByConference(@PathParam("conferenceId") int conferenceId) {
+		try {
+			List<Talk> talks = talkService.getTalksByConference(conferenceId);
+			// // Create an "ok" response
+			for (Talk talk : talks) {
+				cleanTalk(talk);
+			}
+			return RestResponseBuilder.buildOkResponse(talks);
 		} catch (Exception e) {
 			log.severe(e.getMessage());
 			// Handle generic exceptions

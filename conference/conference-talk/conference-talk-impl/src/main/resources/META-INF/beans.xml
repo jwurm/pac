@@ -12,8 +12,8 @@
 <beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
 	<interceptors>
-		<class>com.prodyna.academy.pac.base.monitoring.interceptor.PerformanceLoggingInterceptor</class>
-		<class>com.prodyna.academy.pac.base.monitoring.interceptor.ServiceLoggingInterceptor</class>
+		<class>com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLoggingInterceptor</class>
+		<class>com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLoggingInterceptor</class>
 	</interceptors>
 	<decorators>
 		<class>com.prodyna.academy.pac.conference.talk.service.decorators.TalkChangeNotificationDecorator</class>
