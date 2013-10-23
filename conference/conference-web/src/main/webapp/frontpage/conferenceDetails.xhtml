@@ -97,7 +97,12 @@
 						<f:facet name="header">Duration</f:facet>
 						<h:outputText id="conferencelistduration"
 							value="#{_talk.duration}" />
-						<h:message for="conferencelistduration" errorClass="invalid" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Room</f:facet>
+						<h:link outcome="roomDetails" value="#{_talk.room.name}">
+							<f:param name="roomId" value="#{_talk.room.id}" />
+						</h:link>
 					</h:column>
 				</h:dataTable>
 			</ui:repeat>
