@@ -107,10 +107,12 @@ public class TalkCRUDServiceTest {
 		Talk foundTalk = service.getTalk(3);
 		Assert.assertNotNull(foundTalk.getRoom());
 
-		// wait a bit for the queue to catch up
-		Thread.sleep(100);
 		foundTalk.getRoom().setName("E504");
 		foundTalk.setDuration(75);
+		foundTalk.setName("Testtalk");
+		foundTalk.setDescription("New description");
+		foundTalk.setDatetime(new Instant(
+				"2013-02-05T14:45").toDate());
 		service.updateTalk(foundTalk);
 
 		foundTalk = service.getTalk(3);
@@ -128,7 +130,7 @@ public class TalkCRUDServiceTest {
 				.remove("Talk was created: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=Tue Feb 05 16:00:00 CET 2013, duration=60, room=Room [id=2, name=E785, capacity=12]]"));
 		;
 		Assert.assertTrue(messages
-				.remove("Talk was updated: duration was changed from 60 to 75"));
+				.remove("Talk was updated: name was changed from \"JAXB\" to \"Testtalk\", description was changed from \"JAXB fuer Dummies\" to \"New description\", datetime was changed from 2013-02-05 16:00 to 2013-02-05 15:45, duration was changed from 60 to 75"));
 		TalkChangeTestMDB.getMessages().clear();
 
 	}
@@ -189,17 +191,17 @@ public class TalkCRUDServiceTest {
 		Assert.assertTrue(messages
 				.remove("Talk was created: Talk [name=OpenJPA, description=Sucks, datetime=Fri Feb 01 17:00:00 CET 2013, duration=10, room=Room [id=2, name=E785, capacity=12]]"));
 		Assert.assertTrue(messages
-				.remove("Speaker Darko was added to talk JAXB"));
+				.remove("Speaker Darko was added to talk Testtalk"));
 		Assert.assertTrue(messages
-				.remove("Speaker Darko was added to talk JAXB"));
+				.remove("Speaker Darko was added to talk Testtalk"));
 		Assert.assertTrue(messages
-				.remove("Speaker Frank was added to talk JAXB"));
+				.remove("Speaker Frank was added to talk Testtalk"));
 		Assert.assertTrue(messages
 				.remove("Speaker Darko was added to talk OpenJPA"));
 		Assert.assertTrue(messages
-				.remove("Speaker Frank was removed from talk JAXB"));
+				.remove("Speaker Frank was removed from talk Testtalk"));
 		Assert.assertTrue(messages
-				.remove("Speaker Darko was removed from talk JAXB"));
+				.remove("Speaker Darko was removed from talk Testtalk"));
 
 	}
 
