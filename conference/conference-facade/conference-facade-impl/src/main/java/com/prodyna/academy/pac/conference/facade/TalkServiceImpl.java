@@ -140,7 +140,7 @@ public class TalkServiceImpl implements TalkService {
 		if (!conferenceIntervalOk) {
 			throw new BusinessException(
 					"Talk is set outside of the duration of the conference! "
-							+ talk.toString() + " " + conf.toString());
+							+ conf.getStart() + " to " + conf.getEnd().toString());
 		}
 	}
 
@@ -164,7 +164,7 @@ public class TalkServiceImpl implements TalkService {
 			if (otherRoomTalkInterval.overlaps(talkInterval)) {
 				throw new BusinessException(
 						"The designated room is already occupied by "
-								+ currTalk + " at that time.");
+								+ currTalk.getName() + " at that time.");
 			}
 		}
 	}
@@ -198,9 +198,9 @@ public class TalkServiceImpl implements TalkService {
 						currTalk.getDatetime()), new Instant(
 						currTalk.buildEndDateTime()));
 				if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
-					throw new BusinessException(
-							"The designated speaker is already occupied by "
-									+ currTalk + " at that time.");
+					throw new BusinessException("The designated speaker "
+							+ speaker.getName() + " is already occupied by "
+							+ currTalk.getName() + " at that time.");
 				}
 			}
 		}
@@ -236,7 +236,7 @@ public class TalkServiceImpl implements TalkService {
 			if (otherSpeakerTalkInterval.overlaps(talkInterval)) {
 				throw new BusinessException(
 						"The designated speaker is already occupied by "
-								+ currTalk + " at that time.");
+								+ currTalk.getName() + " at that time.");
 			}
 		}
 	}

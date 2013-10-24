@@ -65,7 +65,7 @@ public class ConferenceServiceImpl implements ConferenceService {
 			if (!talkIntervalInsideConferenceInterval) {
 				throw new BusinessException(
 						"The conference has talks which are outside of the set conference duration: "
-								+ talk.toString());
+								+ talk.getName());
 			}
 		}
 	}

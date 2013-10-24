@@ -146,6 +146,7 @@ public class ConferenceServiceTest {
 			service.updateConference(conference1);
 			Assert.fail("Business exception due to conference date validation expected");
 		} catch (Exception e) {
+			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: Conference start date is after its end date.", e.getMessage());
 		}
 
 		conference1.setStart(new Instant("2014-02-07").toDate());
@@ -154,7 +155,7 @@ public class ConferenceServiceTest {
 			service.updateConference(conference1);
 			Assert.fail("Business exception due to talk date validation expected");
 		} catch (Exception e) {
-			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: The conference has talks which are outside of the set conference duration: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=2013-02-05 16:00:00.0, duration=60, room=Room [id=4, name=E785, capacity=12]]", e.getMessage());
+			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: The conference has talks which are outside of the set conference duration: JAXB", e.getMessage());
 		}
 
 		try {

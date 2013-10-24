@@ -30,7 +30,6 @@ public class ConferenceTest {
 		Assert.assertEquals(true, interval.contains(new Interval(new Instant("2013-01-08T22:00"), new Instant("2013-01-09T00:00"))));
 		Assert.assertEquals(false, interval.contains(new Interval(new Instant("2013-01-08T22:00"), new Instant("2013-01-09T00:01"))));
 		
-		
 	}
 
 }
