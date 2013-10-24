@@ -146,6 +146,9 @@ public class ConferenceCRUDController {
 					.getRowData();
 			conferenceService.deleteConference(conference.getId());
 			loadConferences();
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "Conference deleted.",
+					"Conference deletion successful."));
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,

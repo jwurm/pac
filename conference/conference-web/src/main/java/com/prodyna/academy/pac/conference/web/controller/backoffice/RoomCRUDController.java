@@ -166,6 +166,9 @@ public class RoomCRUDController {
 			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
 			roomService.deleteRoom(room.getId());
 			loadRooms();
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "Room deleted.",
+					"Room deleted."));
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
