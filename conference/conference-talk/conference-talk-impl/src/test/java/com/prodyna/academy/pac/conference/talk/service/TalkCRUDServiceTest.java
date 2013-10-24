@@ -84,10 +84,11 @@ public class TalkCRUDServiceTest {
 	 * 
 	 * @throws ParseException
 	 *             the parse exception
+	 * @throws InterruptedException
 	 */
 	@Test
 	@InSequence(1)
-	public void testCRUD() throws ParseException {
+	public void testCRUD() throws ParseException, InterruptedException {
 		Conference conference1 = new Conference("JAX", "Java conference",
 				new Instant("2013-02-01").toDate(),
 				new Instant("2013-02-05").toDate());
@@ -106,6 +107,8 @@ public class TalkCRUDServiceTest {
 		Talk foundTalk = service.getTalk(3);
 		Assert.assertNotNull(foundTalk.getRoom());
 
+		// wait a bit for the queue to catch up
+		Thread.sleep(100);
 		foundTalk.getRoom().setName("E504");
 		foundTalk.setDuration(75);
 		service.updateTalk(foundTalk);
@@ -121,12 +124,11 @@ public class TalkCRUDServiceTest {
 		// that listens to the same queue and interferes with this test.
 		List<String> messages = TalkChangeTestMDB.getMessages();
 		Assert.assertEquals(2, messages.size());
-		Assert.assertEquals(
-				"Talk was created: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=Tue Feb 05 16:00:00 CET 2013, duration=60, room=Room [id=2, name=E785, capacity=12]]",
-				messages.get(0));
-		Assert.assertEquals(
-				"Talk was updated: duration was changed from 60 to 75",
-				messages.get(1));
+		Assert.assertTrue(messages
+				.remove("Talk was created: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=Tue Feb 05 16:00:00 CET 2013, duration=60, room=Room [id=2, name=E785, capacity=12]]"));
+		;
+		Assert.assertTrue(messages
+				.remove("Talk was updated: duration was changed from 60 to 75"));
 		TalkChangeTestMDB.getMessages().clear();
 
 	}
@@ -136,6 +138,7 @@ public class TalkCRUDServiceTest {
 	 * 
 	 * @throws ParseException
 	 *             the parse exception
+	 * @throws InterruptedException
 	 */
 	@Test
 	@InSequence(2)
@@ -155,7 +158,6 @@ public class TalkCRUDServiceTest {
 		Talk talk2 = service
 				.createTalk(new Talk("OpenJPA", "Sucks", new Instant(
 						"2013-02-01T16:00").toDate(), 10, conference, room));
-
 		Assert.assertEquals(2, service.getAllTalks().size());
 
 		service.assignSpeaker(talk, speaker);
@@ -163,9 +165,7 @@ public class TalkCRUDServiceTest {
 		service.assignSpeaker(talk, speaker);
 
 		service.assignSpeaker(talk, speaker2);
-
 		service.assignSpeaker(talk2, speaker);
-
 		List<Talk> talksBySpeaker = service.getTalksBySpeaker(speaker.getId());
 		Assert.assertEquals(2, talksBySpeaker.size());
 
@@ -173,7 +173,6 @@ public class TalkCRUDServiceTest {
 				.getTalksBySpeaker(speaker2.getId());
 		Assert.assertEquals(1, talksBySpeaker2.size());
 		service.unassignSpeaker(talk, speaker2);
-
 		talksBySpeaker = service.getTalksBySpeaker(speaker2.getId());
 		Assert.assertEquals(0, talksBySpeaker.size());
 
@@ -185,23 +184,22 @@ public class TalkCRUDServiceTest {
 		// application on the server, as that one would provide a MDB instance
 		// that listens to the same queue and interferes with this test.
 		List<String> messages = TalkChangeTestMDB.getMessages();
-		int i = 0;
 		Assert.assertEquals(7, messages.size());
-		Assert.assertEquals(
-				"Talk was created: Talk [name=OpenJPA, description=Sucks, datetime=Fri Feb 01 17:00:00 CET 2013, duration=10, room=Room [id=2, name=E785, capacity=12]]",
-				messages.get(i++));
-		Assert.assertEquals("Speaker Darko was added to talk JAXB",
-				messages.get(i++));
-		Assert.assertEquals("Speaker Darko was added to talk JAXB",
-				messages.get(i++));
-		Assert.assertEquals("Speaker Frank was added to talk JAXB",
-				messages.get(i++));
-		Assert.assertEquals("Speaker Darko was added to talk OpenJPA",
-				messages.get(i++));
-		Assert.assertEquals("Speaker Frank was removed from talk JAXB",
-				messages.get(i++));
-		Assert.assertEquals("Speaker Darko was removed from talk JAXB",
-				messages.get(i++));
+		// this pattern avoids race conditions about the order with the queue
+		Assert.assertTrue(messages
+				.remove("Talk was created: Talk [name=OpenJPA, description=Sucks, datetime=Fri Feb 01 17:00:00 CET 2013, duration=10, room=Room [id=2, name=E785, capacity=12]]"));
+		Assert.assertTrue(messages
+				.remove("Speaker Darko was added to talk JAXB"));
+		Assert.assertTrue(messages
+				.remove("Speaker Darko was added to talk JAXB"));
+		Assert.assertTrue(messages
+				.remove("Speaker Frank was added to talk JAXB"));
+		Assert.assertTrue(messages
+				.remove("Speaker Darko was added to talk OpenJPA"));
+		Assert.assertTrue(messages
+				.remove("Speaker Frank was removed from talk JAXB"));
+		Assert.assertTrue(messages
+				.remove("Speaker Darko was removed from talk JAXB"));
 
 	}
 

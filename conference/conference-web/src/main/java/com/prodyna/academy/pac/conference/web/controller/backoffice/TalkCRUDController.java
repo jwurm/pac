@@ -17,6 +17,8 @@
 package com.prodyna.academy.pac.conference.web.controller.backoffice;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,14 +32,11 @@ import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
 import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
-import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
@@ -113,6 +112,15 @@ public class TalkCRUDController {
 
 	private void loadTalks() {
 		talks = talkService.getAllTalks();
+		//sort by time
+		Collections.sort(talks, new Comparator<Talk>(){
+
+			@Override
+			public int compare(Talk o1, Talk o2) {
+				return o1.getDatetime().compareTo(o2.getDatetime());
+			}
+			
+		});
 	}
 
 	public Talk getNewTalk() {
