@@ -26,7 +26,7 @@ public interface TalkCRUDService {
 	 * @param roomid
 	 * @return List of talks
 	 */
-	public List<Talk> getByRoom(int roomid);
+	public List<Talk> getTalksByRoom(int roomid);
 
 	/**
 	 * Assigns a speaker to a talk

@@ -4,6 +4,12 @@ import java.util.List;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 
+/**
+ * Interface of the conference service
+ * 
+ * @author Jens Wurm
+ *
+ */
 public interface ConferenceService {
 
 	/**

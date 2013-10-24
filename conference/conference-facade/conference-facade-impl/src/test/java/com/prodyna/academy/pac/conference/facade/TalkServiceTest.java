@@ -2,6 +2,7 @@ package com.prodyna.academy.pac.conference.facade;
 
 import java.io.File;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.prodyna.academy.pac.conference.base.BusinessException;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
@@ -56,8 +58,8 @@ public class TalkServiceTest {
 				.addAsWebInfResource("META-INF/beans.xml")
 				.addAsLibraries(resolveAsFiles)
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml")
-//				.addAsWebInfResource("META-INF/test-jms.xml")
-				;
+		// .addAsWebInfResource("META-INF/test-jms.xml")
+		;
 	}
 
 	/** The ConferenceService. */
@@ -146,6 +148,14 @@ public class TalkServiceTest {
 		// should not do anything
 		service.assignSpeaker(talk, speaker);
 
+		try {
+			// deletion should not be possible due to assigned speakers
+			service.deleteTalk(talk.getId());
+			Assert.fail();
+		} catch (Exception e) {
+			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: Cannot delete the talk due to assigned speakers: Darko", e.getMessage());
+		}
+
 		service.assignSpeaker(talk, speaker2);
 
 		service.assignSpeaker(talk2, speaker);
@@ -153,7 +163,8 @@ public class TalkServiceTest {
 		List<Talk> talksBySpeaker = service.getTalksBySpeaker(speaker.getId());
 		Assert.assertEquals(2, talksBySpeaker.size());
 
-		List<Talk> talksBySpeaker2 = service.getTalksBySpeaker(speaker2.getId());
+		List<Talk> talksBySpeaker2 = service
+				.getTalksBySpeaker(speaker2.getId());
 		Assert.assertEquals(1, talksBySpeaker2.size());
 		service.unassignSpeaker(talk, speaker2);
 
@@ -230,7 +241,6 @@ public class TalkServiceTest {
 	public void testRoomCollision() throws ParseException {
 		Conference conference = cservice.getConference(1);
 		Room room1 = roomservice.createRoom(new Room("testraum", 50));
-
 
 		// create two talks with overlapping datetime
 		Talk talk1 = new Talk("Test1", "desc",

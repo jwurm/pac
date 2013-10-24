@@ -63,7 +63,7 @@ public class TalkCRUDServiceImpl implements TalkCRUDService {
 	 * #getByRoom(int)
 	 */
 	@Override
-	public List<Talk> getByRoom(int roomId) {
+	public List<Talk> getTalksByRoom(int roomId) {
 		Query query = em.createNamedQuery(Talk.FIND_BY_ROOM);
 		query.setParameter("roomId", roomId);
 		@SuppressWarnings("unchecked")

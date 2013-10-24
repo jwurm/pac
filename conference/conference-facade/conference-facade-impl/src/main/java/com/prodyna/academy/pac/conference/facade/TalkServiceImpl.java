@@ -21,11 +21,11 @@ import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 @Stateless
 @PerformanceLogged
 @ServiceLogged
-public class TalkServiceImpl implements TalkService{
+public class TalkServiceImpl implements TalkService {
 
 	@Inject
 	private ConferenceCRUDService conference;
-	
+
 	@Inject
 	private TalkCRUDService talkservice;
 
@@ -41,20 +41,20 @@ public class TalkServiceImpl implements TalkService{
 
 	@Override
 	public List<Talk> getTalksByRoom(int roomid) {
-		return talkservice.getByRoom(roomid);
+		return talkservice.getTalksByRoom(roomid);
 	}
 
 	@Override
 	public void assignSpeaker(Talk talk, Speaker speaker) {
 		validateSpeakerAvailability(talk, speaker);
 		talkservice.assignSpeaker(talk, speaker);
-		
+
 	}
 
 	@Override
 	public void unassignSpeaker(Talk talk, Speaker speaker) {
 		talkservice.unassignSpeaker(talk, speaker);
-		
+
 	}
 
 	@Override
@@ -71,6 +71,19 @@ public class TalkServiceImpl implements TalkService{
 
 	@Override
 	public Talk deleteTalk(int id) {
+		List<Speaker> speakersByTalk = talkservice.getSpeakersByTalk(id);
+		if (!speakersByTalk.isEmpty()) {
+			StringBuilder sb = new StringBuilder();
+			for (Speaker speaker : speakersByTalk) {
+				if (sb.length() > 0) {
+					sb.append(", ");
+				}
+				sb.append(speaker.getName());
+			}
+			throw new BusinessException(
+					"Cannot delete the talk due to assigned speakers: "
+							+ sb.toString());
+		}
 		return talkservice.deleteTalk(id);
 	}
 
@@ -88,7 +101,7 @@ public class TalkServiceImpl implements TalkService{
 	public List<Speaker> getSpeakersByTalk(int talkId) {
 		return talkservice.getSpeakersByTalk(talkId);
 	}
-	
+
 	/**
 	 * Validates the data of the talk, checks for overlapping dates of room,
 	 * speaker etc.

@@ -123,6 +123,7 @@ public class ConferenceServiceTest {
 		service.deleteConference(conference2_1.getId());
 		conferences = service.getAllConferences();
 		Assert.assertEquals(2, conferences.size());
+
 	}
 
 	@Test
@@ -153,6 +154,14 @@ public class ConferenceServiceTest {
 			service.updateConference(conference1);
 			Assert.fail("Business exception due to talk date validation expected");
 		} catch (Exception e) {
+			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: The conference has talks which are outside of the set conference duration: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=2013-02-05 16:00:00.0, duration=60, room=Room [id=4, name=E785, capacity=12]]", e.getMessage());
+		}
+
+		try {
+			service.deleteConference(conference1.getId());
+			Assert.fail("Business exception due to talk date validation expected");
+		} catch (Exception e) {
+			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: Cannot delete the conference due to assigned talks: JAXB", e.getMessage());
 		}
 
 		conference1.setStart(new Instant("2013-02-03").toDate());
