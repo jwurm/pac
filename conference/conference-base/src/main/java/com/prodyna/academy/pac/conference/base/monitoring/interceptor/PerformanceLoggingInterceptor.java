@@ -12,18 +12,31 @@ import javax.management.ObjectName;
 
 import com.prodyna.academy.pac.conference.base.BusinessException;
 
+/**
+ * 
+ * Interceptor for the performance logging MBean
+ * @author Jens Wurm
+ *
+ */
 @PerformanceLogged
 @Interceptor
 public class PerformanceLoggingInterceptor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Logs invocation duration and success of a method/service
+	 * 
+	 * @param invocationContext
+	 * @return
+	 * @throws Exception
+	 */
 	@AroundInvoke
 	public Object logMethodEntry(InvocationContext invocationContext)
 			throws Exception {
 		MBeanServer mbServer = ManagementFactory.getPlatformMBeanServer();
-		PerformanceMXBean performance = MBeanServerInvocationHandler
+		PerformanceMonitorMXBean performance = MBeanServerInvocationHandler
 				.newProxyInstance(mbServer, new ObjectName(
-						Performance.OBJECT_NAME), PerformanceMXBean.class,
+						PerformanceMonitor.OBJECT_NAME), PerformanceMonitorMXBean.class,
 						false);
 
 		long nanoTime = System.nanoTime();

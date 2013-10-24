@@ -8,7 +8,13 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
-public class Performance implements PerformanceMXBean {
+/**
+ * Implementation of the Performance Monitor MBean
+ * 
+ * @author Jens Wurm
+ * 
+ */
+public class PerformanceMonitor implements PerformanceMonitorMXBean {
 
 	@Inject
 	private Logger log;

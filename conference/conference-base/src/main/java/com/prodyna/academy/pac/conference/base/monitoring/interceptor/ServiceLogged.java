@@ -9,9 +9,16 @@ import java.lang.annotation.Target;
 
 import javax.interceptor.InterceptorBinding;
 
+/**
+ * 
+ * Interface of the service logger
+ * 
+ * @author Jens Wurm
+ * 
+ */
 @Inherited
 @InterceptorBinding
 @Retention(RUNTIME)
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ ElementType.METHOD, ElementType.TYPE })
 public @interface ServiceLogged {
 }

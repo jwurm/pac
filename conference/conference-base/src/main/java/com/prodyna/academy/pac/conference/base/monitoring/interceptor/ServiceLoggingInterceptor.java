@@ -23,6 +23,13 @@ public class ServiceLoggingInterceptor implements Serializable {
 	@Inject
 	private Logger log;
 
+	/**
+	 * Logs the data involved in a method invocation
+	 * 
+	 * @param invocationContext
+	 * @return
+	 * @throws Exception
+	 */
 	@AroundInvoke
 	public Object logMethodEntry(InvocationContext invocationContext)
 			throws Exception {
