@@ -22,6 +22,10 @@
 			<directory>../target/staging</directory>
 			<outputDirectory>site</outputDirectory>
 		</fileSet>
+		<fileSet>
+			<directory>../../doc</directory>
+			<outputDirectory>doc</outputDirectory>
+		</fileSet>
 
 	</fileSets>
 	<moduleSets>
