@@ -52,6 +52,6 @@ public interface RoomService {
 	 * 
 	 * @return List of Rooms
 	 */
-	public List<Room> getRooms();
+	public List<Room> getAllRooms();
 
 }

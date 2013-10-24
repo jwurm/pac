@@ -98,12 +98,12 @@ public class RoomServiceTest {
 		Assert.assertEquals("2616", room2.getName());
 		Assert.assertEquals(Integer.valueOf(15), room2.getCapacity());
 
-		List<Room> rooms = service.getRooms();
+		List<Room> rooms = service.getAllRooms();
 		Assert.assertEquals(3, rooms.size());
 
 		service.deleteRoom(room2_1.getId());
 
-		rooms = service.getRooms();
+		rooms = service.getAllRooms();
 		Assert.assertEquals(2, rooms.size());
 
 		// test the room deletion validation logic

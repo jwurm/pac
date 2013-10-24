@@ -1,19 +1,3 @@
-/*
- * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
- * contributors by the @authors tag. See the copyright.txt in the
- * distribution for a full listing of individual contributors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.prodyna.academy.pac.conference.web.controller.backoffice;
 
 import java.util.ArrayList;
@@ -33,10 +17,11 @@ import javax.inject.Named;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
 
-// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
-// EL name
-// Read more about the @Model stereotype in this FAQ:
-// http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
+/**
+ * Conference backoffice controller
+ * @author Jens Wurm
+ *
+ */
 @ManagedBean(name = "conferenceCRUDController")
 @ViewScoped
 public class ConferenceCRUDController {
@@ -50,6 +35,9 @@ public class ConferenceCRUDController {
 	@Inject
 	private ConferenceService conferenceService;
 
+	/**
+	 * New Conference to be created.
+	 */
 	private Conference newConference;
 
 	private HtmlDataTable dataTable;
@@ -68,8 +56,10 @@ public class ConferenceCRUDController {
 		return conferences;
 	}
 
-	// @PostConstruct
 
+	/**
+	 * Loads all conferences
+	 */
 	private void loadConferences() {
 		conferences = conferenceService.getAllConferences();
 	}
@@ -137,6 +127,9 @@ public class ConferenceCRUDController {
 				conferenceService.updateConference(conference);
 			}
 			loadConferences();
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "Conference saved.",
+					"Conference data saved."));
 
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);

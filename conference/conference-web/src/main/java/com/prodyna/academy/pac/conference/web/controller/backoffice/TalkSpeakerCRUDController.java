@@ -1,19 +1,3 @@
-/*
- * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
- * contributors by the @authors tag. See the copyright.txt in the
- * distribution for a full listing of individual contributors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.prodyna.academy.pac.conference.web.controller.backoffice;
 
 import java.util.List;
@@ -28,17 +12,17 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 
+import com.prodyna.academy.pac.conference.facade.service.SpeakerService;
 import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
-import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
-// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
-// EL name
-// Read more about the @Model stereotype in this FAQ:
-// http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-//@Model
+/**
+ * Controller of the talk speaker management
+ * 
+ * @author Jens Wurm
+ * 
+ */
 @ManagedBean(name = "talkSpeakerCRUDController")
 @ViewScoped
 public class TalkSpeakerCRUDController {
@@ -65,10 +49,10 @@ public class TalkSpeakerCRUDController {
 	private List<Speaker> speakers;
 
 	@Inject
-	private SpeakerCRUDService speakerService;
+	private SpeakerService speakerService;
 
 	private Integer talkId;
-	
+
 	private Talk talk;
 
 	public Talk getTalk() {
@@ -86,6 +70,9 @@ public class TalkSpeakerCRUDController {
 
 	private List<Speaker> talkSpeakers;
 
+	/**
+	 * Assigns a speaker to the selected talk
+	 */
 	public void assignSpeaker() {
 		try {
 			Talk talk = talkService.getTalk(talkId);
@@ -152,12 +139,19 @@ public class TalkSpeakerCRUDController {
 		return talkSpeakers;
 	}
 
+	/**
+	 * Initializes the data
+	 */
 	@PostConstruct
 	public void initData() {
 		this.speakers = speakerService.getAllSpeakers();
 		this.talks = talkService.getAllTalks();
 	}
 
+	/**
+	 * Marks a talk as selected
+	 * @param talk
+	 */
 	public void selectTalk(Talk talk) {
 		try {
 			this.talk = talk;
@@ -170,6 +164,9 @@ public class TalkSpeakerCRUDController {
 		}
 	}
 
+	/**
+	 * Removes the speaker from the selected talk.
+	 */
 	public void removeSpeaker() {
 
 		try {

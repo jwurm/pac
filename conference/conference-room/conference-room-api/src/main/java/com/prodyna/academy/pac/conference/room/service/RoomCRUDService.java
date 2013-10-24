@@ -50,6 +50,6 @@ public interface RoomCRUDService {
 	 * 
 	 * @return List of Rooms
 	 */
-	public List<Room> getRooms();
+	public List<Room> getAllRooms();
 
 }

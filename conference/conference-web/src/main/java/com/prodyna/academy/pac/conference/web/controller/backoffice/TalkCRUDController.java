@@ -1,19 +1,3 @@
-/*
- * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
- * contributors by the @authors tag. See the copyright.txt in the
- * distribution for a full listing of individual contributors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.prodyna.academy.pac.conference.web.controller.backoffice;
 
 import java.util.ArrayList;
@@ -33,16 +17,16 @@ import javax.validation.constraints.NotNull;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
+import com.prodyna.academy.pac.conference.facade.service.RoomService;
 import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-
-// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
-// EL name
-// Read more about the @Model stereotype in this FAQ:
-// http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-//@Model
+/**
+ * Controller for the talk backoffice dialog
+ * @author Jens Wurm
+ *
+ */
 @ManagedBean(name = "talkCRUDController")
 @ViewScoped
 public class TalkCRUDController {
@@ -60,17 +44,23 @@ public class TalkCRUDController {
 	private ConferenceService conferenceService;
 
 	@Inject
-	public static RoomCRUDService roomService;
+	public static RoomService roomService;
 
 	private Talk newTalk;
 
 	private HtmlDataTable dataTable;
 
+	/**
+	 * Id of the selected conference
+	 */
 	@NotNull
 	private Integer conferenceId;
 
 	private List<Room> rooms;
 
+	/**
+	 * Id of the selected room
+	 */
 	@NotNull
 	private Integer roomId;
 
@@ -110,6 +100,9 @@ public class TalkCRUDController {
 		return talks;
 	}
 
+	/**
+	 * Loads all talks
+	 */
 	private void loadTalks() {
 		talks = talkService.getAllTalks();
 		//sort by time
@@ -127,6 +120,9 @@ public class TalkCRUDController {
 		return newTalk;
 	}
 
+	/**
+	 * Saves a new talk
+	 */
 	public void createNewTalk() {
 		try {
 			Room room = roomService.getRoom(roomId);
@@ -152,6 +148,9 @@ public class TalkCRUDController {
 		this.newTalk = newTalk;
 	}
 
+	/**
+	 * Loads the data for the dialog
+	 */
 	@PostConstruct
 	public void initData() {
 		loadTalks();
@@ -165,7 +164,7 @@ public class TalkCRUDController {
 	}
 
 	private void loadRooms() {
-		this.rooms = roomService.getRooms();
+		this.rooms = roomService.getAllRooms();
 
 	}
 
@@ -192,6 +191,9 @@ public class TalkCRUDController {
 		return errorMessage;
 	}
 
+	/**
+	 * Saves the selected talk
+	 */
 	public void saveTalk() {
 		try {
 
@@ -214,6 +216,9 @@ public class TalkCRUDController {
 		}
 	}
 
+	/**
+	 * Deletes the selected talk
+	 */
 	public void deleteTalk() {
 		try {
 			Talk talk = (Talk) ((HtmlDataTable) dataTable).getRowData();

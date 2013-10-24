@@ -71,7 +71,7 @@ public class RoomCRUDServiceImpl implements RoomCRUDService {
 	}
 
 	@Override
-	public List<Room> getRooms() {
+	public List<Room> getAllRooms() {
 		Query query = em.createNamedQuery(Room.SELECT_ALL);
 		@SuppressWarnings("unchecked")
 		List<Room> result = query.getResultList();

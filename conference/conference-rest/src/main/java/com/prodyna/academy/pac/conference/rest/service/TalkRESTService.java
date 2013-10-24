@@ -40,6 +40,7 @@ import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
+import com.prodyna.academy.pac.conference.facade.service.SpeakerService;
 import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.rest.util.RestResponseBuilder;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
@@ -67,7 +68,7 @@ public class TalkRESTService {
 	private TalkService talkService;
 
 	@Inject
-	private SpeakerCRUDService speakerService;
+	private SpeakerService speakerService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

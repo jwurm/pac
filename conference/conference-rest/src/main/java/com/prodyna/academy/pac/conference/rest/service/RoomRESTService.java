@@ -40,9 +40,9 @@ import javax.ws.rs.core.Response;
 
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
+import com.prodyna.academy.pac.conference.facade.service.RoomService;
 import com.prodyna.academy.pac.conference.rest.util.RestResponseBuilder;
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 
 /**
  * JAX-RS Example
@@ -62,12 +62,12 @@ public class RoomRESTService {
 	private Validator validator;
 
 	@Inject
-	private RoomCRUDService roomService;
+	private RoomService roomService;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Room> listAllMembers() {
-		return roomService.getRooms();
+		return roomService.getAllRooms();
 	}
 
 	@GET

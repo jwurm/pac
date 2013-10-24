@@ -99,8 +99,8 @@ public class RoomServiceImpl implements RoomService {
 	 * com.prodyna.academy.pac.conference.facade.service.RoomService#getRooms()
 	 */
 	@Override
-	public List<Room> getRooms() {
-		return roomService.getRooms();
+	public List<Room> getAllRooms() {
+		return roomService.getAllRooms();
 	}
 
 }

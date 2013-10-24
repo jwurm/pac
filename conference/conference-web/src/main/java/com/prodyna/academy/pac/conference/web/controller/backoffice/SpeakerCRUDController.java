@@ -1,19 +1,3 @@
-/*
- * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
- * contributors by the @authors tag. See the copyright.txt in the
- * distribution for a full listing of individual contributors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.prodyna.academy.pac.conference.web.controller.backoffice;
 
 import java.util.ArrayList;
@@ -28,6 +12,7 @@ import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import com.prodyna.academy.pac.conference.facade.service.SpeakerService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
 
@@ -63,7 +48,7 @@ public class SpeakerCRUDController {
 	private List<Speaker> speakers = new ArrayList<Speaker>();
 
 	@Inject
-	private SpeakerCRUDService speakerService;
+	private SpeakerService speakerService;
 
 	/**
 	 * Creates a new speaker from the newSpeaker field.
@@ -83,7 +68,6 @@ public class SpeakerCRUDController {
 			facesContext.addMessage(null, m);
 		}
 	}
-
 
 	/**
 	 * Deletes the currently selected speaker
@@ -136,6 +120,9 @@ public class SpeakerCRUDController {
 		return speakers;
 	}
 
+	/**
+	 * Loads the data for the dialog
+	 */
 	@PostConstruct
 	public void initData() {
 		newSpeaker = new Speaker();

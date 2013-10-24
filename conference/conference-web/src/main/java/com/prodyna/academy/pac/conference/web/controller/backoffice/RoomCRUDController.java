@@ -1,19 +1,3 @@
-/*
- * JBoss, Home of Professional Open Source
- * Copyright 2013, Red Hat, Inc. and/or its affiliates, and individual
- * contributors by the @authors tag. See the copyright.txt in the
- * distribution for a full listing of individual contributors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.prodyna.academy.pac.conference.web.controller.backoffice;
 
 import java.util.ArrayList;
@@ -33,14 +17,16 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.prodyna.academy.pac.conference.facade.service.RoomService;
 import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 
-// The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
-// EL name
-// Read more about the @Model stereotype in this FAQ:
-// http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
-//@Model
+/**
+ * Room backoffice controller
+ * 
+ * @author Jens Wurm
+ * 
+ */
 @ManagedBean(name = "roomCRUDController")
 @ViewScoped
 public class RoomCRUDController {
@@ -52,8 +38,11 @@ public class RoomCRUDController {
 	private FacesContext facesContext;
 
 	@Inject
-	private RoomCRUDService roomService;
+	private RoomService roomService;
 
+	/**
+	 * New room to be created
+	 */
 	private Room newRoom;
 
 	private UICommand updateCommand;
@@ -82,22 +71,26 @@ public class RoomCRUDController {
 		return rooms;
 	}
 
-
+	/**
+	 * Loads all rooms
+	 */
 	private void loadRooms() {
-		rooms = roomService.getRooms();
+		rooms = roomService.getAllRooms();
 	}
 
 	public Room getNewRoom() {
 		return newRoom;
 	}
 
-
+	/**
+	 * Saves a new room.
+	 */
 	public void createNewRoom() {
 		try {
-			 roomService.createRoom(newRoom);
-			 facesContext.addMessage(null,
-			 new FacesMessage(FacesMessage.SEVERITY_INFO, "New room created!",
-			 "Room creation successful"));
+			roomService.createRoom(newRoom);
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "New room created!",
+					"Room creation successful"));
 			initData();
 
 		} catch (Exception e) {
@@ -107,13 +100,14 @@ public class RoomCRUDController {
 			facesContext.addMessage(null, m);
 		}
 	}
-	
-	
 
 	public void setNewRoom(Room newRoom) {
 		this.newRoom = newRoom;
 	}
 
+	/**
+	 * Loads the data for the dialog
+	 */
 	@PostConstruct
 	public void initData() {
 		newRoom = new Room();
@@ -139,6 +133,9 @@ public class RoomCRUDController {
 		return errorMessage;
 	}
 
+	/**
+	 * Saves the room
+	 */
 	public void saveRoom() {
 		try {
 
@@ -149,6 +146,9 @@ public class RoomCRUDController {
 				roomService.updateRoom(room);
 			}
 			loadRooms();
+			facesContext.addMessage(null, new FacesMessage(
+					FacesMessage.SEVERITY_INFO, "Room saved.",
+					"Room data saved."));
 
 		} catch (Exception e) {
 			String errorMessage = getRootErrorMessage(e);
@@ -158,6 +158,9 @@ public class RoomCRUDController {
 		}
 	}
 
+	/**
+	 * Deletes the room.
+	 */
 	public void deleteRoom() {
 		try {
 			Room room = (Room) ((HtmlDataTable) dataTable).getRowData();
