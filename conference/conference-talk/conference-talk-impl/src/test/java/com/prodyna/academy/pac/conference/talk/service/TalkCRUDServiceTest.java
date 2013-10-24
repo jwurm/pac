@@ -119,19 +119,15 @@ public class TalkCRUDServiceTest {
 		// this part only works if there is no existing deployment of the
 		// application on the server, as that one would provide a MDB instance
 		// that listens to the same queue and interferes with this test.
-		try {
-			List<String> messages = TalkChangeTestMDB.getMessages();
-			Assert.assertEquals(2, messages.size());
-			Assert.assertEquals(
-					"Talk was created: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=Tue Feb 05 16:00:00 CET 2013, duration=60, room=Room [id=2, name=E785, capacity=12]]",
-					messages.get(0));
-			Assert.assertEquals(
-					"Talk was updated: duration was changed from 60 to 75",
-					messages.get(1));
-			TalkChangeTestMDB.getMessages().clear();
-		} catch (AssertionError e) {
-
-		}
+		List<String> messages = TalkChangeTestMDB.getMessages();
+		Assert.assertEquals(2, messages.size());
+		Assert.assertEquals(
+				"Talk was created: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=Tue Feb 05 16:00:00 CET 2013, duration=60, room=Room [id=2, name=E785, capacity=12]]",
+				messages.get(0));
+		Assert.assertEquals(
+				"Talk was updated: duration was changed from 60 to 75",
+				messages.get(1));
+		TalkChangeTestMDB.getMessages().clear();
 
 	}
 
@@ -188,28 +184,24 @@ public class TalkCRUDServiceTest {
 		// this part only works if there is no existing deployment of the
 		// application on the server, as that one would provide a MDB instance
 		// that listens to the same queue and interferes with this test.
-		try {
-			List<String> messages = TalkChangeTestMDB.getMessages();
-			int i = 0;
-			Assert.assertEquals(7, messages.size());
-			Assert.assertEquals(
-					"Talk was created: Talk [name=OpenJPA, description=Sucks, datetime=Fri Feb 01 17:00:00 CET 2013, duration=10, room=Room [id=2, name=E785, capacity=12]]",
-					messages.get(i++));
-			Assert.assertEquals("Speaker Darko was added to talk JAXB",
-					messages.get(i++));
-			Assert.assertEquals("Speaker Darko was added to talk JAXB",
-					messages.get(i++));
-			Assert.assertEquals("Speaker Frank was added to talk JAXB",
-					messages.get(i++));
-			Assert.assertEquals("Speaker Darko was added to talk OpenJPA",
-					messages.get(i++));
-			Assert.assertEquals("Speaker Frank was removed from talk JAXB",
-					messages.get(i++));
-			Assert.assertEquals("Speaker Darko was removed from talk JAXB",
-					messages.get(i++));
-		} catch (AssertionError e) {
-
-		}
+		List<String> messages = TalkChangeTestMDB.getMessages();
+		int i = 0;
+		Assert.assertEquals(7, messages.size());
+		Assert.assertEquals(
+				"Talk was created: Talk [name=OpenJPA, description=Sucks, datetime=Fri Feb 01 17:00:00 CET 2013, duration=10, room=Room [id=2, name=E785, capacity=12]]",
+				messages.get(i++));
+		Assert.assertEquals("Speaker Darko was added to talk JAXB",
+				messages.get(i++));
+		Assert.assertEquals("Speaker Darko was added to talk JAXB",
+				messages.get(i++));
+		Assert.assertEquals("Speaker Frank was added to talk JAXB",
+				messages.get(i++));
+		Assert.assertEquals("Speaker Darko was added to talk OpenJPA",
+				messages.get(i++));
+		Assert.assertEquals("Speaker Frank was removed from talk JAXB",
+				messages.get(i++));
+		Assert.assertEquals("Speaker Darko was removed from talk JAXB",
+				messages.get(i++));
 
 	}
 
