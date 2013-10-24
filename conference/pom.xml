@@ -135,24 +135,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<configuration>
-					<filename>${project.artifactId}-ear.ear</filename>
-					<skip>false</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<!-- Undeploy previously existing version before tests; MDBs have problems 
-							with shared resources -->
-						<phase>clean</phase>
-						<goals>
-							<goal>undeploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			
 		</plugins>
 	</build>
 	<reporting>

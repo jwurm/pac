@@ -1,20 +1,21 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.prodyna.academy.pac</groupId>
-    <artifactId>conference-talk</artifactId>
-    <version>1.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>conference-talk-impl</artifactId>
-  <name>conference-talk-impl</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
- <dependencies>
-  	<!-- Declare the APIs we depend on and need for compilation. All of them 
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.prodyna.academy.pac</groupId>
+		<artifactId>conference-talk</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>conference-talk-impl</artifactId>
+	<name>conference-talk-impl</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<!-- Declare the APIs we depend on and need for compilation. All of them 
 			are provided by JBoss AS 7 -->
 
 		<!-- Import the EJB API, we use provided scope as the API is included in 
@@ -124,8 +125,8 @@
 			<version>1.1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
- </dependencies>
- <build>
+	</dependencies>
+	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
@@ -137,6 +138,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
 	</build>
 	<profiles>
 		<profile>
@@ -157,10 +159,29 @@
 							<skip>false</skip>
 						</configuration>
 					</plugin>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<configuration>
+							<filename>conference-ear.ear</filename>
+							<skip>false</skip>
+						</configuration>
+						<executions>
+							<execution>
+								<!-- Undeploy previously existing version before tests; MDBs have 
+									problems with shared resources -->
+								<phase>clean</phase>
+								<goals>
+									<goal>undeploy</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 				</plugins>
 			</build>
+
 		</profile>
-		
+
 		<profile>
 			<!-- The default profile skips all tests, though you can tune it to run 
 				just unit tests based on a custom pattern -->
@@ -214,5 +235,5 @@
 		</profile>
 
 	</profiles>
- <packaging>ejb</packaging>
+	<packaging>ejb</packaging>
 </project>

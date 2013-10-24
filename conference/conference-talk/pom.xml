@@ -20,4 +20,5 @@
 		<module>conference-talk-api</module>
 		<module>conference-talk-impl</module>
 	</modules>
+
 </project>
