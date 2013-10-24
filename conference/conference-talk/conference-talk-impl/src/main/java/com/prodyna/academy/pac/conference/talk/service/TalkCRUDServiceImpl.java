@@ -7,25 +7,17 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import org.joda.time.Instant;
-import org.joda.time.Interval;
-
 import com.prodyna.academy.pac.conference.base.BusinessException;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
-import com.prodyna.academy.pac.conference.conference.model.Conference;
-import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
 import com.prodyna.academy.pac.conference.talk.model.TalkSpeakerAssignment;
-import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 /**
  * @author jwurm Implementation of the TalkService.

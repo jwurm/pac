@@ -10,6 +10,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.shrinkwrap.api.Archive;
+import org.jboss.shrinkwrap.api.Filters;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
@@ -25,6 +26,8 @@ import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
+import com.prodyna.academy.pac.conference.talk.mdb.TalkChangeMDB;
+import com.prodyna.academy.pac.conference.talk.mdb.TalkChangeTestMDB;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
 import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
@@ -48,14 +51,16 @@ public class TalkCRUDServiceTest {
 				.resolveAsFiles();
 		return ShrinkWrap
 				.create(WebArchive.class, "conferencetest.war")
-				.addPackages(true, "com.prodyna.academy.pac")
+				//MDB exclude, in order to use our test implementation
+				.addPackages(true, Filters.exclude(TalkChangeMDB.class),
+						"com.prodyna.academy.pac")
 				.addAsResource("META-INF/test-persistence.xml",
 						"META-INF/persistence.xml")
 				.addAsWebInfResource("META-INF/beans.xml")
 				.addAsLibraries(resolveAsFiles)
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml")
-//				.addAsWebInfResource("META-INF/test-jms.xml")
-				;
+		// .addAsWebInfResource("META-INF/test-jms.xml")
+		;
 	}
 
 	/** The ConferenceService. */
@@ -102,14 +107,20 @@ public class TalkCRUDServiceTest {
 		Assert.assertNotNull(foundTalk.getRoom());
 
 		foundTalk.getRoom().setName("E504");
-		foundTalk.setDuration(60);
-		service.updateTalk(talk);
+		foundTalk.setDuration(75);
+		service.updateTalk(foundTalk);
 
 		foundTalk = service.getTalk(3);
 		Assert.assertNotNull(foundTalk.getRoom());
-		Assert.assertEquals(Integer.valueOf(60), talk.getDuration());
+		Assert.assertEquals(Integer.valueOf(75), foundTalk.getDuration());
 		// raum soll nicht aktualisiert worden sein
-		Assert.assertEquals("E785", talk.getRoom().getName());
+		Assert.assertEquals("E785", foundTalk.getRoom().getName());
+		
+		List<String> messages = TalkChangeTestMDB.getMessages();
+		Assert.assertEquals(2, messages.size());
+		Assert.assertEquals("Talk was created: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=Tue Feb 05 16:00:00 CET 2013, duration=60, room=Room [id=2, name=E785, capacity=12]]", messages.get(0));
+		Assert.assertEquals("Talk was updated: duration was changed from 60 to 75", messages.get(1));
+		TalkChangeTestMDB.getMessages().clear();
 
 	}
 
@@ -151,7 +162,8 @@ public class TalkCRUDServiceTest {
 		List<Talk> talksBySpeaker = service.getTalksBySpeaker(speaker.getId());
 		Assert.assertEquals(2, talksBySpeaker.size());
 
-		List<Talk> talksBySpeaker2 = service.getTalksBySpeaker(speaker2.getId());
+		List<Talk> talksBySpeaker2 = service
+				.getTalksBySpeaker(speaker2.getId());
 		Assert.assertEquals(1, talksBySpeaker2.size());
 		service.unassignSpeaker(talk, speaker2);
 
@@ -161,9 +173,18 @@ public class TalkCRUDServiceTest {
 		service.unassignSpeaker(talk, speaker);
 		talksBySpeaker = service.getTalksBySpeaker(speaker.getId());
 		Assert.assertEquals(1, talksBySpeaker.size());
+		
+		List<String> messages = TalkChangeTestMDB.getMessages();
+		Assert.assertEquals(7, messages.size());
+		int i=0;
+		Assert.assertEquals("Talk was created: Talk [name=OpenJPA, description=Sucks, datetime=Fri Feb 01 17:00:00 CET 2013, duration=10, room=Room [id=2, name=E785, capacity=12]]", messages.get(i++));
+		Assert.assertEquals("Speaker Darko was added to talk JAXB", messages.get(i++));
+		Assert.assertEquals("Speaker Darko was added to talk JAXB", messages.get(i++));
+		Assert.assertEquals("Speaker Frank was added to talk JAXB", messages.get(i++));
+		Assert.assertEquals("Speaker Darko was added to talk OpenJPA", messages.get(i++));
+		Assert.assertEquals("Speaker Frank was removed from talk JAXB", messages.get(i++));
+		Assert.assertEquals("Speaker Darko was removed from talk JAXB", messages.get(i++));
 
 	}
-
-	
 
 }
