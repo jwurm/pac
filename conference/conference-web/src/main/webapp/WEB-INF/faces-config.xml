@@ -31,7 +31,7 @@
 		<navigation-case>
 			<from-outcome>backofficeIndex</from-outcome>
 			<to-view-id>/backoffice/backofficeIndex.jsf</to-view-id>
-			<redirect/>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	<!-- <navigation-rule> -->
@@ -42,9 +42,9 @@
 	<!-- </navigation-case> -->
 	<!-- </navigation-rule> -->
 
-<!-- <converter> -->
-<!-- <converter-id>roomConverter</converter-id> -->
-<!-- <converter-class>com.prodyna.academy.pac.conference.web.controller.backoffice.RoomConverter</converter-class> -->
-<!-- </converter> -->
+	<!-- <converter> -->
+	<!-- <converter-id>roomConverter</converter-id> -->
+	<!-- <converter-class>com.prodyna.academy.pac.conference.web.controller.backoffice.RoomConverter</converter-class> -->
+	<!-- </converter> -->
 
 </faces-config>

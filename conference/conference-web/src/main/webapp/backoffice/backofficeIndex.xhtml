@@ -22,21 +22,17 @@
 	template="/WEB-INF/templates/backoffice.xhtml">
 	<ui:define name="content">
 		<h:form>
-		<h:panelGrid columns="4" columnClasses="titleCell">
-			<h:link outcome="roomCRUD"
-				value="Room Administration">
-			</h:link>
-			<h:link outcome="speakerCRUD"
-				value="Speaker Administration">
-			</h:link>
-			<h:link outcome="conferenceCRUD"
-				value="Conference Administration">
-			</h:link>
-			<h:link outcome="talkCRUD"
-				value="Talk Administration">
-			</h:link>
+			<h:panelGrid columns="4" columnClasses="titleCell">
+				<h:link outcome="roomCRUD" value="Room Administration">
+				</h:link>
+				<h:link outcome="speakerCRUD" value="Speaker Administration">
+				</h:link>
+				<h:link outcome="conferenceCRUD" value="Conference Administration">
+				</h:link>
+				<h:link outcome="talkCRUD" value="Talk Administration">
+				</h:link>
 			</h:panelGrid>
 		</h:form>
 	</ui:define>
-		<ui:include src="/backofficeNavigation.xhtml" />
+	<ui:include src="/backofficeNavigation.xhtml" />
 </ui:composition>

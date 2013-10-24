@@ -40,7 +40,7 @@
 
 			<!-- Now, select which projects to include in this module-set. -->
 			<includes>
-			<include>com.prodyna.academy.pac:conference-ear</include>
+				<include>com.prodyna.academy.pac:conference-ear</include>
 			</includes>
 			<binaries>
 				<unpack>false</unpack>

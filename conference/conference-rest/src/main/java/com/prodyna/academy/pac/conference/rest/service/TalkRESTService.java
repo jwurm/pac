@@ -143,7 +143,7 @@ public class TalkRESTService {
 	}
 	
 	@GET
-	@Path("/getByRoom/{roomId:[0-9][0-9]*}")
+	@Path("/getByConference/{conferenceId:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTalksByConference(@PathParam("conferenceId") int conferenceId) {
 		try {
@@ -162,7 +162,7 @@ public class TalkRESTService {
 	}
 
 	@GET
-	@Path("/assignspeaker/{talkId:[0-9][0-9]*}/{speakerId:[0-9][0-9]*}")
+	@Path("/assignSpeaker/{talkId:[0-9][0-9]*}/{speakerId:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response assignSpeaker(@PathParam("talkId") int talkId,
 			@PathParam("speakerId") int speakerId) {
@@ -198,7 +198,7 @@ public class TalkRESTService {
 	}
 
 	@GET
-	@Path("/unassignspeaker/{talkId:[0-9][0-9]*}/{speakerId:[0-9][0-9]*}")
+	@Path("/unassignSpeaker/{talkId:[0-9][0-9]*}/{speakerId:[0-9][0-9]*}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response unassignSpeaker(@PathParam("talkId") int talkId,
 			@PathParam("speakerId") int speakerId) {

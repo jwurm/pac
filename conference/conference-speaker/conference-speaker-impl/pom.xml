@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.prodyna.academy.pac</groupId>
-    <artifactId>conference-speaker</artifactId>
-    <version>1.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>conference-speaker-impl</artifactId>
-  <name>conference-speaker-impl</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.prodyna.academy.pac</groupId>
+		<artifactId>conference-speaker</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>conference-speaker-impl</artifactId>
+	<name>conference-speaker-impl</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
 
 		<!-- Declare the APIs we depend on and need for compilation. All of them 
 			are provided by JBoss AS 7 -->
@@ -63,24 +64,24 @@
 			<scope>test</scope>
 		</dependency>
 
-<!-- Testing with embedded jboss -->
-<!-- <dependency> -->
-<!--     <groupId>org.jboss.arquillian.container</groupId> -->
-<!--     <artifactId>arquillian-weld-ee-embedded-1.1</artifactId> -->
-<!--     <version>1.0.0.CR3</version> -->
-<!--     <scope>test</scope> -->
-<!-- </dependency> -->
-<!-- <dependency> -->
-<!--     <groupId>org.jboss.weld</groupId> -->
-<!--     <artifactId>weld-core</artifactId> -->
-<!--     <version>1.1.5.AS71.Final</version> -->
-<!-- </dependency> -->
-<!-- <dependency> -->
-<!--     <groupId>org.slf4j</groupId> -->
-<!--     <artifactId>slf4j-simple</artifactId> -->
-<!--     <version>1.6.4</version> -->
-<!--     <scope>test</scope> -->
-<!-- </dependency> -->
+		<!-- Testing with embedded jboss -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.jboss.arquillian.container</groupId> -->
+		<!-- <artifactId>arquillian-weld-ee-embedded-1.1</artifactId> -->
+		<!-- <version>1.0.0.CR3</version> -->
+		<!-- <scope>test</scope> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.jboss.weld</groupId> -->
+		<!-- <artifactId>weld-core</artifactId> -->
+		<!-- <version>1.1.5.AS71.Final</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.slf4j</groupId> -->
+		<!-- <artifactId>slf4j-simple</artifactId> -->
+		<!-- <version>1.6.4</version> -->
+		<!-- <scope>test</scope> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
@@ -110,7 +111,7 @@
 			<version>1.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-  </dependencies>
+	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
@@ -146,7 +147,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<!-- The default profile skips all tests, though you can tune it to run 
 				just unit tests based on a custom pattern -->

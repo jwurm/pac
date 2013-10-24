@@ -28,8 +28,7 @@
 				</h:link>
 				<h:link outcome="speakerCRUD" value="Speaker Administration">
 				</h:link>
-				<h:link outcome="conferenceCRUD"
-					value="Conference Administration">
+				<h:link outcome="conferenceCRUD" value="Conference Administration">
 				</h:link>
 				<h:link outcome="talkCRUD" value="Talk Administration">
 				</h:link>
@@ -66,8 +65,9 @@
 			<h:panelGroup rendered="#{empty speakerCRUDController.speakers}">
 				<em>No speakers.</em>
 			</h:panelGroup>
-			<h:dataTable id="dataTable" binding="#{speakerCRUDController.dataTable}"
-				var="_speaker" value="#{speakerCRUDController.speakers}"
+			<h:dataTable id="dataTable"
+				binding="#{speakerCRUDController.dataTable}" var="_speaker"
+				value="#{speakerCRUDController.speakers}"
 				rendered="#{not empty speakerCRUDController.speakers}"
 				styleClass="simpletablestyle">
 				<h:column>
@@ -87,7 +87,8 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">REST URL</f:facet>
-					<a href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/speakers/#{_speaker.id}">link</a>
+					<a
+						href="#{request.scheme}://#{request.serverName}:#{request.serverPort}/conference-rest/speakers/#{_speaker.id}">link</a>
 				</h:column>
 				<f:facet name="footer">
             REST URL for all members: <a

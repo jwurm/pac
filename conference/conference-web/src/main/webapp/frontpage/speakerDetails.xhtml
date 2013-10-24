@@ -21,9 +21,9 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
 	<ui:define name="content">
-	<h:form>
-		<h:panelGrid columns="2" columnClasses="titleCell">
-			<h:link outcome="conferenceOverview" value="Overview" /> 
+		<h:form>
+			<h:panelGrid columns="2" columnClasses="titleCell">
+				<h:link outcome="conferenceOverview" value="Overview" />
 			</h:panelGrid>
 		</h:form>
 		<h1>Welcome to PAC Conferences!</h1>
@@ -40,32 +40,31 @@
 					value="#{speakerDetailsController.speaker.description}" />
 
 			</h:panelGrid>
-			
 
-			<h:dataTable  var="_talk" value="#{speakerDetailsController.talks}"
-					styleClass="simpletablestyle">
-					<h:column>
-						<f:facet name="header">Name</f:facet>
-						<h:link outcome="talkDetails" value="#{_talk.name}">
-							<f:param name="talkId" value="#{_talk.id}" />
-						</h:link>
-					</h:column>
-					<h:column>
-						<f:facet name="header">Description</f:facet>
-						<h:outputText id="conferencelistdesc" value="#{_talk.description}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Time</f:facet>
-						<h:outputText value="#{_talk.datetime}">
-							<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="CET" />
-						</h:outputText>
-					</h:column>
-					<h:column>
-						<f:facet name="header">Duration</f:facet>
-						<h:outputText 
-							value="#{_talk.duration}" />
-					</h:column>
-				</h:dataTable>
+
+			<h:dataTable var="_talk" value="#{speakerDetailsController.talks}"
+				styleClass="simpletablestyle">
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					<h:link outcome="talkDetails" value="#{_talk.name}">
+						<f:param name="talkId" value="#{_talk.id}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Description</f:facet>
+					<h:outputText id="conferencelistdesc" value="#{_talk.description}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Time</f:facet>
+					<h:outputText value="#{_talk.datetime}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" timeZone="CET" />
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Duration</f:facet>
+					<h:outputText value="#{_talk.duration}" />
+				</h:column>
+			</h:dataTable>
 
 		</h:form>
 
