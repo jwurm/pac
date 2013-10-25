@@ -21,9 +21,17 @@
    "description": "hat plan"
 }</con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="CreateTalkPOST" searchProperties="true"><con:settings/><con:testStep type="httprequest" name="post"><con:settings/><con:config method="POST" xsi:type="con:HttpRequest" name="post" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080/conference-rest/talks</con:endpoint><con:request>{
    
-   "name": "JAXB",
-   "description": "funzt"
-}</con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ComplexTest1" searchProperties="true" id="55aa0647-a04e-44ed-bd88-37e3323a3b0b"><con:settings/><con:testStep type="httprequest" name="CreateRoom"><con:settings/><con:config method="POST" xsi:type="con:HttpRequest" name="CreateRoom" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080/conference-rest/rooms</con:endpoint><con:request>{
+   "name": "openjpa",
+   "description": "openjpa is great!",
+    "datetime":"2014-02-01T15:00:00",
+    "duration":60,
+	"room":{
+"id":14
+},
+"conference":{
+"id":1
+}
+}</con:request><con:credentials><con:username>test</con:username><con:password>pass</con:password></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ComplexTest1" searchProperties="true" id="55aa0647-a04e-44ed-bd88-37e3323a3b0b"><con:settings/><con:testStep type="httprequest" name="CreateRoom"><con:settings/><con:config method="POST" xsi:type="con:HttpRequest" name="CreateRoom" postQueryString="false" mediaType="application/json" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080/conference-rest/rooms</con:endpoint><con:request>{
    
    "name": "E787",
    "capacity": 50
