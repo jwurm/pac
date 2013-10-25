@@ -2,4 +2,4 @@ language: java
 jdk:
   - openjdk7
 before_install: cd conference
-script: mvn clean site site:stage package
+script: mvn clean package -DskipTests=true
