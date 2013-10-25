@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.prodyna.academy.pac.conference.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.exception.BusinessException;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
@@ -146,7 +146,8 @@ public class ConferenceServiceTest {
 			service.updateConference(conference1);
 			Assert.fail("Business exception due to conference date validation expected");
 		} catch (Exception e) {
-			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: Conference start date is after its end date.", e.getMessage());
+			Assert.assertEquals("Conference start date is after its end date.",
+					e.getCause().getMessage());
 		}
 
 		conference1.setStart(new Instant("2014-02-07").toDate());
@@ -155,14 +156,18 @@ public class ConferenceServiceTest {
 			service.updateConference(conference1);
 			Assert.fail("Business exception due to talk date validation expected");
 		} catch (Exception e) {
-			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: The conference has talks which are outside of the set conference duration: JAXB", e.getMessage());
+			Assert.assertEquals(
+					"The conference has talks which are outside of the set conference duration: JAXB",
+					e.getCause().getMessage());
 		}
 
 		try {
 			service.deleteConference(conference1.getId());
 			Assert.fail("Business exception due to talk date validation expected");
 		} catch (Exception e) {
-			Assert.assertEquals("com.prodyna.academy.pac.conference.base.BusinessException: Cannot delete the conference due to assigned talks: JAXB", e.getMessage());
+			Assert.assertEquals(
+					"Cannot delete the conference due to assigned talks: JAXB",
+					e.getCause().getMessage());
 		}
 
 		conference1.setStart(new Instant("2013-02-03").toDate());

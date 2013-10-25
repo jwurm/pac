@@ -10,7 +10,9 @@ import javax.management.MBeanServer;
 import javax.management.MBeanServerInvocationHandler;
 import javax.management.ObjectName;
 
-import com.prodyna.academy.pac.conference.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.exception.BusinessException;
+import com.prodyna.academy.pac.conference.base.monitoring.mbean.PerformanceMonitor;
+import com.prodyna.academy.pac.conference.base.monitoring.mbean.PerformanceMonitorMXBean;
 
 /**
  * 

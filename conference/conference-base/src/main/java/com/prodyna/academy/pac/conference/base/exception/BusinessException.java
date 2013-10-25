@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.base;
+package com.prodyna.academy.pac.conference.base.exception;
 
 /**
  * Generic business exception class, used as a superclass for all non-technical

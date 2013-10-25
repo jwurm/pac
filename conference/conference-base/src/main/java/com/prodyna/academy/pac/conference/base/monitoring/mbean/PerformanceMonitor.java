@@ -1,4 +1,4 @@
-package com.prodyna.academy.pac.conference.base.monitoring.interceptor;
+package com.prodyna.academy.pac.conference.base.monitoring.mbean;
 
 import java.util.ArrayList;
 import java.util.List;

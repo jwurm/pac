@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.prodyna.academy.pac.conference.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.exception.BusinessException;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.facade.service.RoomService;

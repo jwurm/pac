@@ -1,14 +1,12 @@
-package com.prodyna.academy.pac.conference.base.monitoring.interceptor;
+package com.prodyna.academy.pac.conference.base.monitoring.mbean;
 
 import java.lang.management.ManagementFactory;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.DependsOn;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;

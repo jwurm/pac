@@ -7,7 +7,7 @@ import javax.inject.Inject;
 
 import org.joda.time.Interval;
 
-import com.prodyna.academy.pac.conference.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.exception.BusinessException;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.conference.model.Conference;

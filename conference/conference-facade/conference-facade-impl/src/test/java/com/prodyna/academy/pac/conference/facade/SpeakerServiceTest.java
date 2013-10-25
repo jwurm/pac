@@ -128,8 +128,8 @@ public class SpeakerServiceTest {
 			Assert.fail();
 		} catch (Exception e) {
 			Assert.assertEquals(
-					"com.prodyna.academy.pac.conference.base.BusinessException: Cannot delete the speaker due to assigned talks: JAXB",
-					e.getMessage());
+					"Cannot delete the speaker due to assigned talks: JAXB",
+					e.getCause().getMessage());
 		}
 	}
 

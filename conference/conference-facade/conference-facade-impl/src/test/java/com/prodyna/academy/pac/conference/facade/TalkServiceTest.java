@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.prodyna.academy.pac.conference.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.exception.BusinessException;
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.conference.service.ConferenceCRUDService;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
@@ -97,21 +97,23 @@ public class TalkServiceTest {
 		room = roomservice.createRoom(room);
 		Assert.assertEquals(Integer.valueOf(2), room.getId());
 
-		//wrong date, it is outside of the conference
+		// wrong date, it is outside of the conference
 		Talk talk = new Talk("JAXB", "JAXB fuer Dummies", new Instant(
 				"2011-02-05T15:00").toDate(), 60, conference1, room);
 		try {
 			talk = service.createTalk(talk);
 			Assert.fail("Talk outside of conference");
 		} catch (Exception e) {
-			Assert.assertEquals("Talk is set outside of the duration of the conference! 2013-02-01 to 2013-02-05", e.getCause().getMessage());
+			Assert.assertEquals(
+					"Talk is set outside of the duration of the conference! 2013-02-01 to 2013-02-05",
+					e.getCause().getMessage());
 		}
 
 		// fix the date, now it should work
 		talk.setDatetime(new Instant("2013-02-05T15:00").toDate());
 
 		talk = service.createTalk(talk);
-		
+
 		Assert.assertEquals(Integer.valueOf(3), talk.getId());
 
 		Talk foundTalk = service.getTalk(3);
@@ -166,8 +168,8 @@ public class TalkServiceTest {
 			Assert.fail();
 		} catch (Exception e) {
 			Assert.assertEquals(
-					"com.prodyna.academy.pac.conference.base.BusinessException: Cannot delete the talk due to assigned speakers: Darko",
-					e.getMessage());
+					"Cannot delete the talk due to assigned speakers: Darko", e
+							.getCause().getMessage());
 		}
 
 		service.assignSpeaker(talk, speaker2);
@@ -269,7 +271,9 @@ public class TalkServiceTest {
 			// room already is occupied by that time
 			Assert.fail("Collision detection failed!");
 		} catch (Exception e) {
-			Assert.assertEquals("The designated room is already occupied by Test1 at that time.", e.getCause().getMessage());
+			Assert.assertEquals(
+					"The designated room is already occupied by Test1 at that time.",
+					e.getCause().getMessage());
 		}
 
 		talk2.setDatetime(new Instant("2013-02-01T16:00").toDate());
@@ -281,7 +285,9 @@ public class TalkServiceTest {
 			// this extends into talk2
 			Assert.fail("Collision detection failed!");
 		} catch (Exception e) {
-			Assert.assertEquals("The designated room is already occupied by Test2 at that time.", e.getCause().getMessage());
+			Assert.assertEquals(
+					"The designated room is already occupied by Test2 at that time.",
+					e.getCause().getMessage());
 		}
 		// reschedule talk2 a minute later
 		talk2.setDatetime(new Instant("2013-02-01T16:01").toDate());

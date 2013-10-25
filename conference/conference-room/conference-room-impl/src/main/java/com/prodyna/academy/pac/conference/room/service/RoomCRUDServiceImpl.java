@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import com.prodyna.academy.pac.conference.base.BusinessException;
+import com.prodyna.academy.pac.conference.base.exception.BusinessException;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.PerformanceLogged;
 import com.prodyna.academy.pac.conference.base.monitoring.interceptor.ServiceLogged;
 import com.prodyna.academy.pac.conference.room.model.Room;
