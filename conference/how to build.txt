@@ -1,0 +1,8 @@
+build the whole project with:
+mvn clean site site:stage install
+
+A running jboss with a datasource ConferenceDS und the standard queues of standalone-full is required.
+
+The clean part is important as it undeploys an existing deployment from the jboss. With another deployment on the jboss the test cases will fail.
+
+The assembly can be found in conference-ear/target
