@@ -20,6 +20,7 @@ import javax.inject.Named;
 import com.prodyna.academy.pac.conference.facade.service.RoomService;
 import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
+import com.prodyna.academy.pac.conference.web.util.RootErrorMessageReader;
 
 /**
  * Room backoffice controller
@@ -94,7 +95,7 @@ public class RoomCRUDController {
 			initData();
 
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Registration Unsuccessful");
 			facesContext.addMessage(null, m);
@@ -112,25 +113,6 @@ public class RoomCRUDController {
 	public void initData() {
 		newRoom = new Room();
 		loadRooms();
-	}
-
-	private String getRootErrorMessage(Exception e) {
-		// Default to general error message that registration failed.
-		String errorMessage = "Registration failed. See server log for more information";
-		if (e == null) {
-			// This shouldn't happen, but return the default messages
-			return errorMessage;
-		}
-
-		// Start with the exception and recurse to find the root cause
-		Throwable t = e;
-		while (t != null) {
-			// Get the message from the Throwable class instance
-			errorMessage = t.getLocalizedMessage();
-			t = t.getCause();
-		}
-		// This is the root cause message
-		return errorMessage;
 	}
 
 	/**
@@ -151,7 +133,7 @@ public class RoomCRUDController {
 					"Room data saved."));
 
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
@@ -170,7 +152,7 @@ public class RoomCRUDController {
 					FacesMessage.SEVERITY_INFO, "Room deleted.",
 					"Room deleted."));
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);

@@ -16,6 +16,7 @@ import javax.inject.Named;
 
 import com.prodyna.academy.pac.conference.conference.model.Conference;
 import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
+import com.prodyna.academy.pac.conference.web.util.RootErrorMessageReader;
 
 /**
  * Conference backoffice controller
@@ -80,7 +81,7 @@ public class ConferenceCRUDController {
 			initData();
 
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Registration Unsuccessful");
 			facesContext.addMessage(null, m);
@@ -95,25 +96,6 @@ public class ConferenceCRUDController {
 	public void initData() {
 		newConference = new Conference();
 		loadConferences();
-	}
-
-	private String getRootErrorMessage(Exception e) {
-		// Default to general error message that registration failed.
-		String errorMessage = "Registration failed. See server log for more information";
-		if (e == null) {
-			// This shouldn't happen, but return the default messages
-			return errorMessage;
-		}
-
-		// Start with the exception and recurse to find the root cause
-		Throwable t = e;
-		while (t != null) {
-			// Get the message from the Throwable class instance
-			errorMessage = t.getLocalizedMessage();
-			t = t.getCause();
-		}
-		// This is the root cause message
-		return errorMessage;
 	}
 
 	public String saveConference() {
@@ -132,7 +114,7 @@ public class ConferenceCRUDController {
 					"Conference data saved."));
 
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
@@ -150,7 +132,7 @@ public class ConferenceCRUDController {
 					FacesMessage.SEVERITY_INFO, "Conference deleted.",
 					"Conference deletion successful."));
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);

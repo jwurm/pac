@@ -20,8 +20,8 @@ import com.prodyna.academy.pac.conference.facade.service.ConferenceService;
 import com.prodyna.academy.pac.conference.facade.service.RoomService;
 import com.prodyna.academy.pac.conference.facade.service.TalkService;
 import com.prodyna.academy.pac.conference.room.model.Room;
-import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
+import com.prodyna.academy.pac.conference.web.util.RootErrorMessageReader;
 /**
  * Controller for the talk backoffice dialog
  * @author Jens Wurm
@@ -137,7 +137,7 @@ public class TalkCRUDController {
 
 			initData();
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Talk creation failed");
 			facesContext.addMessage(null, m);
@@ -172,25 +172,6 @@ public class TalkCRUDController {
 		return rooms;
 	}
 
-	private String getRootErrorMessage(Exception e) {
-		// Default to general error message that registration failed.
-		String errorMessage = "Registration failed. See server log for more information";
-		if (e == null) {
-			// This shouldn't happen, but return the default messages
-			return errorMessage;
-		}
-
-		// Start with the exception and recurse to find the root cause
-		Throwable t = e;
-		while (t != null) {
-			// Get the message from the Throwable class instance
-			errorMessage = t.getLocalizedMessage();
-			t = t.getCause();
-		}
-		// This is the root cause message
-		return errorMessage;
-	}
-
 	/**
 	 * Saves the selected talk
 	 */
@@ -209,7 +190,7 @@ public class TalkCRUDController {
 			initData();
 
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
@@ -228,7 +209,7 @@ public class TalkCRUDController {
 			facesContext.addMessage(null, m);
 			initData();
 		} catch (Exception e) {
-			String errorMessage = getRootErrorMessage(e);
+			String errorMessage = RootErrorMessageReader.getRootErrorMessage(e);
 			FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					errorMessage, "Update failed.");
 			facesContext.addMessage(null, m);
