@@ -6,6 +6,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 /**
@@ -14,6 +15,7 @@ import javax.inject.Inject;
  * @author Jens Wurm
  * 
  */
+@ApplicationScoped
 public class PerformanceMonitor implements PerformanceMonitorMXBean {
 
 	@Inject
