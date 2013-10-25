@@ -26,10 +26,9 @@ import com.prodyna.academy.pac.conference.room.model.Room;
 import com.prodyna.academy.pac.conference.room.service.RoomCRUDService;
 import com.prodyna.academy.pac.conference.speaker.model.Speaker;
 import com.prodyna.academy.pac.conference.speaker.service.SpeakerCRUDService;
-import com.prodyna.academy.pac.conference.talk.mdb.TalkChangeMDB;
-import com.prodyna.academy.pac.conference.talk.mdb.TalkChangeTestMDB;
+import com.prodyna.academy.pac.conference.talk.mdb.TalkChangeMessageHandlerImpl;
+import com.prodyna.academy.pac.conference.talk.mdb.TalkChangeMessageHandlerTestImpl;
 import com.prodyna.academy.pac.conference.talk.model.Talk;
-import com.prodyna.academy.pac.conference.talk.service.TalkCRUDService;
 
 /**
  * The Class ConferenceServiceTest.
@@ -52,7 +51,8 @@ public class TalkCRUDServiceTest {
 		return ShrinkWrap
 				.create(WebArchive.class, "conferencetest.war")
 				// MDB exclude, in order to use our test implementation
-				.addPackages(true, Filters.exclude(TalkChangeMDB.class),
+				.addPackages(true,
+						Filters.exclude(TalkChangeMessageHandlerImpl.class),
 						"com.prodyna.academy.pac")
 				.addAsResource("META-INF/test-persistence.xml",
 						"META-INF/persistence.xml")
@@ -111,8 +111,7 @@ public class TalkCRUDServiceTest {
 		foundTalk.setDuration(75);
 		foundTalk.setName("Testtalk");
 		foundTalk.setDescription("New description");
-		foundTalk.setDatetime(new Instant(
-				"2013-02-05T14:45").toDate());
+		foundTalk.setDatetime(new Instant("2013-02-05T14:45").toDate());
 		service.updateTalk(foundTalk);
 
 		foundTalk = service.getTalk(3);
@@ -124,14 +123,14 @@ public class TalkCRUDServiceTest {
 		// this part only works if there is no existing deployment of the
 		// application on the server, as that one would provide a MDB instance
 		// that listens to the same queue and interferes with this test.
-		List<String> messages = TalkChangeTestMDB.getMessages();
+		List<String> messages = TalkChangeMessageHandlerTestImpl.getMessages();
 		Assert.assertEquals(2, messages.size());
 		Assert.assertTrue(messages
 				.remove("Talk was created: Talk [name=JAXB, description=JAXB fuer Dummies, datetime=Tue Feb 05 16:00:00 CET 2013, duration=60, room=Room [id=2, name=E785, capacity=12]]"));
 		;
 		Assert.assertTrue(messages
 				.remove("Talk was updated: name was changed from \"JAXB\" to \"Testtalk\", description was changed from \"JAXB fuer Dummies\" to \"New description\", datetime was changed from 2013-02-05 16:00 to 2013-02-05 15:45, duration was changed from 60 to 75"));
-		TalkChangeTestMDB.getMessages().clear();
+		TalkChangeMessageHandlerTestImpl.getMessages().clear();
 
 	}
 
@@ -185,7 +184,7 @@ public class TalkCRUDServiceTest {
 		// this part only works if there is no existing deployment of the
 		// application on the server, as that one would provide a MDB instance
 		// that listens to the same queue and interferes with this test.
-		List<String> messages = TalkChangeTestMDB.getMessages();
+		List<String> messages = TalkChangeMessageHandlerTestImpl.getMessages();
 		Assert.assertEquals(7, messages.size());
 		// this pattern avoids race conditions about the order with the queue
 		Assert.assertTrue(messages

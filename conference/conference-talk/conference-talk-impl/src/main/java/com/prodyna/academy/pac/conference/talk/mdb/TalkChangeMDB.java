@@ -23,6 +23,9 @@ public class TalkChangeMDB implements MessageListener {
 
 	@Inject
 	private Logger log;
+	
+	@Inject
+	private TalkChangeMessageHandler handler;
 
 	/**
 	 * Default constructor.
@@ -37,8 +40,7 @@ public class TalkChangeMDB implements MessageListener {
 	public void onMessage(Message message) {
 		if (message instanceof TextMessage) {
 			try {
-				//read the message and write it into the log
-				log.info("Talk change queue message arrived: "+((TextMessage) message).getText());
+				handler.handleMessage(((TextMessage)message).getText());
 			} catch (JMSException e) {
 				log.severe(e.toString());
 			}
