@@ -133,7 +133,7 @@ public class SpeakerCRUDController {
 			}
 			facesContext.addMessage(null, new FacesMessage(
 					FacesMessage.SEVERITY_INFO, "Speaker saved.",
-					"Speaker data saved."));
+					"Speaker saved."));
 			loadSpeakers();
 
 		} catch (Exception e) {
